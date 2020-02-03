@@ -19,7 +19,7 @@ from setuptools import setup
 
 
 # The name of the project
-name = 'displayWidget'
+name = 'luxWidget'
 
 # Ensure a valid python version
 ensure_python('>=3.4')
@@ -44,10 +44,10 @@ package_data_spec = {
 }
 
 data_files_spec = [
-    ('share/jupyter/nbextensions/displayWidget',
+    ('share/jupyter/nbextensions/luxWidget',
         nb_path, '*.js*'),
     ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
-    ('etc/jupyter/nbconfig/notebook.d' , HERE, 'displayWidget.json')
+    ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxWidget.json')
 ]
 
 
@@ -68,7 +68,7 @@ setup_args = dict(
     packages        = find_packages(),
     author          = 'Doris Lee',
     author_email    = 'dorisjunglinlee@gmail.com',
-    url             = 'https://github.com//displayWidget',
+    url             = 'https://github.com/lux-org/lux-widget',
     license         = 'BSD',
     platforms       = "Linux, Mac OS X, Windows",
     keywords        = ['Jupyter', 'Widgets', 'IPython'],
