@@ -54,7 +54,7 @@ module.exports = [
         path: path.resolve(__dirname, 'dist'),
         libraryTarget: 'amd',
         library: "luxWidget",
-        publicPath: 'https://unpkg.com/luxWidget@' + version + '/dist/'
+        publicPath: 'https://unpkg.com/lux-widget@' + version + '/dist/'
     },
     devtool: 'source-map',
     module: {
