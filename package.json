@@ -1,6 +1,6 @@
 {
   "name": "lux-widget",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
     "jupyter",
@@ -29,7 +29,7 @@
     "url": "https://github.com/lux-org/lux-widget"
   },
   "scripts": {
-    "install": "npx webpack && pip install .",
+    "install": "pip install .",
     "postinstall": "jupyter nbextension install --sys-prefix --symlink --overwrite --py luxWidget && jupyter nbextension enable --sys-prefix --py luxWidget",
     "build": "npm run build:lib && npm run build:nbextension",
     "build:labextension": "npm run clean:labextension && mkdirp luxWidget/labextension && cd luxWidget/labextension && npm pack ../..",
