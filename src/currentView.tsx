@@ -17,12 +17,14 @@ class CurrentViewComponent extends Component<currentViewProps,any> {
         if (!_.isEmpty(this.props.currentViewSpec)){
             return (
                 <div id="mainVizContainer">
-                    <h2 id="mainVizTitle">Current View</h2>
-                    <div id="mainVizInnerContainer">
-                        <div className="vizContainer" onClick={()=>selectedVis("main")}>
-                            <VegaLite spec={this.props.currentViewSpec}
-                                      padding={{left: 10, top: 5, right: 5, bottom: 5}} 
-                                      actions={false}/>
+                    <div style={{ display: 'flex', flexDirection: 'column'}}>
+                        <h2 id="mainVizTitle" style={{ position: 'relative', top: '0px', left: '0px', width: '245px', textAlign: 'center' }}>Current View</h2>
+                        <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
+                            <div className="vizContainer" onClick={()=>selectedVis("main")}>
+                                <VegaLite spec={this.props.currentViewSpec}
+                                        padding={{left: 10, top: 5, right: 5, bottom: 5}} 
+                                        actions={false}/>
+                            </div>
                         </div>
                     </div>
                 </div>
