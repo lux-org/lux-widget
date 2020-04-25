@@ -46,6 +46,7 @@ export class ExampleModel extends DOMWidgetModel {
 }
 
 export class JupyterWidgetView extends DOMWidgetView {
+
   initialize(){    
     let view = this;
     interface WidgetProps{
@@ -54,8 +55,10 @@ export class JupyterWidgetView extends DOMWidgetView {
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
-      selectedVisLst:object[]
+      selectedVisLst:object[],
+      context:object[]
     }
+
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
       constructor(props:any){
         super(props);
@@ -66,7 +69,8 @@ export class JupyterWidgetView extends DOMWidgetView {
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
-          selectedVisLst:[]
+          selectedVisLst:[],
+          context:props.model.get("context")
         }
         console.log("this.state:",this.state)
         // This binding is necessary to make `this` work in the callback
@@ -77,9 +81,11 @@ export class JupyterWidgetView extends DOMWidgetView {
       onChange(model:any){// called when the variable is changed in the view.model
         this.setState(model.changed);
       }
+
       componentDidMount(){ //triggered when component is mounted (i.e., when widget first rendered)
         view.listenTo(view.model,"change",this.onChange.bind(this));
       }
+
       componentDidUpdate(){ //triggered after component is updated
         console.log("componentDidUpdate:",view.model.get("selectedVisLst"));
         view.model.save_changes(); // instead of touch (which leads to callback issues), we have to use save_changes
@@ -91,7 +97,8 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.setState({
           activeTab: selectedTab
         });
-      }      
+      }   
+
       onListChanged(tabIdx,selectedLst) {
         this.state.selectedRec[tabIdx] = selectedLst
         var selectedVisLst = [] 
@@ -103,6 +110,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           selectedVisLst: selectedVisLst
         });
       }
+
       exportSelection() {
         console.log("export selection")
         this.setState(
@@ -118,6 +126,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         },7000);
         view.model.set('selectedVisLst',this.state.selectedVisLst);
       }
+
       render(){
         console.log("this.state.activeTab:",this.state.activeTab)
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
@@ -128,14 +137,15 @@ export class JupyterWidgetView extends DOMWidgetView {
                 onChange={this.onListChanged.bind(this,tabIdx)}
                 graphSpec={actionResult.vspec}/> 
           </Tab>);
+
         let exportBtn;
         if (tabItems.length>0){
           exportBtn = <i  id="exportBtn" 
                           className='fa fa-upload' 
                           title='Export selected visualization into variable'
-                          onClick={(e) => this.exportSelection()}
-                      />
+                          onClick={(e) => this.exportSelection()}/>
         }
+
         let alertBtn;
         if (this.state.showAlert){
           alertBtn= <Alert id="alertBox" 
@@ -145,15 +155,82 @@ export class JupyterWidgetView extends DOMWidgetView {
                       Exported selected visualizations to Python variable `widget.selectedVisLst`
                     </Alert>
         }
-        return (<div id="widgetContainer">
-                  <CurrentViewComponent currentViewSpec={this.state.currentView}/>
-                  <div id="tabBanner">
-                    <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
-                      {tabItems}
-                    </Tabs>
+
+        let attributeShelf = 
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px', maxHeight: '30px', display: 'flex', flexDirection: 'row' }}>
+              <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+                <i id="attributeIcon" 
+                  className='fa fa-th-list'
+                  style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', minWidth: '15px' }}/>
+                <p style={{ lineHeight: '28px' }}>Attribute</p>
+              </div>
+              <div style={{ height: '100%', display: 'flex' }}>
+
+                {this.state.context['attributes'].map((attribute) => {
+                  <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+                    <i id="attributeIcon" 
+                      className='fa fa-hashtag'
+                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
+                    <p style={{ lineHeight: '22px' }}>{attribute}</p>
+                    <i id="attributeIcon" 
+                      className='fa fa-times-circle'
+                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
+                      onClick={() => {}}/>
                   </div>
-                  {exportBtn}
-                  {alertBtn}                  
+                })}
+
+              </div>
+            </div>
+            <i id="attributeIcon" 
+              className='fa fa-bars'
+              style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
+          </div>
+
+        let filterShelf = 
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px' }}>
+              <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+                <i id="attributeIcon" 
+                  className='fa fa-filter'
+                  style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '3px', marginLeft: '2px', minWidth: '15px' }}/>
+                <p style={{ lineHeight: '28px' }}>Filter</p>
+              </div>
+              <div style={{ width: '100%' }}>
+
+                {this.state.context['filters'].map((filter) => {
+                  <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+                    <i id="attributeIcon" 
+                      className='fa fa-hashtag'
+                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
+                    <p style={{ lineHeight: '22px' }}>{filter}</p>
+                    <i id="attributeIcon" 
+                      className='fa fa-times-circle'
+                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
+                      onClick={() => {}}/>
+                  </div>
+                })}
+
+              </div>
+            </div>
+            <i id="attributeIcon" 
+              className='fa fa-database'
+              style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
+          </div>
+
+        return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
+                  {attributeShelf}
+                  {filterShelf}
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <CurrentViewComponent currentViewSpec={this.state.currentView}/>
+                    <div id="tabBanner">
+                      <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
+                        {tabItems}
+                      </Tabs>
+                    </div>
+                    {exportBtn}
+                    {alertBtn}   
+                  </div>               
                 </div>);
       }
     }

@@ -1,5 +1,5 @@
 #widgetContainer{
-  height:312px;
+  height:380px;
   width:100%;
   display:inline-flex;
 }
@@ -108,7 +108,6 @@ input[type=text], select {
   overflow-x: hidden;
   display: flex;
   min-width: 30%;
-  height: 100%;
 }
 
 #mainVizInnerContainer{
@@ -131,7 +130,7 @@ input[type=text], select {
   position: absolute;
   /* bottom: 90%; */
   /* left: 97%; */
-  top: 0px;
+  top: 70px;
   right: 0px;
   font-size: 20px;
   padding: 5px;
