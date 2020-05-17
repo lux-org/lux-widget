@@ -156,71 +156,71 @@ export class JupyterWidgetView extends DOMWidgetView {
                     </Alert>
         }
 
-        let attributeShelf = 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px', maxHeight: '30px', display: 'flex', flexDirection: 'row' }}>
-              <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-                <i id="attributeIcon" 
-                  className='fa fa-th-list'
-                  style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', minWidth: '15px' }}/>
-                <p style={{ lineHeight: '28px' }}>Attribute</p>
-              </div>
-              <div style={{ height: '100%', display: 'flex' }}>
+        // let attributeShelf = 
+        //   <div style={{ display: 'flex', flexDirection: 'row' }}>
+        //     <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px', maxHeight: '30px', display: 'flex', flexDirection: 'row' }}>
+        //       <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+        //         <i id="attributeIcon" 
+        //           className='fa fa-th-list'
+        //           style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', minWidth: '15px' }}/>
+        //         <p style={{ lineHeight: '28px' }}>Attribute</p>
+        //       </div>
+        //       <div style={{ height: '100%', display: 'flex' }}>
 
-                {this.state.context['attributes'].map((attribute) => {
-                  <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-                    <i id="attributeIcon" 
-                      className='fa fa-hashtag'
-                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
-                    <p style={{ lineHeight: '22px' }}>{attribute}</p>
-                    <i id="attributeIcon" 
-                      className='fa fa-times-circle'
-                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
-                      onClick={() => {}}/>
-                  </div>
-                })}
+        //         {this.state.context['attributes'].map((attribute) => {
+        //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+        //             <i id="attributeIcon" 
+        //               className='fa fa-hashtag'
+        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
+        //             <p style={{ lineHeight: '22px' }}>{attribute}</p>
+        //             <i id="attributeIcon" 
+        //               className='fa fa-times-circle'
+        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
+        //               onClick={() => {}}/>
+        //           </div>
+        //         })}
 
-              </div>
-            </div>
-            <i id="attributeIcon" 
-              className='fa fa-bars'
-              style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
-          </div>
+        //       </div>
+        //     </div>
+        //     <i id="attributeIcon" 
+        //       className='fa fa-bars'
+        //       style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
+        //   </div>
 
-        let filterShelf = 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px' }}>
-              <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-                <i id="attributeIcon" 
-                  className='fa fa-filter'
-                  style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '3px', marginLeft: '2px', minWidth: '15px' }}/>
-                <p style={{ lineHeight: '28px' }}>Filter</p>
-              </div>
-              <div style={{ width: '100%' }}>
+        // let filterShelf = 
+        //   <div style={{ display: 'flex', flexDirection: 'row' }}>
+        //     <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px' }}>
+        //       <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+        //         <i id="attributeIcon" 
+        //           className='fa fa-filter'
+        //           style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '3px', marginLeft: '2px', minWidth: '15px' }}/>
+        //         <p style={{ lineHeight: '28px' }}>Filter</p>
+        //       </div>
+        //       <div style={{ width: '100%' }}>
 
-                {this.state.context['filters'].map((filter) => {
-                  <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-                    <i id="attributeIcon" 
-                      className='fa fa-hashtag'
-                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
-                    <p style={{ lineHeight: '22px' }}>{filter}</p>
-                    <i id="attributeIcon" 
-                      className='fa fa-times-circle'
-                      style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
-                      onClick={() => {}}/>
-                  </div>
-                })}
+        //         {this.state.context['filters'].map((filter) => {
+        //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
+        //             <i id="attributeIcon" 
+        //               className='fa fa-hashtag'
+        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
+        //             <p style={{ lineHeight: '22px' }}>{filter}</p>
+        //             <i id="attributeIcon" 
+        //               className='fa fa-times-circle'
+        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
+        //               onClick={() => {}}/>
+        //           </div>
+        //         })}
 
-              </div>
-            </div>
-            <i id="attributeIcon" 
-              className='fa fa-database'
-              style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
-          </div>
+        //       </div>
+        //     </div>
+        //     <i id="attributeIcon" 
+        //       className='fa fa-database'
+        //       style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
+        //   </div>
 
         return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
-                  {attributeShelf}
-                  {filterShelf}
+                  {/* {attributeShelf}
+                  {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <CurrentViewComponent currentViewSpec={this.state.currentView}/>
                     <div id="tabBanner">
@@ -229,7 +229,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                       </Tabs>
                     </div>
                     {exportBtn}
-                    {alertBtn}   
+                    {alertBtn}
                   </div>               
                 </div>);
       }
