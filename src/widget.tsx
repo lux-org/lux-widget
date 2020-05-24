@@ -55,7 +55,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
-      selectedVisLst:object[],
+      _exportedVisIdxs:object,
       context:object[]
     }
 
@@ -69,7 +69,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
-          selectedVisLst:[],
+          _exportedVisIdxs:[],
           context:props.model.get("context")
         }
         console.log("this.state:",this.state)
@@ -87,7 +87,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       componentDidUpdate(){ //triggered after component is updated
-        console.log("componentDidUpdate:",view.model.get("selectedVisLst"));
+        console.log("componentDidUpdate:",view.model.get("_exportedVisIdxs"));
         view.model.save_changes(); // instead of touch (which leads to callback issues), we have to use save_changes
       }
   
@@ -100,14 +100,15 @@ export class JupyterWidgetView extends DOMWidgetView {
       }   
 
       onListChanged(tabIdx,selectedLst) {
-        this.state.selectedRec[tabIdx] = selectedLst
-        var selectedVisLst = [] 
+        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Category': [1]}
+        this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
+        var _exportedVisIdxs = {}
         for (var tabID of Object.keys(this.state.selectedRec)){
-            selectedVisLst[tabID] = _.clone(_.omit(this.state.recommendations[tabID],"vspec"))
-            selectedVisLst[tabID]["vspec"] = _.at(this.state.recommendations[tabID].vspec,this.state.selectedRec[tabID])
+            var actionName =  this.state.recommendations[tabID]["action"]
+            _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
         }
         this.setState({
-          selectedVisLst: selectedVisLst
+          _exportedVisIdxs: _exportedVisIdxs
         });
       }
 
@@ -124,7 +125,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   showAlert:false
            }));
         },7000);
-        view.model.set('selectedVisLst',this.state.selectedVisLst);
+        view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
       render(){
@@ -152,7 +153,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Exported selected visualizations to Python variable `widget.selectedVisLst`
+                      Access exported visualizations by calling `.getExported()` on the dataframe
                     </Alert>
         }
 
