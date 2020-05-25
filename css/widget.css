@@ -130,7 +130,7 @@ input[type=text], select {
   position: absolute;
   /* bottom: 90%; */
   /* left: 97%; */
-  top: 70px;
+  top: 0px;
   right: 0px;
   font-size: 20px;
   padding: 5px;
