@@ -8,7 +8,8 @@ interface chartGalleryProps{
     multiple: boolean,
     maxSelectable: number,
     onChange: Function,
-    graphSpec: object[]
+    graphSpec: object[],
+    description: String
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -64,9 +65,10 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             );
         return (
             <div id="staticOuterDiv" className="recommendationStaticContentOuter">
-                <div id="mult-graph-container" className= "recommendationContentInner">
-                    {galleryItems}
-                </div>
+              <p id="text-description">{this.props.description}</p>
+              <div id="mult-graph-container" className= "recommendationContentInner">
+                  {galleryItems}
+              </div>
             </div>
         );
     }
