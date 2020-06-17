@@ -142,6 +142,8 @@ input[type=text], select {
   bottom: 6%;
   padding: 5px 30px 5px 10px;
 }
+
+
 /* canvas{
   width: 229px;
   height: 245px;
@@ -328,4 +330,13 @@ button.card {
 }
 button.card:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+#text-description {
+  line-height: 2;
+  margin-left: 15px;
+  margin-bottom: -25px;
+  font-weight: bold;
+  color: rgb(80, 80, 80);
+  margin-top: 5px;
 }
