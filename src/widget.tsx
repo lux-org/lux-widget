@@ -153,7 +153,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.getExported()` on the dataframe
+                      Access exported visualizations by calling `.getExported()`
                     </Alert>
         }
 
