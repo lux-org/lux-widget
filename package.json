@@ -56,6 +56,7 @@
     "@jupyter-widgets/base": "^1.1.10 || ^2",
     "bootstrap": "^4.4.1",
     "detect-libc": "^1.0.3",
+    "jupyter-react-js": "^0.5.1",
     "needle": "^2.4.0",
     "nopt": "^4.0.1",
     "rc": "^1.2.8",
