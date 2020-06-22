@@ -129,7 +129,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       render(){
-        console.log('lmaao', this.state.recommendations)
         console.log("this.state.activeTab:",this.state.activeTab)
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
           <Tab eventKey={actionResult.action} title={actionResult.action} >
