@@ -6,5 +6,5 @@ def _jupyter_nbextension_paths():
         'section': 'notebook',
         'src': 'nbextension/static',
         'dest': 'luxWidget',
-        'require': 'luxWidget/extension'
+        'require': 'luxWidget/nbextension'
     }]
