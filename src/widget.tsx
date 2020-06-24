@@ -19,6 +19,7 @@ import {Tabs,Tab, Alert} from 'react-bootstrap';
 // import TabComponent from './tab';
 import ChartGalleryComponent from './chartGallery';
 import CurrentViewComponent from './currentView';
+// import { EventEmitter } from 'events';
 
 export class ExampleModel extends DOMWidgetModel {
   defaults() {
@@ -113,7 +114,13 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       exportSelection() {
-        console.log("export selection")
+        // var emitter = new EventEmitter()
+        // emitter.emit("LOG","export clicked")
+        // var event = new Event('LOG');
+        // event.message = "export button clicked"
+        var event = new CustomEvent("LOG",{"detail":"export button clicked"})
+        document.dispatchEvent(event);
+        console.log("LOG: export button clicked")
         this.setState(
           state => ({
             showAlert:true
