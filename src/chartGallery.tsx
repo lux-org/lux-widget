@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 // import { VisualizationSpec } from 'vega-embed';
+import {dispatchLogEvent} from './utils';
 interface chartGalleryProps{
     multiple: boolean,
     maxSelectable: number,
@@ -28,9 +29,11 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             var selectedIndexes = prevState.selected;
             var selectedIndex = selectedIndexes.indexOf(index);
             if (selectedIndex > -1) {
+              dispatchLogEvent("unclickVis",index)
               selectedIndexes.splice(selectedIndex, 1);
               props.onChange(selectedIndexes);
             } else {
+              dispatchLogEvent("clickVis",index)
               if (!(selectedIndexes.length >= props.maxSelectable)) {
                 selectedIndexes.push(index);
                 props.onChange(selectedIndexes);
@@ -40,6 +43,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               selected: selectedIndexes
             };
           } else {
+            dispatchLogEvent("clickVis",index)
             props.onChange(index);
             return {
               selected: index
@@ -48,7 +52,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         });
       }
     render() {
-        console.log("this.props.graphSpec:",this.props.graphSpec)
         const galleryItems = this.props.graphSpec.map((item,idx) =>
                 <div key={idx.toString()}
                      className="graph-container"
