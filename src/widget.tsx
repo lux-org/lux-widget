@@ -154,7 +154,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.getExported()` on the dataframe
+                      Access exported visualizations by calling `.getExported()`
                     </Alert>
         }
 
@@ -219,21 +219,32 @@ export class JupyterWidgetView extends DOMWidgetView {
         //       className='fa fa-database'
         //       style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
         //   </div>
-
-        return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
+        if (this.state.recommendations.length == 0) {
+          return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
                   {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentViewComponent currentViewSpec={this.state.currentView}/>
-                    <div id="tabBanner">
-                      <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
-                        {tabItems}
-                      </Tabs>
-                    </div>
+                    <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={0}/>
                     {exportBtn}
                     {alertBtn}
                   </div>               
                 </div>);
+        } else {
+          return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
+                    {/* {attributeShelf}
+                    {filterShelf} */}
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}/>
+                      <div id="tabBanner">
+                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
+                          {tabItems}
+                        </Tabs>
+                      </div>
+                      {exportBtn}
+                      {alertBtn}
+                    </div>               
+                  </div>);
+        }
       }
     }
     const $app = document.createElement("div");
