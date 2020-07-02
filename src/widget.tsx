@@ -19,7 +19,9 @@ import {Tabs,Tab, Alert} from 'react-bootstrap';
 // import TabComponent from './tab';
 import ChartGalleryComponent from './chartGallery';
 import CurrentViewComponent from './currentView';
-
+// import { utils } from 'mocha';
+// import { EventEmitter } from 'events';
+import {dispatchLogEvent} from './utils';
 export class ExampleModel extends DOMWidgetModel {
   defaults() {
     return {...super.defaults(),
@@ -94,6 +96,9 @@ export class JupyterWidgetView extends DOMWidgetView {
       handleSelect(selectedTab) {
         // The active tab must be set into the state so that
         // the Tabs component knows about the change and re-renders.
+        if (selectedTab){
+          dispatchLogEvent("switchTab",selectedTab)
+        }
         this.setState({
           activeTab: selectedTab
         });
@@ -113,7 +118,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       exportSelection() {
-        console.log("export selection")
+        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs)
         this.setState(
           state => ({
             showAlert:true
@@ -129,7 +134,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       render(){
-        console.log("this.state.activeTab:",this.state.activeTab)
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
           <Tab eventKey={actionResult.action} title={actionResult.action} >
             <ChartGalleryComponent 
@@ -251,5 +255,6 @@ export class JupyterWidgetView extends DOMWidgetView {
     const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app);
     view.el.append($app);
+    dispatchLogEvent("initWidget","")
   }
 }
