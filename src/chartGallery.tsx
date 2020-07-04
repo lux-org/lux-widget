@@ -67,10 +67,12 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                 </div>  
             );
         return (
-            <div id="staticOuterDiv" className="recommendationStaticContentOuter">
+            <div className="chartGalleryTabContent">
               <p id="text-description">{this.props.description}</p>
-              <div id="mult-graph-container" className= "recommendationContentInner">
-                  {galleryItems}
+              <div id="staticOuterDiv" className="recommendationStaticContentOuter">
+                <div id="mult-graph-container" className= "recommendationContentInner">
+                    {galleryItems}
+                </div>
               </div>
             </div>
         );

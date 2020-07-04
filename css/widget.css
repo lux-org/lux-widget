@@ -1,5 +1,5 @@
 #widgetContainer{
-  height:340px;
+  height:350px;
   width:100%;
   display:inline-flex;
 }
@@ -23,7 +23,7 @@ input[type=text], select {
 }
 .recommendationStaticContentOuter{
   scroll-snap-align: start;
-  border: 0.5px solid #bcbdbd;
+  /* border: 0.5px solid #bcbdbd; */
   overflow-x: auto;
   overflow-y: hidden;
   display: inline-block;
@@ -127,6 +127,7 @@ input[type=text], select {
   min-width: 1px;
 }
 #tabBanner{
+  border: 0.5px solid #bcbdbd;
   width: auto;
   overflow: hidden;
   min-width: 70%;
@@ -345,9 +346,9 @@ button.card:focus {
   color: rgb(80, 80, 80);
   margin-top: 5px;
 }
-
-.widget-button{
-  /* This forces the toggle button to overlap with widget.Output (main widget). This may leak to other .widget-button if there are non-Lux widgets in the notebook. */
+/* This forces the toggle button to overlap with widget.Output (main widget). This may leak to other .widget-button if there are non-Lux widgets in the notebook. */
+.widget-button{  
   position: absolute;
   z-index: 999;
+  border-radius: 5px;
 }
