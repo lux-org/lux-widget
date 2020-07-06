@@ -137,6 +137,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
           <Tab eventKey={actionResult.action} title={actionResult.action} >
             <ChartGalleryComponent 
+                title={actionResult.action}
                 description={actionResult.description}
                 multiple={true}
                 maxSelectable={10}

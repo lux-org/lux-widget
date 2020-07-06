@@ -4,8 +4,10 @@ import React, { Component } from 'react';
 import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 // import { VisualizationSpec } from 'vega-embed';
+import ScrollableContent from './scrollableContent'
 import {dispatchLogEvent} from './utils';
 interface chartGalleryProps{
+    title:string,
     multiple: boolean,
     maxSelectable: number,
     onChange: Function,
@@ -69,11 +71,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         return (
             <div className="chartGalleryTabContent">
               <p id="text-description">{this.props.description}</p>
-              <div id="staticOuterDiv" className="recommendationStaticContentOuter">
-                <div id="mult-graph-container" className= "recommendationContentInner">
-                    {galleryItems}
-                </div>
-              </div>
+              <ScrollableContent galleryItems={galleryItems} title={this.props.title}></ScrollableContent>
             </div>
         );
     }

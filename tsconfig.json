@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop":true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", "dom","DOM.Iterable","ES6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
