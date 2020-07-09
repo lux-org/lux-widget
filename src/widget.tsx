@@ -123,13 +123,13 @@ export class JupyterWidgetView extends DOMWidgetView {
           state => ({
             showAlert:true
         }));
-        // Expire alert box in 7 seconds
+        // Expire alert box in 1 minute
         setTimeout(()=>{
           this.setState(
                 state => ({
                   showAlert:false
            }));
-        },7000);
+        },60000);
         view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
@@ -159,7 +159,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.getExported()`
+                      Access exported visualizations by calling `.getExported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
 
