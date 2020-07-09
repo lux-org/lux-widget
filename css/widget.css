@@ -347,8 +347,8 @@ button.card:focus {
   margin-top: 5px;
 }
 /* This forces the toggle button to overlap with widget.Output (main widget). This may leak to other .widget-button if there are non-Lux widgets in the notebook. */
-.widget-button{  
+/* .widget-button{  
   position: absolute;
   z-index: 999;
   border-radius: 5px;
-}
+} */

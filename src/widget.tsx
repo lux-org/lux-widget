@@ -257,5 +257,16 @@ export class JupyterWidgetView extends DOMWidgetView {
     ReactDOM.render(App,$app);
     view.el.append($app);
     dispatchLogEvent("initWidget","")
+    $(".widget-button").on('click',function(event){
+      var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
+      var toLux = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector(".dataframe")!=null
+      var viewType;
+      if (toLux){
+        viewType = "lux"
+      }else if (toPandas){
+        viewType = "pandas"
+      }
+      dispatchLogEvent("toggleBtnClick",viewType)
+    })
   }
 }

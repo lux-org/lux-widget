@@ -13,7 +13,7 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es6",
     "jsx":"react"
   },
