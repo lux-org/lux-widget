@@ -241,6 +241,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}/>
                       <div id="tabBanner">
+                        <p id="text-description">You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
                           {tabItems}
                         </Tabs>
