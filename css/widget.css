@@ -190,6 +190,7 @@ input[type=text], select {
 
 .nav-tabs .nav-item {
   margin-bottom: -1px;
+  padding-left: 210px;
 }
 
 .nav-tabs .nav-link {
