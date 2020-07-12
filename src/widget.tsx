@@ -159,7 +159,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.getExported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
+                      Access exported visualizations by calling `.get_exported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
 
