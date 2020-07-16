@@ -261,8 +261,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                       <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentViewSelect}/>
                       <div id="tabBanner">
-                        <p id="text-description">You might be interested in...</p>
-                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
+                        <p id="text-description" style={{visibility: !_.isEmpty(this.state.currentView) ? 'visible' : 'hidden' }}>You might be interested in...</p>
+                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentView) ? "tabBannerPadding" : ""}>
                           {tabItems}
                         </Tabs>
                       </div>
