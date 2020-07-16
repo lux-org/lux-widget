@@ -58,7 +58,8 @@ export class JupyterWidgetView extends DOMWidgetView {
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      context:object[]
+      context:object[],
+      currentViewSelected:number,
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
@@ -72,10 +73,12 @@ export class JupyterWidgetView extends DOMWidgetView {
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          context:props.model.get("context")
+          context:props.model.get("context"),
+          currentViewSelected: -2,
         }
         console.log("this.state:",this.state)
         // This binding is necessary to make `this` work in the callback
+        this.handleCurrentViewSelect = this.handleCurrentViewSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
       }
@@ -102,15 +105,30 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.setState({
           activeTab: selectedTab
         });
+      }
+
+      handleCurrentViewSelect = (selectedValue) => {
+        this.setState({ currentViewSelected: selectedValue }, () => {
+          if (selectedValue == -1) {
+            this.onListChanged(-1, null);
+          } else {
+            this.onListChanged(-2, null);
+          }
+        }); 
       }   
 
       onListChanged(tabIdx,selectedLst) {
         // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Category': [1]}
-        this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
         var _exportedVisIdxs = {}
-        for (var tabID of Object.keys(this.state.selectedRec)){
-            var actionName =  this.state.recommendations[tabID]["action"]
-            _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+        this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
+
+          for (var tabID of Object.keys(this.state.selectedRec)){
+            if (tabID in this.state.recommendations) {
+              var actionName =  this.state.recommendations[tabID]["action"]
+              _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+            } else if (this.state.currentViewSelected == -1) {
+              _exportedVisIdxs["currentView"] = this.state.currentView
+            }
         }
         this.setState({
           _exportedVisIdxs: _exportedVisIdxs
@@ -229,7 +247,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                   {/* {attributeShelf}
                   {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={0}/>
+                    <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={0}
+                    onChange={this.handleCurrentViewSelect}/>
                     {exportBtn}
                     {alertBtn}
                   </div>               
@@ -239,7 +258,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                     {/* {attributeShelf}
                     {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}/>
+                      <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}
+                      onChange={this.handleCurrentViewSelect}/>
                       <div id="tabBanner">
                         <p id="text-description">You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
