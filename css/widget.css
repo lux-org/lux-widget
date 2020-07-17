@@ -186,6 +186,9 @@ input[type=text], select {
 
 .nav-tabs {
   border-bottom: 1px solid #dee2e6;
+}
+
+.tabBannerPadding {
   padding-left: 210px;
 }
 
