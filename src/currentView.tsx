@@ -49,13 +49,14 @@ class CurrentViewComponent extends Component<currentViewProps,any> {
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
                             <h2 id="mainVizTitle" style={{ position: 'relative', top: '0px', left: '0px', width: '245px', textAlign: 'center' }}>Current View</h2>
                             <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
-                                <div className="vizContainer" onClick={()=>selectedVis("main")}>
-                                    <SelectableCard key={0} 
+                                <div className="vizContainer" onClick={()=>selectedVis("main")}
+                                style={{ width: '280px' }}>
+                                    <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
                                         <VegaLite spec={this.props.currentViewSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                                                width={200} height={175} 
+                                                width={185} height={160} 
                                                 actions={false}/>
                                     </SelectableCard>
                                 </div>
