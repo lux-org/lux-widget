@@ -1,5 +1,6 @@
 #widgetContainer{
-  height:350px;
+  /* height: 315px; */
+  height: 350px;
   width:100%;
   display:inline-flex;
 }
@@ -136,7 +137,7 @@ input[type=text], select {
   position: absolute;
   /* bottom: 90%; */
   /* left: 97%; */
-  top: 35px;
+  top: 42px;
   right: 5px;
   font-size: 20px;
   padding: 5px;
@@ -341,12 +342,18 @@ button.card {
 button.card:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-
-#text-description {
+#rec-title-description{
   line-height: 2;
+  font-weight: 500;
+  margin-left: 15px;
+  margin-bottom: -27px;
+  color: rgb(0, 0, 0);
+  margin-top: 5px;
+}
+#text-description {
+  line-height: 2.5;
   margin-left: 15px;
   margin-bottom: -25px;
-  font-weight: bold;
   color: rgb(80, 80, 80);
   margin-top: 5px;
 }
