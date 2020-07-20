@@ -29,7 +29,7 @@ class CurrentViewComponent extends Component<currentViewProps,any> {
         }
     }
     render() {
-        console.log("this.props.currentViewSpec:",this.props.currentViewSpec)
+        // console.log("this.props.currentViewSpec:",this.props.currentViewSpec)
         let selectedVis = function (vizLabel:string){
             // console.log("selectedVis event:",event)
             console.log(vizLabel)
@@ -47,7 +47,7 @@ class CurrentViewComponent extends Component<currentViewProps,any> {
                 return (
                     <div id="mainVizContainer">
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
-                            <h2 id="mainVizTitle" style={{ position: 'relative', top: '0px', left: '0px', width: '245px', textAlign: 'center' }}>Current View</h2>
+                            <h2 id="mainVizTitle" style={{ position: 'relative', top: '0px', left: '0px', width: '300px', textAlign: 'center' }}>Current Context</h2>
                             <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
                                 <div className="vizContainer" onClick={()=>selectedVis("main")}
                                 style={{ width: '280px' }}>

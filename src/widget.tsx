@@ -67,7 +67,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         super(props);
         console.log("view:",props);
         this.state = {
-          currentView :  props.model.get("current_view"),
+          currentView :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
           activeTab: props.activeTab,
           showAlert:false,
@@ -76,7 +76,6 @@ export class JupyterWidgetView extends DOMWidgetView {
           context:props.model.get("context"),
           currentViewSelected: -2,
         }
-        console.log("this.state:",this.state)
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentViewSelect = this.handleCurrentViewSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -261,7 +260,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                       <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentViewSelect}/>
                       <div id="tabBanner">
-                        <p id="text-description" style={{visibility: !_.isEmpty(this.state.currentView) ? 'visible' : 'hidden' }}>You might be interested in...</p>
+                        <p id="rec-title-description" style={{visibility: !_.isEmpty(this.state.currentView) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentView) ? "tabBannerPadding" : ""}>
                           {tabItems}
                         </Tabs>
@@ -275,8 +274,10 @@ export class JupyterWidgetView extends DOMWidgetView {
     }
     const $app = document.createElement("div");
     const App = React.createElement(ReactWidget,view);
-    ReactDOM.render(App,$app);
-    view.el.append($app);
+    ReactDOM.render(App,$app); // Renders the app
+    view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
+
+    // console.log("initialize:",Date.now())
     dispatchLogEvent("initWidget","")
     $(".widget-button").on('click',function(event){
       var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
@@ -288,6 +289,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         viewType = "pandas"
       }
       dispatchLogEvent("toggleBtnClick",viewType)
+      event.stopImmediatePropagation()
     })
   }
 }
