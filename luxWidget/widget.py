@@ -21,6 +21,6 @@ class LuxWidget(DOMWidget):
     def __init__(self, currentView=None, recommendations=None, spec=None, opt=None, context=None, **kwargs):
         super().__init__(**kwargs)
         self._opt_source = json.dumps(opt)
-        self.current_vis = currentView
+        self.current_context = currentView
         self.recommendations = recommendations
         self.context = context

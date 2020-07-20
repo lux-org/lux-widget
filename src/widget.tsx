@@ -274,8 +274,10 @@ export class JupyterWidgetView extends DOMWidgetView {
     }
     const $app = document.createElement("div");
     const App = React.createElement(ReactWidget,view);
-    ReactDOM.render(App,$app);
-    view.el.append($app);
+    ReactDOM.render(App,$app); // Renders the app
+    view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
+
+    // console.log("initialize:",Date.now())
     dispatchLogEvent("initWidget","")
     $(".widget-button").on('click',function(event){
       var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
@@ -287,6 +289,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         viewType = "pandas"
       }
       dispatchLogEvent("toggleBtnClick",viewType)
+      event.stopImmediatePropagation()
     })
   }
 }
