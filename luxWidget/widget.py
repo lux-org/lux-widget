@@ -18,9 +18,8 @@ class LuxWidget(DOMWidget):
     data = List([]).tag(sync=True)
     _exportedVisIdxs = Dict({}).tag(sync=True)
     context = Dict({}).tag(sync=True)
-    def __init__(self, currentView=None, recommendations=None, spec=None, opt=None, context=None, **kwargs):
+    def __init__(self, currentVis=None, recommendations=None, context=None, **kwargs):
         super().__init__(**kwargs)
-        self._opt_source = json.dumps(opt)
-        self.current_vis = currentView
+        self.current_vis = currentVis
         self.recommendations = recommendations
         self.context = context

@@ -18,7 +18,7 @@ import {Tabs,Tab, Alert} from 'react-bootstrap';
 // import { useAlert } from "react-alert";
 // import TabComponent from './tab';
 import ChartGalleryComponent from './chartGallery';
-import CurrentViewComponent from './currentView';
+import CurrentViewComponent from './currentVis';
 // import { utils } from 'mocha';
 // import { EventEmitter } from 'events';
 import {dispatchLogEvent} from './utils';
@@ -52,7 +52,7 @@ export class JupyterWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
     interface WidgetProps{
-      currentView:object,
+      currentVis:object,
       recommendations:any[],
       activeTab:any,
       showAlert:boolean,
@@ -67,7 +67,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         super(props);
         console.log("view:",props);
         this.state = {
-          currentView :  props.model.get("current_vis"),
+          currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
           activeTab: props.activeTab,
           showAlert:false,
@@ -126,7 +126,7 @@ export class JupyterWidgetView extends DOMWidgetView {
               var actionName =  this.state.recommendations[tabID]["action"]
               _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
             } else if (this.state.currentViewSelected == -1) {
-              _exportedVisIdxs["currentView"] = this.state.currentView
+              _exportedVisIdxs["currentVis"] = this.state.currentVis
             }
         }
         this.setState({
@@ -246,7 +246,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   {/* {attributeShelf}
                   {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={0}
+                    <CurrentViewComponent currentViewSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentViewSelect}/>
                     {exportBtn}
                     {alertBtn}
@@ -257,11 +257,11 @@ export class JupyterWidgetView extends DOMWidgetView {
                     {/* {attributeShelf}
                     {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}
+                      <CurrentViewComponent currentViewSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentViewSelect}/>
                       <div id="tabBanner">
-                        <p id="rec-title-description" style={{visibility: !_.isEmpty(this.state.currentView) ? 'visible' : 'hidden' }}>You might be interested in...</p>
-                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentView) ? "tabBannerPadding" : ""}>
+                        <p id="rec-title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
+                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {tabItems}
                         </Tabs>
                       </div>
