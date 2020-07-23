@@ -159,7 +159,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                 multiple={true}
                 maxSelectable={10}
                 onChange={this.onListChanged.bind(this,tabIdx)}
-                graphSpec={actionResult.vspec}/> 
+                graphSpec={actionResult.vspec}
+                currentViewShow={!_.isEmpty(this.state.currentVis)}/> 
           </Tab>);
 
         let exportBtn;
