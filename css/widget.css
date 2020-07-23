@@ -371,7 +371,7 @@ button.card:focus {
   z-index: 0;
   position: relative;
   background-color: rgba(250, 250, 250, 0.8);
-  width: 33%;
+  width: 210px;
   height: 30px;
   float:right;
   margin-top: -35px;
