@@ -12,7 +12,8 @@ interface chartGalleryProps{
     maxSelectable: number,
     onChange: Function,
     graphSpec: object[],
-    description: String
+    description: String,
+    currentViewShow: boolean,
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -20,7 +21,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         super(props);
         var selected = props.multiple ? [] : -1;
         var initialState = {
-        selected: selected
+          selected: selected,
         };
         this.state = initialState;
     }
@@ -71,7 +72,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         return (
             <div className="chartGalleryTabContent">
               <p id="text-description">{this.props.description}</p>
-              <ScrollableContent galleryItems={galleryItems} title={this.props.title}></ScrollableContent>
+              <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentViewShow={this.props.currentViewShow}></ScrollableContent>
             </div>
         );
     }
