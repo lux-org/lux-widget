@@ -59,7 +59,7 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:str
             {this.props.galleryItems}
         </div>
         <div id="scroll-indicator-background" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>
-        <p id="scroll-indicator" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>{numMoreCharts} more charts >> </p>
+        <p id="scroll-indicator" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>{numMoreCharts} more charts <i id='first-arrow' className='fa fa-chevron-right'></i><i id='second-arrow' className='fa fa-chevron-right'></i> </p>
         </div>
     </div>)
   }
