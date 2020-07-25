@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {dispatchLogEvent} from './utils';
-class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:string, currentViewShow: boolean},any>  {
+class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:string, currentVisShow: boolean},any>  {
   constructor(props:any){
     super(props)
     this.state = {
@@ -46,10 +46,10 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:str
   render(){
     let shouldShowScrollIndicator = false;
     let numMoreCharts = this.props.galleryItems.length ;
-    if (this.props.currentViewShow && this.props.galleryItems.length > 2) {
+    if (this.props.currentVisShow && this.props.galleryItems.length > 2) {
       shouldShowScrollIndicator = true;
       numMoreCharts -= 2;
-    } else if (!this.props.currentViewShow && this.props.galleryItems.length > 3) {
+    } else if (!this.props.currentVisShow && this.props.galleryItems.length > 3) {
       shouldShowScrollIndicator = true;
       numMoreCharts -= 3;
     }

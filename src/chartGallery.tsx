@@ -13,7 +13,7 @@ interface chartGalleryProps{
     onChange: Function,
     graphSpec: object[],
     description: String,
-    currentViewShow: boolean,
+    currentVisShow: boolean,
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -71,8 +71,8 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             );
         return (
             <div className="chartGalleryTabContent">
-              <p id="text-description">{this.props.description}</p>
-              <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentViewShow={this.props.currentViewShow}></ScrollableContent>
+              <p className="text-description">{this.props.description}</p>
+              <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
             </div>
         );
     }
