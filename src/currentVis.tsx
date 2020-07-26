@@ -48,7 +48,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                     <div id="mainVizContainer">
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
                             <p className="title-description" style={{ position: 'relative', fontSize: '18px', marginTop: '10px', marginLeft:'0px',height: '27px', textAlign: 'center' }}>Current Vis</p>
-                            <p className="text-description" style={{ textAlign: 'center', marginBottom: '0px', marginLeft:'0px', marginTop:'23px',height:'20px'  }}>based on user specified intent</p>
+                            <p className="text-description" style={{ textAlign: 'center', marginBottom: '0px', marginLeft:'0px', marginTop:'23px',height:'20px'  }}>based on user specified <p className="highlight-text">intent</p></p>
                             <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
                                 <div className="vizContainer" onClick={()=>selectedVis("main")}
                                 style={{ width: '280px' }}>

@@ -12,7 +12,7 @@ interface chartGalleryProps{
     maxSelectable: number,
     onChange: Function,
     graphSpec: object[],
-    description: String,
+    description: string,
     currentVisShow: boolean,
 }
 
@@ -71,7 +71,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             );
         return (
             <div className="chartGalleryTabContent">
-              <p className="text-description">{this.props.description}</p>
+              <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
               <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
             </div>
         );

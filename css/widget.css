@@ -561,3 +561,8 @@ button.card:focus {
   margin-left: -4px;
 }
 
+.highlight-text{
+  font-weight: 500;
+  background: aliceblue;
+  display: inline;
+}
