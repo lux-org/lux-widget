@@ -53,13 +53,19 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:str
       shouldShowScrollIndicator = true;
       numMoreCharts -= 3;
     }
-
+    var scrollDescription:string;
+    if(numMoreCharts==1){
+      scrollDescription= "Scroll for "+numMoreCharts+" more chart"
+    }else{
+      scrollDescription= "Scroll for "+numMoreCharts+" more charts"
+    }
     return (<div id="staticOuterDiv" className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
         <div id="mult-graph-container" className= "recommendationContentInner">
             {this.props.galleryItems}
         </div>
         <div id="scroll-indicator-background" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>
-        <p id="scroll-indicator" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>{numMoreCharts} more charts <i id='first-arrow' className='fa fa-chevron-right'></i><i id='second-arrow' className='fa fa-chevron-right'></i> </p>
+          <p id="scroll-indicator" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>{scrollDescription}<i id='first-arrow' className='fa fa-chevron-right'></i><i id='second-arrow' className='fa fa-chevron-right'></i> </p>
+          {/* onClick={(event)=>$('#staticOuterDiv').scrollLeft(500)} */}
         </div>
     </div>)
   }
