@@ -33,7 +33,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             var selectedIndex = selectedIndexes.indexOf(index);
             if (selectedIndex > -1) {
               dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
-              selectedIndexes.splice(selectedIndex, 1);
+              selectedIndexes = selectedIndexes.filter(item => item != index);
               props.onChange(selectedIndexes);
             } else {
               dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
