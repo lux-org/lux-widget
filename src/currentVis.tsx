@@ -68,7 +68,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             <p className="highlight-text" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
                                 <div className="vizContainer" onClick={()=>selectedVis("main")}
-                                style={{ width: '280px' }}>
+                                style={{ width: '320px' }}>
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
