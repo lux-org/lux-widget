@@ -53,10 +53,15 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                 return (
                     <div id="mainVizContainer">
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
-                            <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
+                            <p className="title-description" style={{ position: 'relative', fontSize: '18px', marginTop: '10px', marginLeft:'0px',height: '27px', textAlign: 'center' }}>Current Vis</p>
+                            <p className="text-description" style={{ textAlign: 'center', marginBottom: '0px', marginLeft:'0px', marginTop:'23px',height:'20px'  }}>based on user specified <p className="highlight-text">intent</p></p>
+                            <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
+
+                            {/* Code for caption under Current Vis */}
+                            {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
                             <p className="text-description" style={{top: '30px', marginLeft: '10px',position:'absolute'}}>Based on:</p>
                             <p className="highlight-text" style={{left:'77px',position:'absolute',color:'#505050',width:'200px',top:'42px',fontSize: '13px'}}>{this.props.intent}</p>    
-                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}>
+                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
                             {/* Code for Left align for Current Vis based on:, right align for vertical intent block  */}
                             {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'15px' }}>Current Vis</p>
                             <p className="text-description" style={{top: '40px', position:'absolute'}}>based on intent:</p>
