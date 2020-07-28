@@ -105,7 +105,7 @@ input[type=text], select {
   position: absolute;
 }
 #mainVizContainer{
-  padding: 10px 10px 0px 0px;
+  padding: 10px 0px 0px 0px;
   /* position: absolute; */
   border: 0.5px solid #bcbdbd;
   overflow-y: auto;
@@ -566,4 +566,6 @@ button.card:focus {
   font-weight: 500;
   background: aliceblue;
   display: inline;
+  /* display: inline-table;
+  text-align: left; */
 }
