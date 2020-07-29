@@ -569,3 +569,8 @@ button.card:focus {
   /* display: inline-table;
   text-align: left; */
 }
+#intent_str {
+  margin-top: 5px;
+  font-weight: 500;
+  max-width:100px
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { VegaLite } from 'react-vega';
 import SelectableCard from './selectableCard';
 import _ from 'lodash';
+import {Tooltip,OverlayTrigger} from 'react-bootstrap';
 interface currentVisProps{
     intent:string,
     currentVisSpec: object,
@@ -53,9 +54,21 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                 return (
                     <div id="mainVizContainer">
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
-                            <p className="title-description" style={{ position: 'relative', fontSize: '18px', marginTop: '10px', marginLeft:'0px',height: '27px', textAlign: 'center' }}>Current Vis</p>
-                            <p className="text-description" style={{ textAlign: 'center', marginBottom: '0px', marginLeft:'0px', marginTop:'23px',height:'20px'  }}>based on user specified <p className="highlight-text">intent</p></p>
-                            <div id="mainVizInnerContainer" style={{ position: 'relative', top: '0px', left: '0px' }}>
+                            <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
+                            <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
+                                <OverlayTrigger placement="bottom" overlay={
+                                    <Tooltip id="intent_str" >
+                                        {/* style={{fontWeight: 500, background: "aliceblue", color:"#505050"}} */}
+                                        {this.props.intent}
+                                    </Tooltip>
+                                }>
+                                    {/* delay={{ show: 0, hide: 150 }} */}
+                                     <p className="highlight-text" style={{borderBottom: "1px dotted #505050"}}>
+                                        intent
+                                    </p>
+                                </OverlayTrigger>
+                            </p>
+                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}>
 
                             {/* Code for caption under Current Vis */}
                             {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
@@ -68,7 +81,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             <p className="highlight-text" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
                                 <div className="vizContainer" onClick={()=>selectedVis("main")}
-                                style={{ width: '320px' }}>
+                                style={{ width: '300px' }}>
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
