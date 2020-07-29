@@ -116,7 +116,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }   
 
       onListChanged(tabIdx,selectedLst) {
-        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Category': [1]}
+        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Occurrence': [1]}
         var _exportedVisIdxs = {}
         this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
 
