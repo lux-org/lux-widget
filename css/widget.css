@@ -105,7 +105,7 @@ input[type=text], select {
   position: absolute;
 }
 #mainVizContainer{
-  padding: 10px 10px 0px 0px;
+  padding: 10px 0px 0px 0px;
   /* position: absolute; */
   border: 0.5px solid #bcbdbd;
   overflow-y: auto;
@@ -562,8 +562,22 @@ button.card:focus {
   margin-left: -4px;
 }
 
-.highlight-text{
+.highlight-intent{
   font-weight: 500;
   background: aliceblue;
   display: inline;
+  /* display: inline-table;
+  text-align: left; */
+}
+.highlight-descriptor{
+  font-weight: 500;
+  background: #fffee1;
+  display: inline;
+  /* display: inline-table;
+  text-align: left; */
+}
+#intent_str {
+  margin-top: 5px;
+  font-weight: 500;
+  max-width:100px
 }

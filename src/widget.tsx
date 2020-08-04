@@ -58,14 +58,13 @@ export class JupyterWidgetView extends DOMWidgetView {
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      intent:object[],
+      intent:string,
       currentVisSelected:number,
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
       constructor(props:any){
         super(props);
-        console.log("view:",props);
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
@@ -117,7 +116,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }   
 
       onListChanged(tabIdx,selectedLst) {
-        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Category': [1]}
+        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Occurrence': [1]}
         var _exportedVisIdxs = {}
         this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
 
@@ -247,7 +246,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   {/* {attributeShelf}
                   {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentVisComponent currentVisSpec={this.state.currentVis} numRecommendations={0}
+                    <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentVisSelect}/>
                     {exportBtn}
                     {alertBtn}
@@ -258,7 +257,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                     {/* {attributeShelf}
                     {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <CurrentVisComponent currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
+                      <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
                       <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
