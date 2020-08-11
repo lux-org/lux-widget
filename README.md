@@ -8,11 +8,15 @@ Lux is a library that makes data science easier by automating certain aspects of
 
 The [core Lux API](https://github.com/lux-org/lux/) is written in Python. This is the Jupyter widget extension for the Lux API, written in Typescript and React. 
 
-To get started, install the Lux Jupyter widget through [npm](https://www.npmjs.com/package/lux-widget): 
 
 ```bash
-npm i lux-widget
+pip install git+https://github.com/lux-org/lux-widget
+jupyter nbextension install --py luxWidget
+jupyter nbextension enable --py luxWidget
 ```
+
+<!-- To get started, install the Lux Jupyter widget through [npm](https://www.npmjs.com/package/lux-widget): npm i lux-widget -->
+
 
 Here is an example of the lux-widget in action. The widget is generated based on commands to the Lux API. Users can interact with the widget and export selected visualizations into variables.
 
@@ -21,3 +25,20 @@ Here is an example of the lux-widget in action. The widget is generated based on
      style="width:600px" />
 
 You can find an example in this demo [notebook](https://github.com/lux-org/lux/blob/master/examples/demo.ipynb). 
+
+# Dev Installation
+
+To install the widget for dev purposes, we need to install webpack:  
+
+```bash
+    npm install --save-dev webpack webpack-cli
+```
+
+Then, we can install the [Lux Jupyter widget](https://github.com/lux-org/lux-widget) using the custom installation script: 
+
+```bash
+    git clone https://github.com/lux-org/lux-widget.git
+    cd lux-widget/
+    npm install
+    bash install.sh
+```
