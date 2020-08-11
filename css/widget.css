@@ -562,9 +562,16 @@ button.card:focus {
   margin-left: -4px;
 }
 
-.highlight-text{
+.highlight-intent{
   font-weight: 500;
   background: aliceblue;
+  display: inline;
+  /* display: inline-table;
+  text-align: left; */
+}
+.highlight-descriptor{
+  font-weight: 500;
+  background: #fffee1;
   display: inline;
   /* display: inline-table;
   text-align: left; */

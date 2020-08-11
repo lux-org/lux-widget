@@ -63,7 +63,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     </Tooltip>
                                 }>
                                     {/* delay={{ show: 0, hide: 150 }} */}
-                                     <p className="highlight-text" style={{borderBottom: "1px dotted #505050"}}>
+                                     <p className="highlight-intent" style={{borderBottom: "1px dotted #505050"}}>
                                         intent
                                     </p>
                                 </OverlayTrigger>
@@ -73,12 +73,12 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             {/* Code for caption under Current Vis */}
                             {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
                             <p className="text-description" style={{top: '30px', marginLeft: '10px',position:'absolute'}}>Based on:</p>
-                            <p className="highlight-text" style={{left:'77px',position:'absolute',color:'#505050',width:'200px',top:'42px',fontSize: '13px'}}>{this.props.intent}</p>    
+                            <p className="highlight-intent" style={{left:'77px',position:'absolute',color:'#505050',width:'200px',top:'42px',fontSize: '13px'}}>{this.props.intent}</p>    
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
                             {/* Code for Left align for Current Vis based on:, right align for vertical intent block  */}
                             {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'15px' }}>Current Vis</p>
                             <p className="text-description" style={{top: '40px', position:'absolute'}}>based on intent:</p>
-                            <p className="highlight-text" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
+                            <p className="highlight-intent" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
                                 <div className="vizContainer" onClick={()=>selectedVis("main")}
                                 style={{ width: '300px' }}>
