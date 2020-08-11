@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop":true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", "dom","DOM.Iterable","ES6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
@@ -13,7 +13,7 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es6",
     "jsx":"react"
   },

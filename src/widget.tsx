@@ -18,8 +18,10 @@ import {Tabs,Tab, Alert} from 'react-bootstrap';
 // import { useAlert } from "react-alert";
 // import TabComponent from './tab';
 import ChartGalleryComponent from './chartGallery';
-import CurrentViewComponent from './currentView';
-
+import CurrentVisComponent from './currentVis';
+// import { utils } from 'mocha';
+// import { EventEmitter } from 'events';
+import {dispatchLogEvent} from './utils';
 export class ExampleModel extends DOMWidgetModel {
   defaults() {
     return {...super.defaults(),
@@ -50,30 +52,31 @@ export class JupyterWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
     interface WidgetProps{
-      currentView:object,
+      currentVis:object,
       recommendations:any[],
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      context:object[]
+      intent:string,
+      currentVisSelected:number,
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
       constructor(props:any){
         super(props);
-        console.log("view:",props);
         this.state = {
-          currentView :  props.model.get("current_view"),
+          currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          context:props.model.get("context")
+          intent:props.model.get("intent"),
+          currentVisSelected: -2,
         }
-        console.log("this.state:",this.state)
         // This binding is necessary to make `this` work in the callback
+        this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
       }
@@ -94,18 +97,36 @@ export class JupyterWidgetView extends DOMWidgetView {
       handleSelect(selectedTab) {
         // The active tab must be set into the state so that
         // the Tabs component knows about the change and re-renders.
+        if (selectedTab){
+          dispatchLogEvent("switchTab",selectedTab)
+        }
         this.setState({
           activeTab: selectedTab
         });
+      }
+
+      handleCurrentVisSelect = (selectedValue) => {
+        this.setState({ currentVisSelected: selectedValue }, () => {
+          if (selectedValue == -1) {
+            this.onListChanged(-1, null);
+          } else {
+            this.onListChanged(-2, null);
+          }
+        }); 
       }   
 
       onListChanged(tabIdx,selectedLst) {
         // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Category': [1]}
-        this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
         var _exportedVisIdxs = {}
-        for (var tabID of Object.keys(this.state.selectedRec)){
-            var actionName =  this.state.recommendations[tabID]["action"]
-            _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+        this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
+
+          for (var tabID of Object.keys(this.state.selectedRec)){
+            if (tabID in this.state.recommendations) {
+              var actionName =  this.state.recommendations[tabID]["action"]
+              _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+            } else if (this.state.currentVisSelected == -1) {
+              _exportedVisIdxs["currentVis"] = this.state.currentVis
+            }
         }
         this.setState({
           _exportedVisIdxs: _exportedVisIdxs
@@ -113,31 +134,32 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       exportSelection() {
-        console.log("export selection")
+        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs)
         this.setState(
           state => ({
             showAlert:true
         }));
-        // Expire alert box in 7 seconds
+        // Expire alert box in 1 minute
         setTimeout(()=>{
           this.setState(
                 state => ({
                   showAlert:false
            }));
-        },7000);
+        },60000);
         view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
       render(){
-        console.log("this.state.activeTab:",this.state.activeTab)
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
           <Tab eventKey={actionResult.action} title={actionResult.action} >
             <ChartGalleryComponent 
+                title={actionResult.action}
                 description={actionResult.description}
                 multiple={true}
                 maxSelectable={10}
                 onChange={this.onListChanged.bind(this,tabIdx)}
-                graphSpec={actionResult.vspec}/> 
+                graphSpec={actionResult.vspec}
+                currentVisShow={!_.isEmpty(this.state.currentVis)}/> 
           </Tab>);
 
         let exportBtn;
@@ -154,7 +176,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.getExported()`
+                      Access exported visualizations by calling `.get_exported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
 
@@ -169,7 +191,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         //       </div>
         //       <div style={{ height: '100%', display: 'flex' }}>
 
-        //         {this.state.context['attributes'].map((attribute) => {
+        //         {this.state.intent['attributes'].map((attribute) => {
         //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
         //             <i id="attributeIcon" 
         //               className='fa fa-hashtag'
@@ -200,7 +222,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         //       </div>
         //       <div style={{ width: '100%' }}>
 
-        //         {this.state.context['filters'].map((filter) => {
+        //         {this.state.intent['filters'].map((filter) => {
         //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
         //             <i id="attributeIcon" 
         //               className='fa fa-hashtag'
@@ -224,7 +246,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                   {/* {attributeShelf}
                   {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={0}/>
+                    <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
+                    onChange={this.handleCurrentVisSelect}/>
                     {exportBtn}
                     {alertBtn}
                   </div>               
@@ -234,9 +257,11 @@ export class JupyterWidgetView extends DOMWidgetView {
                     {/* {attributeShelf}
                     {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <CurrentViewComponent currentViewSpec={this.state.currentView} numRecommendations={this.state.recommendations.length}/>
+                      <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
+                      onChange={this.handleCurrentVisSelect}/>
                       <div id="tabBanner">
-                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect}>
+                        <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
+                        <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {tabItems}
                         </Tabs>
                       </div>
@@ -249,7 +274,22 @@ export class JupyterWidgetView extends DOMWidgetView {
     }
     const $app = document.createElement("div");
     const App = React.createElement(ReactWidget,view);
-    ReactDOM.render(App,$app);
-    view.el.append($app);
+    ReactDOM.render(App,$app); // Renders the app
+    view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
+
+    // console.log("initialize:",Date.now())
+    dispatchLogEvent("initWidget","")
+    $(".widget-button").on('click',function(event){
+      var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
+      var toLux = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector(".dataframe")!=null
+      var viewType;
+      if (toLux){
+        viewType = "lux"
+      }else if (toPandas){
+        viewType = "pandas"
+      }
+      dispatchLogEvent("toggleBtnClick",viewType)
+      event.stopImmediatePropagation()
+    })
   }
 }

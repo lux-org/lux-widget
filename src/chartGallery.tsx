@@ -4,12 +4,16 @@ import React, { Component } from 'react';
 import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 // import { VisualizationSpec } from 'vega-embed';
+import ScrollableContent from './scrollableContent'
+import {dispatchLogEvent} from './utils';
 interface chartGalleryProps{
+    title:string,
     multiple: boolean,
     maxSelectable: number,
     onChange: Function,
     graphSpec: object[],
-    description: String
+    description: string,
+    currentVisShow: boolean,
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -17,7 +21,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         super(props);
         var selected = props.multiple ? [] : -1;
         var initialState = {
-        selected: selected
+          selected: selected,
         };
         this.state = initialState;
     }
@@ -28,9 +32,11 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             var selectedIndexes = prevState.selected;
             var selectedIndex = selectedIndexes.indexOf(index);
             if (selectedIndex > -1) {
-              selectedIndexes.splice(selectedIndex, 1);
+              dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
+              selectedIndexes = selectedIndexes.filter(item => item != index);
               props.onChange(selectedIndexes);
             } else {
+              dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
               if (!(selectedIndexes.length >= props.maxSelectable)) {
                 selectedIndexes.push(index);
                 props.onChange(selectedIndexes);
@@ -40,6 +46,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               selected: selectedIndexes
             };
           } else {
+            dispatchLogEvent("clickVis",index)
             props.onChange(index);
             return {
               selected: index
@@ -48,7 +55,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         });
       }
     render() {
-        console.log("this.props.graphSpec:",this.props.graphSpec)
         const galleryItems = this.props.graphSpec.map((item,idx) =>
                 <div key={idx.toString()}
                      className="graph-container"
@@ -64,11 +70,9 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                 </div>  
             );
         return (
-            <div id="staticOuterDiv" className="recommendationStaticContentOuter">
-              <p id="text-description">{this.props.description}</p>
-              <div id="mult-graph-container" className= "recommendationContentInner">
-                  {galleryItems}
-              </div>
+            <div className="chartGalleryTabContent">
+              <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
+              <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
             </div>
         );
     }
