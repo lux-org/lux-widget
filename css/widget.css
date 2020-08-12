@@ -561,3 +561,11 @@ button.card:focus {
 #second-arrow{
   margin-left: -4px;
 }
+
+.highlight-intent{
+  font-weight: 500;
+  background: aliceblue;
+  display: inline;
+  /* display: inline-table;
+  text-align: left; */
+}
