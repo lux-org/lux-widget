@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { VegaLite } from 'react-vega';
 import SelectableCard from './selectableCard';
 import _ from 'lodash';
-import {Tooltip,OverlayTrigger} from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 interface currentVisProps{
     intent:string,
     currentVisSpec: object,
     numRecommendations: number,
     onChange: Function,
 }
+
 class CurrentVisComponent extends Component<currentVisProps,any> {
     constructor(props:any) {
         super(props);
@@ -56,17 +58,9 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                         <div style={{ display: 'flex', flexDirection: 'column'}}>
                             <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
                             <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
-                                <OverlayTrigger placement="bottom" overlay={
-                                    <Tooltip id="intent_str" >
-                                        {/* style={{fontWeight: 500, background: "aliceblue", color:"#505050"}} */}
-                                        {this.props.intent}
-                                    </Tooltip>
-                                }>
-                                    {/* delay={{ show: 0, hide: 150 }} */}
-                                     <p className="highlight-intent" style={{borderBottom: "1px dotted #505050"}}>
-                                        intent
-                                    </p>
-                                </OverlayTrigger>
+                            <Tooltip title={<span style={{ fontSize: "13px", maxWidth: "80px" }}>{this.props.intent}</span>} arrow>
+                                <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050" }}>intent</Button>
+                            </Tooltip>
                             </p>
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}>
 
