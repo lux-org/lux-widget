@@ -112,6 +112,7 @@ input[type=text], select {
   overflow-x: hidden;
   display: flex;
   min-width: 30%;
+  flex: 0.5;
 }
 
 #mainVizInnerContainer{
