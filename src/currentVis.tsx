@@ -66,14 +66,13 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
 
                 return (
                     <div id="mainVizContainer">
-                        <div style={{ display: 'flex', flexDirection: 'column'}}>
                             <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
                             <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
                             <CustomTooltip title={this.props.intent} arrow>
                                 <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
                             </CustomTooltip>
                             </p>
-                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}>
+                            <div id="mainVizInnerContainer">
 
                             {/* Code for caption under Current Vis */}
                             {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
@@ -85,8 +84,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             <p className="text-description" style={{top: '40px', position:'absolute'}}>based on intent:</p>
                             <p className="highlight-intent" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
                             <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
-                                <div className="vizContainer" onClick={()=>selectedVis("main")}
-                                style={{ width: '300px' }}>
+                                <div className="vizContainer" onClick={()=>selectedVis("main")}>
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
@@ -97,7 +95,6 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     </SelectableCard>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 );
             }

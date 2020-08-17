@@ -106,22 +106,14 @@ input[type=text], select {
 }
 #mainVizContainer{
   padding: 10px 0px 0px 0px;
-  /* position: absolute; */
   border: 0.5px solid #bcbdbd;
   overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  min-width: 30%;
-  flex: 0.5;
 }
 
 #mainVizInnerContainer{
-  width: 300px;
-  height: 245px;
-  top: 21%;
-  left: 3%;
-  position: absolute;
+  margin-top: 50px;
 }
+
 #placeHolderVizContainer{
   min-height: 100%;
   min-width: 1px;
