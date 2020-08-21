@@ -391,3 +391,15 @@ button.card:focus {
   /* display: inline-table;
   text-align: left; */
 }
+.highlight-descriptor{
+  font-weight: 500;
+  background: #fffee1;
+  display: inline;
+  /* display: inline-table;
+  text-align: left; */
+}
+#intent_str {
+  margin-top: 5px;
+  font-weight: 500;
+  max-width:100px
+}
