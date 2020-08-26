@@ -123,7 +123,9 @@ export class JupyterWidgetView extends DOMWidgetView {
           for (var tabID of Object.keys(this.state.selectedRec)){
             if (tabID in this.state.recommendations) {
               var actionName =  this.state.recommendations[tabID]["action"]
-              _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+              if (this.state.selectedRec[tabID].length > 0) {
+                _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+              }
             } else if (this.state.currentVisSelected == -1) {
               _exportedVisIdxs["currentVis"] = this.state.currentVis
             }
@@ -176,7 +178,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.get_exported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
+                      Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
 
