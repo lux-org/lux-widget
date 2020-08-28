@@ -59,12 +59,17 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                 <div key={idx.toString()}
                      className="graph-container"
                      id={"graph-container-".concat(idx.toString())}>
-                    <SelectableCard key={idx} 
+                    <SelectableCard 
+                        key={idx} 
                         selected={this.state.selected.indexOf(idx) > -1 } 
                         onClick={(e) => this.onItemSelected(idx)}>
-                            <VegaLite spec={item}  
-                                    padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                                    actions={false} />
+                            <VegaLite 
+                              // This exists to preven VegaLite from reinitializing when parent (SelectableCard) is updated
+                              // This is an anti-pattern for React
+                              key={"no refresh"}
+                              spec={item}  
+                              padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                              actions={false} />
                     </SelectableCard>
                     {/* <ToolComponent graphIdx={idx}/> */}
                 </div>  

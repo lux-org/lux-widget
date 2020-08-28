@@ -155,6 +155,9 @@ export class JupyterWidgetView extends DOMWidgetView {
         const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
           <Tab eventKey={actionResult.action} title={actionResult.action} >
             <ChartGalleryComponent 
+                // this exists to prevent chart gallergy from refreshing while changing tabs
+                // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
+                key={'no refresh'}
                 title={actionResult.action}
                 description={actionResult.description}
                 multiple={true}
