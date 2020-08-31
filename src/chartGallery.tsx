@@ -68,8 +68,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                         selected={this.state.selected.indexOf(idx) > -1 } 
                         onClick={(e) => this.onItemSelected(idx)}>
                             <VegaLite 
-                              // This exists to preven VegaLite from reinitializing when parent (SelectableCard) is updated
-                              // This is an anti-pattern for React
+                              // This prevents VegaLite from reinitializing when parent (SelectableCard) is updated
                               key={"no refresh"}
                               spec={item}  
                               padding={{left: 10, top: 5, right: 5, bottom: 5}}
