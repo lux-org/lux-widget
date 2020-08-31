@@ -55,10 +55,14 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         });
       }
     render() {
-        const galleryItems = this.props.graphSpec.map((item,idx) =>
+      console.log('chart render');
+        return (
+            <div className="chartGalleryTabContent">
+              <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
+              <ScrollableContent galleryItems={this.props.graphSpec.map((item,idx) =>
                 <div key={idx.toString()}
-                     className="graph-container"
-                     id={"graph-container-".concat(idx.toString())}>
+                    className="graph-container"
+                    id={"graph-container-".concat(idx.toString())}>
                     <SelectableCard 
                         key={idx} 
                         selected={this.state.selected.indexOf(idx) > -1 } 
@@ -73,12 +77,8 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     </SelectableCard>
                     {/* <ToolComponent graphIdx={idx}/> */}
                 </div>  
-            );
-        return (
-            <div className="chartGalleryTabContent">
-              <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
-              <ScrollableContent galleryItems={galleryItems} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
-            </div>
+              )} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
+          </div>
         );
     }
 }
