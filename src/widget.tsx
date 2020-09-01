@@ -54,11 +54,13 @@ export class JupyterWidgetView extends DOMWidgetView {
     interface WidgetProps{
       currentVis:object,
       recommendations:any[],
+      intent:string,
+      message:string,
+      tabItems: any,
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      intent:string,
       currentVisSelected:number,
     }
 
@@ -68,12 +70,14 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
+          intent:props.model.get("intent"),
+          message:props.model.get("message"),
+          tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          intent:props.model.get("intent"),
-          currentVisSelected: -2,
+          currentVisSelected: -2
         }
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
@@ -151,21 +155,32 @@ export class JupyterWidgetView extends DOMWidgetView {
         view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
+      generateTabItems() {
+        console.log('init tabs')
+        return (
+          this.props.model.get("recommendations").map((actionResult,tabIdx) =>
+            <Tab eventKey={actionResult.action} title={actionResult.action} >
+              <ChartGalleryComponent 
+                  // this exists to prevent chart gallergy from refreshing while changing tabs
+                  // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
+                  key={'no refresh'}
+                  title={actionResult.action}
+                  description={actionResult.description}
+                  multiple={true}
+                  maxSelectable={10}
+                  onChange={this.onListChanged.bind(this,tabIdx)}
+                  graphSpec={actionResult.vspec}
+                  currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}/> 
+            </Tab>
+          )
+        )
+      }
+
       render(){
-        const tabItems = this.state.recommendations.map((actionResult,tabIdx) =>
-          <Tab eventKey={actionResult.action} title={actionResult.action} >
-            <ChartGalleryComponent 
-                title={actionResult.action}
-                description={actionResult.description}
-                multiple={true}
-                maxSelectable={10}
-                onChange={this.onListChanged.bind(this,tabIdx)}
-                graphSpec={actionResult.vspec}
-                currentVisShow={!_.isEmpty(this.state.currentVis)}/> 
-          </Tab>);
+        console.log('re-render')
 
         let exportBtn;
-        if (tabItems.length>0){
+        if (this.state.tabItems.length>0){
           exportBtn = <i  id="exportBtn" 
                           className='fa fa-upload' 
                           title='Export selected visualization into variable'
@@ -178,71 +193,17 @@ export class JupyterWidgetView extends DOMWidgetView {
                            key="infoAlert" 
                            variant="info" 
                            dismissible>
-                      Access exported visualizations by calling `.get_exported()` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
+                      Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
+        let warnBtn;
+        if (this.state.message!=""){
+          warnBtn = <i  id="warnBtn" 
+                          className='fa fa-exclamation-triangle' 
+                          title={this.state.message}/>
+        }
+        console.log("print state",this.state)
 
-        // let attributeShelf = 
-        //   <div style={{ display: 'flex', flexDirection: 'row' }}>
-        //     <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px', maxHeight: '30px', display: 'flex', flexDirection: 'row' }}>
-        //       <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-        //         <i id="attributeIcon" 
-        //           className='fa fa-th-list'
-        //           style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', minWidth: '15px' }}/>
-        //         <p style={{ lineHeight: '28px' }}>Attribute</p>
-        //       </div>
-        //       <div style={{ height: '100%', display: 'flex' }}>
-
-        //         {this.state.intent['attributes'].map((attribute) => {
-        //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-        //             <i id="attributeIcon" 
-        //               className='fa fa-hashtag'
-        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
-        //             <p style={{ lineHeight: '22px' }}>{attribute}</p>
-        //             <i id="attributeIcon" 
-        //               className='fa fa-times-circle'
-        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
-        //               onClick={() => {}}/>
-        //           </div>
-        //         })}
-
-        //       </div>
-        //     </div>
-        //     <i id="attributeIcon" 
-        //       className='fa fa-bars'
-        //       style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
-        //   </div>
-
-        // let filterShelf = 
-        //   <div style={{ display: 'flex', flexDirection: 'row' }}>
-        //     <div style={{ width: '100%', border: 'solid 1px lightgray', borderRadius: '5px', marginBottom: '5px', minHeight: '30px' }}>
-        //       <div style={{ width: '100px', height: '100%', borderRight: 'solid 1px lightgray', paddingLeft: '10px', paddingRight: '10px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-        //         <i id="attributeIcon" 
-        //           className='fa fa-filter'
-        //           style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '3px', marginLeft: '2px', minWidth: '15px' }}/>
-        //         <p style={{ lineHeight: '28px' }}>Filter</p>
-        //       </div>
-        //       <div style={{ width: '100%' }}>
-
-        //         {this.state.intent['filters'].map((filter) => {
-        //           <div style={{ marginTop: '2px', marginBottom: '2px', marginLeft: '10px', border: 'solid 1px lightgray', borderRadius: '5px', display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-        //             <i id="attributeIcon" 
-        //               className='fa fa-hashtag'
-        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}/>
-        //             <p style={{ lineHeight: '22px' }}>{filter}</p>
-        //             <i id="attributeIcon" 
-        //               className='fa fa-times-circle'
-        //               style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '5px', marginLeft: '5px', minWidth: '15px' }}
-        //               onClick={() => {}}/>
-        //           </div>
-        //         })}
-
-        //       </div>
-        //     </div>
-        //     <i id="attributeIcon" 
-        //       className='fa fa-database'
-        //       style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '10px', marginRight: '5px', minWidth: '15px' }}/>
-        //   </div>
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -264,8 +225,9 @@ export class JupyterWidgetView extends DOMWidgetView {
                       <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
-                          {tabItems}
+                          {this.state.tabItems}
                         </Tabs>
+                        {warnBtn}
                       </div>
                       {exportBtn}
                       {alertBtn}

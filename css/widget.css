@@ -403,3 +403,11 @@ button.card:focus {
   font-weight: 500;
   max-width:100px
 }
+
+#warnBtn{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+  padding: 5px;
+}
