@@ -54,12 +54,13 @@ export class JupyterWidgetView extends DOMWidgetView {
     interface WidgetProps{
       currentVis:object,
       recommendations:any[],
+      intent:string,
+      message:string,
       tabItems: any,
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      intent:string,
       currentVisSelected:number,
     }
 
@@ -69,13 +70,14 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
+          intent:props.model.get("intent"),
+          message:props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          intent:props.model.get("intent"),
-          currentVisSelected: -2,
+          currentVisSelected: -2
         }
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
@@ -194,7 +196,14 @@ export class JupyterWidgetView extends DOMWidgetView {
                       Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
-        
+        let warnBtn;
+        if (this.state.message!=""){
+          warnBtn = <i  id="warnBtn" 
+                          className='fa fa-exclamation-triangle' 
+                          title={this.state.message}/>
+        }
+        console.log("print state",this.state)
+
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -218,6 +227,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {this.state.tabItems}
                         </Tabs>
+                        {warnBtn}
                       </div>
                       {exportBtn}
                       {alertBtn}
