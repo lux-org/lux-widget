@@ -349,6 +349,14 @@ button.card:focus {
   color: rgb(80, 80, 80);
   margin-top: 5px;
 }
+.warning-footer {
+  padding: 10px;
+  border: 0.5px solid #bcbdbd;
+  background-color: lightyellow;
+  display: flex;
+  flex-direction: row;
+  border-top: 0px;
+}
 #scroll-indicator {
   margin-right: 10px;
   margin-top:  5px;
@@ -405,9 +413,18 @@ button.card:focus {
 }
 
 #warnBtn{
+  color: #ffbc00;
   position: absolute;
   top: 5px;
   right: 5px;
   font-size: 20px;
   padding: 5px;
+}
+#warnBtn:hover{
+  color:black;
+}
+.warnMsgText{
+  color: rgb(80, 80, 80);
+  margin-top: 5px;
+  margin-left: 5px;
 }

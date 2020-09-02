@@ -62,6 +62,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       selectedRec:object,
       _exportedVisIdxs:object,
       currentVisSelected:number,
+      openWarning: boolean,
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
@@ -77,12 +78,22 @@ export class JupyterWidgetView extends DOMWidgetView {
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          currentVisSelected: -2
+          currentVisSelected: -2,
+          openWarning:false
         }
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
+        this.openPanel = this.openPanel.bind(this);
+        this.closePanel = this.closePanel.bind(this);
+      }
+
+      openPanel(e){
+        this.setState({openWarning:true})
+      }
+      closePanel(e){
+        this.setState({openWarning:false})
       }
   
       onChange(model:any){// called when the variable is changed in the view.model
@@ -197,10 +208,17 @@ export class JupyterWidgetView extends DOMWidgetView {
                     </Alert>
         }
         let warnBtn;
+        let warnMsg;
         if (this.state.message!=""){
           warnBtn = <i  id="warnBtn" 
-                          className='fa fa-exclamation-triangle' 
-                          title={this.state.message}/>
+                          className='fa fa-exclamation-triangle'
+                          onClick={(e)=>this.openPanel(e)}/>;
+          warnMsg = <div className="warning-footer" style={{visibility: (this.state.openWarning) ? 'visible' : 'hidden' }} >
+          <p className="warnMsgText"> {this.state.message} </p> 
+          <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>this.closePanel(e)}
+          style={{position: 'absolute', right: '15px', bottom: '12px', fontSize: '15px' }}
+          ></i> 
+          </div>;
         }
         console.log("print state",this.state)
 
@@ -227,11 +245,12 @@ export class JupyterWidgetView extends DOMWidgetView {
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {this.state.tabItems}
                         </Tabs>
-                        {warnBtn}
                       </div>
                       {exportBtn}
                       {alertBtn}
-                    </div>               
+                    </div>
+                    {warnBtn}
+                    {warnMsg}
                   </div>);
         }
       }
