@@ -105,7 +105,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       componentDidUpdate(){ //triggered after component is updated
-        console.log("componentDidUpdate:",view.model.get("_exportedVisIdxs"));
         view.model.save_changes(); // instead of touch (which leads to callback issues), we have to use save_changes
       }
   
@@ -167,7 +166,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       generateTabItems() {
-        console.log('init tabs')
         return (
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
             <Tab eventKey={actionResult.action} title={actionResult.action} >
@@ -188,8 +186,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       render(){
-        console.log('re-render')
-
         let exportBtn;
         if (this.state.tabItems.length>0){
           exportBtn = <i  id="exportBtn" 
@@ -220,8 +216,6 @@ export class JupyterWidgetView extends DOMWidgetView {
           ></i> 
           </div>;
         }
-        console.log("print state",this.state)
-
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -259,8 +253,6 @@ export class JupyterWidgetView extends DOMWidgetView {
     const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
-
-    // console.log("initialize:",Date.now())
     dispatchLogEvent("initWidget","")
     $(".widget-button").on('click',function(event){
       var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 

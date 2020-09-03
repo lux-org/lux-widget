@@ -34,20 +34,10 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
         }
     }
     render() {
-        // console.log("intent:",this.props.intent)
-        // var intentStr1 = this.props.intent["filters"]
-        // var intentStr2 =this.props.intent["attributes"]
-        // var intentStr = intentStr1.concat(intentStr2).join(", ")
-        // console.log("intentStr:",intentStr)
-        // // console.log("this.props.currentVisSpec:",this.props.currentVisSpec)
-        let selectedVis = function (vizLabel:string){
-            // console.log("selectedVis event:",event)
-            console.log(vizLabel)
-        }
         if (!_.isEmpty(this.props.currentVisSpec)){
             if (this.props.numRecommendations == 0) {
                 return (
-                    <div className="vizContainer" style={{width:'320px'}} onClick={()=>selectedVis("main")}>
+                    <div className="vizContainer" style={{width:'320px'}}>
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
                                 actions={false}/>
@@ -73,18 +63,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             </CustomTooltip>
                             </p>
                             <div id="mainVizInnerContainer">
-
-                            {/* Code for caption under Current Vis */}
-                            {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'0px',left: '70px' }}>Current Vis</p>   
-                            <p className="text-description" style={{top: '30px', marginLeft: '10px',position:'absolute'}}>Based on:</p>
-                            <p className="highlight-intent" style={{left:'77px',position:'absolute',color:'#505050',width:'200px',top:'42px',fontSize: '13px'}}>{this.props.intent}</p>    
-                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
-                            {/* Code for Left align for Current Vis based on:, right align for vertical intent block  */}
-                            {/* <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'15px' }}>Current Vis</p>
-                            <p className="text-description" style={{top: '40px', position:'absolute'}}>based on intent:</p>
-                            <p className="highlight-intent" style={{left:'135px',position:'absolute',color:'#505050',width:'145px'}}>{this.props.intent}</p>
-                            <div id="mainVizInnerContainer" style={{ position: 'absolute', top: '65px', left: '0px' }}> */}
-                                <div className="vizContainer" onClick={()=>selectedVis("main")}>
+                                <div className="vizContainer">
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>

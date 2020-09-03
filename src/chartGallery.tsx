@@ -55,7 +55,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         });
       }
     render() {
-      console.log('chart render');
         return (
             <div className="chartGalleryTabContent">
               <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
