@@ -57,26 +57,35 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     render() {
       console.log('chart render');
         return (
-            <div className="chartGalleryTabContent">
-              <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
-              <ScrollableContent galleryItems={this.props.graphSpec.map((item,idx) =>
-                <div key={idx.toString()}
-                    className="graph-container"
-                    id={"graph-container-".concat(idx.toString())}>
+          <div className="chartGalleryTabContent">
+            <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
+            <ScrollableContent galleryItems={this.props.graphSpec.map((item,idx) =>
+              <div key={idx.toString()} 
+                  className="graph-container"
+                  id={"graph-container-".concat(idx.toString())}>
+                  {this.state.selected.indexOf(idx) > -1 ? 
+                    <SelectableCard 
+                      key={idx} 
+                      selected={true} 
+                      onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
+                      <VegaLite
+                        spec={item}  
+                        padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                        actions={false}/>
+                    </SelectableCard>
+                  :
                     <SelectableCard 
                         key={idx} 
-                        selected={this.state.selected.indexOf(idx) > -1 } 
-                        onClick={(e) => this.onItemSelected(idx)}>
-                            <VegaLite 
-                              // This prevents VegaLite from reinitializing when parent (SelectableCard) is updated
-                              key={"no refresh"}
-                              spec={item}  
-                              padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                              actions={false} />
+                        selected={false} 
+                        onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
+                        <VegaLite
+                          spec={item}  
+                          padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                          actions={false}/>
                     </SelectableCard>
-                    {/* <ToolComponent graphIdx={idx}/> */}
-                </div>  
-              )} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
+                  }
+              </div>  
+            )} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
           </div>
         );
     }
