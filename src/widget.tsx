@@ -54,13 +54,15 @@ export class JupyterWidgetView extends DOMWidgetView {
     interface WidgetProps{
       currentVis:object,
       recommendations:any[],
+      intent:string,
+      message:string,
       tabItems: any,
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
-      intent:string,
       currentVisSelected:number,
+      openWarning: boolean,
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
@@ -69,18 +71,29 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
+          intent:props.model.get("intent"),
+          message:props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:[],
-          intent:props.model.get("intent"),
           currentVisSelected: -2,
+          openWarning:false
         }
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
+        this.openPanel = this.openPanel.bind(this);
+        this.closePanel = this.closePanel.bind(this);
+      }
+
+      openPanel(e){
+        this.setState({openWarning:true})
+      }
+      closePanel(e){
+        this.setState({openWarning:false})
       }
   
       onChange(model:any){// called when the variable is changed in the view.model
@@ -92,7 +105,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       componentDidUpdate(){ //triggered after component is updated
-        console.log("componentDidUpdate:",view.model.get("_exportedVisIdxs"));
         view.model.save_changes(); // instead of touch (which leads to callback issues), we have to use save_changes
       }
   
@@ -154,7 +166,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       generateTabItems() {
-        console.log('init tabs')
         return (
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
             <Tab eventKey={actionResult.action} title={actionResult.action} >
@@ -175,8 +186,6 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       render(){
-        console.log('re-render')
-
         let exportBtn;
         if (this.state.tabItems.length>0){
           exportBtn = <i  id="exportBtn" 
@@ -194,7 +203,19 @@ export class JupyterWidgetView extends DOMWidgetView {
                       Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
                     </Alert>
         }
-        
+        let warnBtn;
+        let warnMsg;
+        if (this.state.message!=""){
+          warnBtn = <i  id="warnBtn" 
+                          className='fa fa-exclamation-triangle'
+                          onClick={(e)=>this.openPanel(e)}/>;
+          warnMsg = <div className="warning-footer" style={{visibility: (this.state.openWarning) ? 'visible' : 'hidden' }} >
+          <p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p> 
+          <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>this.closePanel(e)}
+          style={{position: 'absolute', right: '15px', fontSize: '15px' }}
+          ></i> 
+          </div>;
+        }
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -221,7 +242,9 @@ export class JupyterWidgetView extends DOMWidgetView {
                       </div>
                       {exportBtn}
                       {alertBtn}
-                    </div>               
+                    </div>
+                    {warnBtn}
+                    {warnMsg}
                   </div>);
         }
       }
@@ -230,8 +253,6 @@ export class JupyterWidgetView extends DOMWidgetView {
     const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
-
-    // console.log("initialize:",Date.now())
     dispatchLogEvent("initWidget","")
     $(".widget-button").on('click',function(event){
       var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
