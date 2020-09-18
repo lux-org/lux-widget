@@ -214,7 +214,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           warnBtn = <i  id="warnBtn" 
                           className='fa fa-exclamation-triangle'
                           onClick={(e)=>this.openPanel(e)}/>;
-          warnMsg = <div className="warning-footer" style={{visibility: (this.state.openWarning) ? 'visible' : 'hidden' }} >
+          warnMsg = <div className="warning-footer" style={{display: (this.state.openWarning) ? 'flex' : 'none' }} >
           <p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p> 
           <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>this.closePanel(e)}
           style={{position: 'absolute', right: '15px', fontSize: '15px' }}
