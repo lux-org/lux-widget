@@ -98,7 +98,6 @@ export class JupyterWidgetView extends DOMWidgetView {
 
       closeExportInfo(){// called to close alert pop up upon export button hit by user
         this.setState({showAlert:false});
-        console.log("FUCNTION WAS RUN");
       }
   
       onChange(model:any){// called when the variable is changed in the view.model
