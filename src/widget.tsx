@@ -95,6 +95,10 @@ export class JupyterWidgetView extends DOMWidgetView {
       closePanel(e){
         this.setState({openWarning:false})
       }
+
+      closeExportInfo(){// called to close alert pop up upon export button hit by user
+        this.setState({showAlert:false});
+      }
   
       onChange(model:any){// called when the variable is changed in the view.model
         this.setState(model.changed);
@@ -199,8 +203,9 @@ export class JupyterWidgetView extends DOMWidgetView {
           alertBtn= <Alert id="alertBox" 
                            key="infoAlert" 
                            variant="info" 
+                           onClose={() => this.closeExportInfo()} 
                            dismissible>
-                      Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html">More details</a>)
+                      Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html" target="_blank">More details</a>)
                     </Alert>
         }
         let warnBtn;
