@@ -191,11 +191,20 @@ export class JupyterWidgetView extends DOMWidgetView {
 
       render(){
         let exportBtn;
+        var exportEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
         if (this.state.tabItems.length>0){
-          exportBtn = <i  id="exportBtn" 
-                          className='fa fa-upload' 
-                          title='Export selected visualization into variable'
-                          onClick={(e) => this.exportSelection()}/>
+          if (exportEnabled) {
+            exportBtn = <i  id="exportBtn" 
+                            className='fa fa-upload' 
+                            title='Export selected visualization into variable'
+                            onClick={(e) => this.exportSelection()}/>
+                            
+          } else {
+            exportBtn = <i  id="exportBtn" 
+                            className= 'fa fa-upload'
+                            style={{opacity: 0.2, cursor: 'not-allowed'}}
+                            title='Select card(s) to export into variable'/>
+          }
         }
 
         let alertBtn;
