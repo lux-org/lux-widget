@@ -85,6 +85,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
+        this.deleteSelection = this.deleteSelection.bind(this);
         this.openPanel = this.openPanel.bind(this);
         this.closePanel = this.closePanel.bind(this);
       }
@@ -169,6 +170,10 @@ export class JupyterWidgetView extends DOMWidgetView {
         view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
+      deleteSelection() {
+
+      }
+
       generateTabItems() {
         return (
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
@@ -196,7 +201,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           if (exportEnabled) {
             exportBtn = <i  id="exportBtn" 
                             className='fa fa-upload' 
-                            title='Export selected visualization into variable'
+                            title='Export selected visualization into variable TEST'
                             onClick={(e) => this.exportSelection()}/>
                             
           } else {
@@ -204,6 +209,22 @@ export class JupyterWidgetView extends DOMWidgetView {
                             className= 'fa fa-upload'
                             style={{opacity: 0.2, cursor: 'not-allowed'}}
                             title='Select card(s) to export into variable'/>
+          }
+        }
+
+        let deleteBtn;
+        var deleteEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
+        if (this.state.tabItems.length > 0){
+          if (deleteEnabled) {
+            deleteBtn = <i id="deleteBtn"
+                           className="fas fa-trash"
+                           title='Deleted Cards'
+                           onClick={(e) => this.deleteSelection()}></i>
+          } else {
+            deleteBtn = <i id="deleteBtn"
+                           className="fas fa-trash"
+                           style={{opacity: 0.2, cursor: 'not-allowed'}}
+                           title='Select card(s) to delete'></i>
           }
         }
 
@@ -238,6 +259,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                     <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentVisSelect}/>
                     {exportBtn}
+                    {deleteBtn}
+                    {exportBtn}
                     {alertBtn}
                   </div>               
                 </div>);
@@ -254,6 +277,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                           {this.state.tabItems}
                         </Tabs>
                       </div>
+                      {exportBtn}
+                      {deleteBtn}
                       {exportBtn}
                       {alertBtn}
                     </div>
