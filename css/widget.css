@@ -133,6 +133,15 @@ input[type=text], select {
   font-size: 20px;
   padding: 5px;
 }
+
+#deleteBtn{
+  position: absolute;
+  top: 42px;
+  right: 33px;
+  font-size: 20px;
+  padding: 5px;
+}
+
 #alertBox{
   position: absolute;
   left: 23%;
