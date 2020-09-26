@@ -14,6 +14,7 @@ interface chartGalleryProps{
     graphSpec: object[],
     description: string,
     currentVisShow: boolean,
+    prevPlotCnt?: number
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -22,9 +23,15 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         var selected = props.multiple ? [] : -1;
         var initialState = {
           selected: selected,
+          prevPlotCnt: this.props.graphSpec.length
         };
         this.state = initialState;
     }
+
+    componentDidUpdate(){
+      this.checkDeleteStatus();
+    }
+
     onItemSelected(index) {
         // Implementation based on https://codepen.io/j-burgos/pen/VpQxLv
         this.setState((prevState, props) => {
@@ -54,8 +61,14 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           }
         });
       }
+
+    checkDeleteStatus() {
+      if (this.state.prevPlotCnt != this.props.graphSpec.length) {
+        this.setState({prevPlotCnt: this.props.graphSpec.length, selected:[]});
+      }
+    }
     render() {
-      console.log('chart render');
+        console.log('chart render');
         return (
           <div className="chartGalleryTabContent">
             <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>

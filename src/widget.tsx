@@ -62,7 +62,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       selectedRec:object,
       _exportedVisIdxs:object,
       currentVisSelected:number,
-      openWarning: boolean,
+      openWarning: boolean
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
@@ -81,6 +81,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning:false
         }
+        
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -171,24 +172,22 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       deleteSelection() {
-
-        console.log(this.state.recommendations);
-        console.log(this.state._exportedVisIdxs);
-
         for (var recommendation of this.props.model.get("recommendations")) {
           if (this.state._exportedVisIdxs[recommendation.action]) {
+            let delCount = 0;
             for (var index of this.state._exportedVisIdxs[recommendation.action]) {
-              recommendation.vspec.splice(index,1);
+              recommendation.vspec.splice(index - delCount,1);
+              delCount++;
             }
           }
         }
 
-        // dispatchLogEvent("deleteBtnClick",this.state._exportedVisIdxs);
         this.setState({
-            selectedRec:[],
-            _exportedVisIdxs:{},
+            selectedRec: [],
+            _exportedVisIdxs: {},
             recommendations: this.props.model.get("recommendations")
         });
+
       }
 
       generateTabItems() {
@@ -205,7 +204,8 @@ export class JupyterWidgetView extends DOMWidgetView {
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
-                  currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}/> 
+                  currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  /> 
             </Tab>
           )
         )
@@ -236,7 +236,7 @@ export class JupyterWidgetView extends DOMWidgetView {
             deleteBtn = <i id="deleteBtn"
                            className="fa fa-trash"
                            title='Delete Selected Cards'
-                           onClick={(e) => this.deleteSelection()}/>
+                           onClick={() => this.deleteSelection()}/>
           } else {
             deleteBtn = <i id="deleteBtn"
                            className="fa fa-trash"
