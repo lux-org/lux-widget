@@ -66,8 +66,15 @@ export class JupyterWidgetView extends DOMWidgetView {
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
+      private chartComponents = Array<any>();
+
       constructor(props:any){
         super(props);
+
+        for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
+          this.chartComponents.push(React.createRef<ChartGalleryComponent>());
+        }
+
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
@@ -81,7 +88,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning:false
         }
-        
+
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -188,6 +195,10 @@ export class JupyterWidgetView extends DOMWidgetView {
             recommendations: this.props.model.get("recommendations")
         });
 
+        //Deletes all selected charts across tabs
+        for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
+          this.chartComponents[i].current.removeDeletedCharts();
+        }
       }
 
       generateTabItems() {
@@ -198,6 +209,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   // this exists to prevent chart gallergy from refreshing while changing tabs
                   // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
+                  ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
                   multiple={true}
