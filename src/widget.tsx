@@ -178,6 +178,10 @@ export class JupyterWidgetView extends DOMWidgetView {
         view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
       }
 
+      /* 
+       * Goes through all selections and removes and clears any selections across recommendation tabs.
+       * Re-renders each chart component, with the updated recommedations.
+       */
       deleteSelection() {
         for (var recommendation of this.props.model.get("recommendations")) {
           if (this.state._exportedVisIdxs[recommendation.action]) {
@@ -195,7 +199,6 @@ export class JupyterWidgetView extends DOMWidgetView {
             recommendations: this.props.model.get("recommendations")
         });
 
-        //Deletes all selected charts across tabs
         for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
           this.chartComponents[i].current.removeDeletedCharts();
         }

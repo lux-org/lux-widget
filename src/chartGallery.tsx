@@ -58,7 +58,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
 
     removeDeletedCharts() {
       this.setState({selected:[]});
-      //this.props.onChange(this.state.selected);
     }
     
     render() {
