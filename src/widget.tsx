@@ -48,7 +48,6 @@ export class ExampleModel extends DOMWidgetModel {
 }
 
 export class JupyterWidgetView extends DOMWidgetView {
-
   initialize(){    
     let view = this;
     interface WidgetProps{
@@ -93,9 +92,9 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
-        this.deleteSelection = this.deleteSelection.bind(this);
         this.openPanel = this.openPanel.bind(this);
         this.closePanel = this.closePanel.bind(this);
+        this.deleteSelection = this.deleteSelection.bind(this);
       }
 
       openPanel(e){
@@ -163,7 +162,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       exportSelection() {
-        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs)
+        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs);
         this.setState(
           state => ({
             showAlert:true
@@ -175,7 +174,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   showAlert:false
            }));
         },60000);
-        view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
+        view.model.set('_exportedVisIdxs', this.state._exportedVisIdxs);
       }
 
       /* 
@@ -183,21 +182,51 @@ export class JupyterWidgetView extends DOMWidgetView {
        * Re-renders each chart component, with the updated recommedations.
        */
       deleteSelection() {
-        for (var recommendation of this.props.model.get("recommendations")) {
+        dispatchLogEvent("deleteBtnClick", this.state.recommendations);
+        var toDelete = {};
+        var deletionQueue = view.model.get('deletedIndices');
+
+        if (deletionQueue !== {}) {
+          for (var recommendation of this.state.recommendations) {
+            if (this.state._exportedVisIdxs[recommendation.action]) {
+              if (deletionQueue[recommendation.action]) {
+              for (var index of this.state._exportedVisIdxs[recommendation.action]) {
+                  toDelete[recommendation.action] = deletionQueue[recommendation.action];
+                  var i = -1;
+                  var deletePadding = 0;
+                  do {
+                    i++;
+                    if (i in deletionQueue[recommendation.action]) {
+                      deletePadding--;
+                    }
+                  } while (i + deletePadding !== index);
+                  toDelete[recommendation.action].push(index - deletePadding);
+                }
+              } else {
+                toDelete[recommendation.action] = this.state._exportedVisIdxs[recommendation.action];
+              }
+            }
+          }
+        } else {
+          toDelete = this.state._exportedVisIdxs;
+        }
+
+        for (var recommendation of this.state.recommendations) {
           if (this.state._exportedVisIdxs[recommendation.action]) {
             let delCount = 0;
             for (var index of this.state._exportedVisIdxs[recommendation.action]) {
-              recommendation.vspec.splice(index - delCount,1);
+              recommendation.vspec.splice(index - delCount, 1);
               delCount++;
             }
           }
         }
 
         this.setState({
-            selectedRec: [],
+            selectedRec: {},
             _exportedVisIdxs: {},
-            recommendations: this.props.model.get("recommendations")
         });
+
+        view.model.set('deletedIndices', toDelete);
 
         for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
           this.chartComponents[i].current.removeDeletedCharts();
@@ -226,7 +255,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         )
       }
 
-      render(){
+      render() {
         let exportBtn;
         var exportEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
         if (this.state.tabItems.length>0){
