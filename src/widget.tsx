@@ -175,6 +175,8 @@ export class JupyterWidgetView extends DOMWidgetView {
            }));
         },60000);
         view.model.set('_exportedVisIdxs', this.state._exportedVisIdxs);
+        view.model.save();
+
       }
 
       /* 
@@ -186,6 +188,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         var toDelete = {};
         var deletionQueue = view.model.get('deletedIndices');
 
+        // Logic for keeping track of multiple deletions between exports
         if (deletionQueue !== {}) {
           for (var recommendation of this.state.recommendations) {
             if (this.state._exportedVisIdxs[recommendation.action]) {
@@ -211,6 +214,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           toDelete = this.state._exportedVisIdxs;
         }
 
+        // Deleting from the frontend's visualization data structure
         for (var recommendation of this.state.recommendations) {
           if (this.state._exportedVisIdxs[recommendation.action]) {
             let delCount = 0;
@@ -227,7 +231,9 @@ export class JupyterWidgetView extends DOMWidgetView {
         });
 
         view.model.set('deletedIndices', toDelete);
+        view.model.save();
 
+        // Re-render each tab's components to update deletions
         for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
           this.chartComponents[i].current.removeDeletedCharts();
         }
