@@ -174,6 +174,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   showAlert:false
            }));
         },60000);
+
         view.model.set('_exportedVisIdxs', this.state._exportedVisIdxs);
         view.model.save();
 
@@ -181,33 +182,34 @@ export class JupyterWidgetView extends DOMWidgetView {
 
       /* 
        * Goes through all selections and removes and clears any selections across recommendation tabs.
-       * Re-renders each chart component, with the updated recommedations.
+       * Re-renders each tab's chart component, with the updated recommendations.
        */
       deleteSelection() {
         dispatchLogEvent("deleteBtnClick", this.state.recommendations);
         var toDelete = {};
         var deletionQueue = view.model.get('deletedIndices');
 
-        // Logic for keeping track of multiple deletions between exports
+        // Logic for keeping track of multiple deletions between exports by incrementing
+        // by the amount of indices to the left of the newly deleted index
         if (deletionQueue !== {}) {
           for (var recommendation of this.state.recommendations) {
-            if (this.state._exportedVisIdxs[recommendation.action]) {
-              if (deletionQueue[recommendation.action]) {
+            if (deletionQueue[recommendation.action]) {
+              toDelete[recommendation.action] = deletionQueue[recommendation.action].slice();
               for (var index of this.state._exportedVisIdxs[recommendation.action]) {
-                  toDelete[recommendation.action] = deletionQueue[recommendation.action];
-                  var i = -1;
-                  var deletePadding = 0;
-                  do {
-                    i++;
-                    if (i in deletionQueue[recommendation.action]) {
-                      deletePadding--;
-                    }
-                  } while (i + deletePadding !== index);
-                  toDelete[recommendation.action].push(index - deletePadding);
+                var i = -1;
+                var deletePadding = 0;
+                do {
+                  i++;
+                  if (i in deletionQueue[recommendation.action]) {
+                    deletePadding--;
+                  }
+                  console.log(i);
+                  console.log(deletePadding);
+                } while (i + deletePadding !== index);
+                toDelete[recommendation.action].push(index - deletePadding);
                 }
               } else {
                 toDelete[recommendation.action] = this.state._exportedVisIdxs[recommendation.action];
-              }
             }
           }
         } else {
@@ -233,7 +235,7 @@ export class JupyterWidgetView extends DOMWidgetView {
         view.model.set('deletedIndices', toDelete);
         view.model.save();
 
-        // Re-render each tab's components to update deletions
+        // Re-render each tab's components to update deletions on front end
         for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
           this.chartComponents[i].current.removeDeletedCharts();
         }
