@@ -60,6 +60,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
+      deletedIndices:object,
       currentVisSelected:number,
       openWarning: boolean
     }
@@ -84,6 +85,7 @@ export class JupyterWidgetView extends DOMWidgetView {
           showAlert:false,
           selectedRec:{},
           _exportedVisIdxs:{},
+          deletedIndices: {},
           currentVisSelected: -2,
           openWarning:false
         }
@@ -185,26 +187,23 @@ export class JupyterWidgetView extends DOMWidgetView {
        * Re-renders each tab's chart component, with the updated recommendations.
        */
       deleteSelection() {
-        dispatchLogEvent("deleteBtnClick", this.state.recommendations);
+        dispatchLogEvent("deleteBtnClick", this.state.deletedIndices);
         var toDelete = {};
-        var deletionQueue = view.model.get('deletedIndices');
 
         // Logic for keeping track of multiple deletions between exports by incrementing
         // by the amount of indices to the left of the newly deleted index
-        if (deletionQueue !== {}) {
+        if (this.state.deletedIndices !== {}) {
           for (var recommendation of this.state.recommendations) {
-            if (deletionQueue[recommendation.action]) {
-              toDelete[recommendation.action] = deletionQueue[recommendation.action].slice();
+            if (this.state.deletedIndices[recommendation.action]) {
+              toDelete[recommendation.action] = this.state.deletedIndices[recommendation.action].slice();
               for (var index of this.state._exportedVisIdxs[recommendation.action]) {
                 var i = -1;
                 var deletePadding = 0;
                 do {
                   i++;
-                  if (i in deletionQueue[recommendation.action]) {
+                  if (i in this.state.deletedIndices[recommendation.action]) {
                     deletePadding--;
                   }
-                  console.log(i);
-                  console.log(deletePadding);
                 } while (i + deletePadding !== index);
                 toDelete[recommendation.action].push(index - deletePadding);
                 }
@@ -230,8 +229,10 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.setState({
             selectedRec: {},
             _exportedVisIdxs: {},
+            deletedIndices: toDelete
         });
 
+        view.model.set('_exportedVisIdxs', {});
         view.model.set('deletedIndices', toDelete);
         view.model.save();
 
