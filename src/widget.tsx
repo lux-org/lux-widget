@@ -184,36 +184,12 @@ export class JupyterWidgetView extends DOMWidgetView {
 
       /* 
        * Goes through all selections and removes and clears any selections across recommendation tabs.
+       * Changing deletedIndices triggers an observer in the backend to update backend data structure.
        * Re-renders each tab's chart component, with the updated recommendations.
        */
       deleteSelection() {
         dispatchLogEvent("deleteBtnClick", this.state.deletedIndices);
-        var toDelete = {};
-
-        // Logic for keeping track of multiple deletions between exports by incrementing
-        // by the amount of indices to the left of the newly deleted index
-        if (this.state.deletedIndices !== {}) {
-          for (var recommendation of this.state.recommendations) {
-            if (this.state.deletedIndices[recommendation.action]) {
-              toDelete[recommendation.action] = this.state.deletedIndices[recommendation.action].slice();
-              for (var index of this.state._exportedVisIdxs[recommendation.action]) {
-                var i = -1;
-                var deletePadding = 0;
-                do {
-                  i++;
-                  if (i in this.state.deletedIndices[recommendation.action]) {
-                    deletePadding--;
-                  }
-                } while (i + deletePadding !== index);
-                toDelete[recommendation.action].push(index - deletePadding);
-                }
-              } else {
-                toDelete[recommendation.action] = this.state._exportedVisIdxs[recommendation.action];
-            }
-          }
-        } else {
-          toDelete = this.state._exportedVisIdxs;
-        }
+        var currDeletions = this.state._exportedVisIdxs;
 
         // Deleting from the frontend's visualization data structure
         for (var recommendation of this.state.recommendations) {
@@ -229,17 +205,17 @@ export class JupyterWidgetView extends DOMWidgetView {
         this.setState({
             selectedRec: {},
             _exportedVisIdxs: {},
-            deletedIndices: toDelete
+            deletedIndices: currDeletions
         });
-
-        view.model.set('_exportedVisIdxs', {});
-        view.model.set('deletedIndices', toDelete);
-        view.model.save();
 
         // Re-render each tab's components to update deletions on front end
         for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
           this.chartComponents[i].current.removeDeletedCharts();
         }
+
+        view.model.set('deletedIndices', currDeletions);
+        view.model.set('_exportedVisIdxs', {});
+        view.model.save();
       }
 
       generateTabItems() {
