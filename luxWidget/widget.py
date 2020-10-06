@@ -17,6 +17,7 @@ class LuxWidget(DOMWidget):
     recommendations = List([]).tag(sync=True)
     data = List([]).tag(sync=True)
     _exportedVisIdxs = Dict({}).tag(sync=True)
+    deletedIndices = Dict({}).tag(sync=True)
     intent = Unicode("").tag(sync=True)
     message = Unicode("").tag(sync=True)
     def __init__(self, currentVis=None, recommendations=None, intent=None, message=None,**kwargs):

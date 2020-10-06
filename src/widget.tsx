@@ -48,7 +48,6 @@ export class ExampleModel extends DOMWidgetModel {
 }
 
 export class JupyterWidgetView extends DOMWidgetView {
-
   initialize(){    
     let view = this;
     interface WidgetProps{
@@ -61,13 +60,21 @@ export class JupyterWidgetView extends DOMWidgetView {
       showAlert:boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
+      deletedIndices:object,
       currentVisSelected:number,
-      openWarning: boolean,
+      openWarning: boolean
     }
 
     class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
+      private chartComponents = Array<any>();
+
       constructor(props:any){
         super(props);
+
+        for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
+          this.chartComponents.push(React.createRef<ChartGalleryComponent>());
+        }
+
         this.state = {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
@@ -77,16 +84,19 @@ export class JupyterWidgetView extends DOMWidgetView {
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
-          _exportedVisIdxs:[],
+          _exportedVisIdxs:{},
+          deletedIndices: {},
           currentVisSelected: -2,
           openWarning:false
         }
+
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
         this.openPanel = this.openPanel.bind(this);
         this.closePanel = this.closePanel.bind(this);
+        this.deleteSelection = this.deleteSelection.bind(this);
       }
 
       openPanel(e){
@@ -154,7 +164,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       }
 
       exportSelection() {
-        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs)
+        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs);
         this.setState(
           state => ({
             showAlert:true
@@ -166,7 +176,46 @@ export class JupyterWidgetView extends DOMWidgetView {
                   showAlert:false
            }));
         },60000);
-        view.model.set('_exportedVisIdxs',this.state._exportedVisIdxs);
+
+        view.model.set('_exportedVisIdxs', this.state._exportedVisIdxs);
+        view.model.save();
+
+      }
+
+      /* 
+       * Goes through all selections and removes and clears any selections across recommendation tabs.
+       * Changing deletedIndices triggers an observer in the backend to update backend data structure.
+       * Re-renders each tab's chart component, with the updated recommendations.
+       */
+      deleteSelection() {
+        dispatchLogEvent("deleteBtnClick", this.state.deletedIndices);
+        var currDeletions = this.state._exportedVisIdxs;
+
+        // Deleting from the frontend's visualization data structure
+        for (var recommendation of this.state.recommendations) {
+          if (this.state._exportedVisIdxs[recommendation.action]) {
+            let delCount = 0;
+            for (var index of this.state._exportedVisIdxs[recommendation.action]) {
+              recommendation.vspec.splice(index - delCount, 1);
+              delCount++;
+            }
+          }
+        }
+
+        this.setState({
+            selectedRec: {},
+            _exportedVisIdxs: {},
+            deletedIndices: currDeletions
+        });
+
+        // Re-render each tab's components to update deletions on front end
+        for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
+          this.chartComponents[i].current.removeDeletedCharts();
+        }
+
+        view.model.set('deletedIndices', currDeletions);
+        view.model.set('_exportedVisIdxs', {});
+        view.model.save();
       }
 
       generateTabItems() {
@@ -177,19 +226,21 @@ export class JupyterWidgetView extends DOMWidgetView {
                   // this exists to prevent chart gallergy from refreshing while changing tabs
                   // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
+                  ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
                   multiple={true}
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
-                  currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}/> 
+                  currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  /> 
             </Tab>
           )
         )
       }
 
-      render(){
+      render() {
         let exportBtn;
         var exportEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
         if (this.state.tabItems.length>0){
@@ -204,6 +255,22 @@ export class JupyterWidgetView extends DOMWidgetView {
                             className= 'fa fa-upload'
                             style={{opacity: 0.2, cursor: 'not-allowed'}}
                             title='Select card(s) to export into variable'/>
+          }
+        }
+
+        let deleteBtn;
+        var deleteEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
+        if (this.state.tabItems.length > 0){
+          if (deleteEnabled) {
+            deleteBtn = <i id="deleteBtn"
+                           className="fa fa-trash"
+                           title='Delete Selected Cards'
+                           onClick={() => this.deleteSelection()}/>
+          } else {
+            deleteBtn = <i id="deleteBtn"
+                           className="fa fa-trash"
+                           style={{opacity: 0.2, cursor: 'not-allowed'}}
+                           title='Select card(s) to delete'/>
           }
         }
 
@@ -237,6 +304,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentVisSelect}/>
+                    {deleteBtn}
                     {exportBtn}
                     {alertBtn}
                   </div>               
@@ -254,6 +322,7 @@ export class JupyterWidgetView extends DOMWidgetView {
                           {this.state.tabItems}
                         </Tabs>
                       </div>
+                      {deleteBtn}
                       {exportBtn}
                       {alertBtn}
                     </div>

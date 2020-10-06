@@ -25,6 +25,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         };
         this.state = initialState;
     }
+
     onItemSelected(index) {
         // Implementation based on https://codepen.io/j-burgos/pen/VpQxLv
         this.setState((prevState, props) => {
@@ -54,8 +55,13 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           }
         });
       }
+
+    removeDeletedCharts() {
+      this.setState({selected:[]});
+    }
+    
     render() {
-      console.log('chart render');
+        console.log('chart render');
         return (
           <div className="chartGalleryTabContent">
             <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
