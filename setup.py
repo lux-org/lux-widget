@@ -93,6 +93,7 @@ setup_args = dict(
     ],
     include_package_data = True,
     install_requires = [
+        'notebook',
         'ipywidgets>=7.0.0',
     ],
     entry_points = {

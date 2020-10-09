@@ -19,7 +19,6 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-If you don't yet have Jupyter, you should first [install Jupyter](https://jupyter.org/install).
 To get started, the Lux Jupyter widget can be installed through PyPI: 
 
 ```bash
