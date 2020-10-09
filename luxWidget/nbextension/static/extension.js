@@ -6,7 +6,7 @@ define(function() {
     window['requirejs'].config({
         map: {
             '*': {
-                'luxWidget': 'nbextensions/luxWidget/index',
+                'luxwidget': 'nbextensions/luxwidget/index',
             },
         }
     });

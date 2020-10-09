@@ -6,5 +6,5 @@
 Information about the frontend package of the widgets.
 """
 
-module_name = "luxWidget"
+module_name = "luxwidget"
 module_version = "^0.0.1"

@@ -7,6 +7,7 @@
 from __future__ import print_function
 from glob import glob
 from os.path import join as pjoin
+from os import path
 
 
 from setupbase import (
@@ -17,9 +18,14 @@ from setupbase import (
 
 from setuptools import setup
 
+HERE = path.abspath(path.dirname(__file__))
+
+# Get the long description from the README file
+with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 # The name of the project
-name = 'luxWidget'
+name = 'luxwidget'
 
 # Ensure a valid python version
 ensure_python('>=3.4')
@@ -44,10 +50,10 @@ package_data_spec = {
 }
 
 data_files_spec = [
-    ('share/jupyter/nbextensions/luxWidget',
+    ('share/jupyter/nbextensions/luxwidget',
         nb_path, '*.js*'),
     ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
-    ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxWidget.json')
+    ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxwidget.json')
 ]
 
 
@@ -61,53 +67,34 @@ cmdclass['jsdeps'] = combine_commands(
 
 setup_args = dict(
     name            = name,
-    description     = 'A Custom Jupyter Widget Library',
+    description     = 'Jupyter Widget for Intelligent Data Discovery',
+    long_description= long_description, 
+    long_description_content_type='text/markdown', 
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
     # cmdclass        = cmdclass,
     packages        = find_packages(),
-    author          = 'Doris Lee',
+    author          = 'Doris Jung-Lin Lee',
     author_email    = 'dorisjunglinlee@gmail.com',
-    url             = 'https://github.com/lux-org/lux-widget',
-    license         = 'BSD',
+    url             = 'https://github.com/lux-org/luxwidget',
+    license         = 'Apache-2.0 License',
     platforms       = "Linux, Mac OS X, Windows",
     keywords        = ['Jupyter', 'Widgets', 'IPython'],
     classifiers     = [
+        'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: BSD License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'Intended Audience :: Other Audience',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Scientific/Engineering :: Visualization',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3'
         'Framework :: Jupyter',
     ],
     include_package_data = True,
     install_requires = [
         'ipywidgets>=7.0.0',
     ],
-    extras_require = {
-        'test': [
-            'pytest>=3.6',
-            'pytest-cov',
-            'nbval',
-        ],
-        'examples': [
-            # Any requirements for the examples to run
-        ],
-        'docs': [
-            'sphinx>=1.5',
-            'recommonmark',
-            'sphinx_rtd_theme',
-            'nbsphinx>=0.2.13,<0.4.0',
-            'jupyter_sphinx',
-            'nbsphinx-link',
-            'pytest_check_links',
-            'pypandoc',
-        ],
-    },
     entry_points = {
     },
 )

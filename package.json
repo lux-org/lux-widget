@@ -1,6 +1,5 @@
 {
   "name": "lux-widget",
-  "version": "0.0.8",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
     "jupyter",
@@ -11,8 +10,8 @@
   "files": [
     "webpack.config.js",
     "tsconfig.json",
-    "luxWidget/*.py",
-    "luxWidget/nbextension/static/*",
+    "luxwidget/*.py",
+    "luxwidget/nbextension/static/*",
     "*.py",
     "src/*.tsx",
     "src/*.ts",
@@ -37,16 +36,16 @@
     "url": "https://github.com/lux-org/lux-widget"
   },
   "scripts": {
-    "postinstall": "pip install . && jupyter nbextension install --sys-prefix --symlink --overwrite --py luxWidget && jupyter nbextension enable --sys-prefix --py luxWidget",
+    "postinstall": "pip install . && jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget && jupyter nbextension enable --sys-prefix --py luxwidget",
     "build": "npm install; npm run build:lib && npm run build:nbextension",
-    "build:labextension": "npm run clean:labextension && mkdirp luxWidget/labextension && cd luxWidget/labextension && npm pack ../..",
+    "build:labextension": "npm run clean:labextension && mkdirp luxwidget/labextension && cd luxwidget/labextension && npm pack ../..",
     "build:lib": "tsc",
     "build:nbextension": "webpack -p",
     "build:all": "npm run build:labextension && npm run build:nbextension",
     "clean": "npm run clean:lib && npm run clean:nbextension",
     "clean:lib": "rimraf lib",
-    "clean:labextension": "rimraf luxWidget/labextension",
-    "clean:nbextension": "rimraf luxWidget/nbextension/static/index.js",
+    "clean:labextension": "rimraf luxwidget/labextension",
+    "clean:nbextension": "rimraf luxwidget/nbextension/static/index.js",
     "prepack": "npm run build:lib",
     "watch": "npm-run-all -p watch:*",
     "watch:lib": "tsc -w",

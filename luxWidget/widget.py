@@ -6,10 +6,10 @@ from ._frontend import module_name, module_version
 import json
 
 class LuxWidget(DOMWidget):
-    _model_name = Unicode('ExampleModel').tag(sync=True)
+    _model_name = Unicode('LuxModel').tag(sync=True)
     _model_module = Unicode(module_name).tag(sync=True)
     _model_module_version = Unicode(module_version).tag(sync=True)
-    _view_name = Unicode('JupyterWidgetView').tag(sync=True)
+    _view_name = Unicode('LuxWidgetView').tag(sync=True)
     _view_module = Unicode(module_name).tag(sync=True)
     _view_module_version = Unicode(module_version).tag(sync=True)
 

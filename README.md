@@ -1,8 +1,8 @@
 <p align="center"><a href="#"><img width=77% alt="" src="https://github.com/lux-org/lux-resources/blob/master/readme_img/logo.png?raw=true"></a></p>
 
-<p align="center">
+<!-- <p align="center">
     <a href="https://badge.fury.io/js/lux-widget"><img src="https://badge.fury.io/js/lux-widget.svg" alt="npm version" height="18" align="center"></a>
-</p>
+</p> -->
 
 Lux is a library that makes data science easier by automating certain aspects of the data exploration process. Lux is designed to facilitate faster experimentation with data, even when the user does not have a clear idea of what they are looking for.
 
@@ -19,15 +19,23 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-To get started, install the Lux Jupyter widget through [npm](https://www.npmjs.com/package/lux-widget): 
+If you don't yet have Jupyter, you should first [install Jupyter](https://jupyter.org/install).
+To get started, the Lux Jupyter widget can be installed through PyPI: 
 
 ```bash
-    npm i lux-widget
+    pip install lux-widget
+```
+
+To install and activate the Jupyter notebook extension: 
+
+```bash
+    jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget
+    jupyter nbextension enable --sys-prefix --py luxwidget
 ```
 
 ### Dev Installation
 
-To install the widget for dev purposes, we need to install webpack:  
+To install the widget for dev purposes, we need to install npm and webpack:  
 
 ```bash
     npm install --save-dev webpack webpack-cli
