@@ -24,6 +24,8 @@ HERE = path.abspath(path.dirname(__file__))
 with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+with open(path.join(HERE, 'requirements.txt')) as fp:
+    install_requires = fp.read()
 # The name of the project
 name = 'luxwidget'
 
@@ -57,16 +59,16 @@ data_files_spec = [
 ]
 
 
-cmdclass = create_cmdclass('jsdeps', package_data_spec=package_data_spec,
-    data_files_spec=data_files_spec)
-cmdclass['jsdeps'] = combine_commands(
-    install_npm(HERE, build_cmd='build:all'),
-    ensure_targets(jstargets),
-)
+# cmdclass = create_cmdclass('jsdeps', package_data_spec=package_data_spec,
+#     data_files_spec=data_files_spec)
+# cmdclass['jsdeps'] = combine_commands(
+#     install_npm(HERE, build_cmd='build:all'),
+#     ensure_targets(jstargets),
+# )
 
 
-setup_args = dict(
-    name            = name,
+setup(
+    name            = 'lux-widget',
     description     = 'Jupyter Widget for Intelligent Data Discovery',
     long_description= long_description, 
     long_description_content_type='text/markdown', 
@@ -79,7 +81,7 @@ setup_args = dict(
     url             = 'https://github.com/lux-org/luxwidget',
     license         = 'Apache-2.0 License',
     platforms       = "Linux, Mac OS X, Windows",
-    keywords        = ['Jupyter', 'Widgets', 'IPython'],
+    keywords        = ['Jupyter', 'Widgets', 'Visualization','Analytics','Data Science','Data Analysis','IPython'],
     classifiers     = [
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
@@ -88,17 +90,10 @@ setup_args = dict(
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Scientific/Engineering :: Visualization',
         'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 3'
-        'Framework :: Jupyter',
+        'Programming Language :: Python :: 3',
+        'Framework :: Jupyter'
     ],
     include_package_data = True,
-    install_requires = [
-        'notebook',
-        'ipywidgets>=7.0.0',
-    ],
-    entry_points = {
-    },
+    setup_requires=install_requires,
+    install_requires=install_requires
 )
-
-if __name__ == '__main__':
-    setup(**setup_args)
