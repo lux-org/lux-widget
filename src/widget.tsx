@@ -25,7 +25,7 @@ import '../css/widget.css'
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
-import {Tabs,Tab, Alert} from 'react-bootstrap';
+import {Tabs,Tab} from 'react-bootstrap';
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
 import {dispatchLogEvent} from './utils';
