@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { WarningBtnProps } from '../lib/warningBtnProps';
+import { WarningBtnProps } from './interfaces/warningBtnProps';
 
 class WarningBtn extends Component<WarningBtnProps> {
     constructor(props:any) {

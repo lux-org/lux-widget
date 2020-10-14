@@ -26,9 +26,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
 import {Tabs,Tab} from 'react-bootstrap';
-// import Alert from 'react-bootstrap';
-// import { useAlert } from "react-alert";
-// import TabComponent from './tab';
 
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonProps } from '../lib/buttonProps';
+import { ButtonProps } from './interfaces/buttonProps';
 import {Alert} from 'react-bootstrap';
 
 class ButtonsBroker extends Component<ButtonProps> {
