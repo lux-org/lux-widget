@@ -128,7 +128,7 @@ input[type=text], select {
   position: absolute;
   /* bottom: 90%; */
   /* left: 97%; */
-  top: 42px;
+  top: 5px;
   right: 5px;
   font-size: 20px;
   padding: 5px;
@@ -136,8 +136,16 @@ input[type=text], select {
 
 #deleteBtn{
   position: absolute;
-  top: 42px;
+  top: 5px;
   right: 33px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+#intentBtn{
+  position: absolute;
+  top: 5px;
+  right: 59px;
   font-size: 20px;
   padding: 5px;
 }
@@ -425,7 +433,7 @@ button.card:focus {
   color: #ffbc00;
   position: absolute;
   top: 5px;
-  right: 5px;
+  right: 88px;
   font-size: 20px;
   padding: 5px;
 }
