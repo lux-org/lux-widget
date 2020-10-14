@@ -1,3 +1,17 @@
+//  Copyright 2019-2020 The Lux Authors.
+// 
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+
 import {
   DOMWidgetModel, DOMWidgetView, ISerializers
 } from '@jupyter-widgets/base';
@@ -6,9 +20,7 @@ import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-// Import the CSS
 import '../css/widget.css'
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -17,22 +29,21 @@ import {Tabs,Tab} from 'react-bootstrap';
 // import Alert from 'react-bootstrap';
 // import { useAlert } from "react-alert";
 // import TabComponent from './tab';
+
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
-// import { utils } from 'mocha';
-// import { EventEmitter } from 'events';
 import {dispatchLogEvent} from './utils';
 import ButtonsBroker from './buttonsBroker';
 import WarningBtn from './warningBtn';
 
-export class ExampleModel extends DOMWidgetModel {
+export class LuxModel extends DOMWidgetModel {
   defaults() {
     return {...super.defaults(),
-      _model_name: ExampleModel.model_name,
-      _model_module: ExampleModel.model_module,
-      _model_module_version: ExampleModel.model_module_version,
-      _view_name: ExampleModel.view_name,
-      _view_module: ExampleModel.view_module,
+      _model_name: LuxModel.model_name,
+      _model_module: LuxModel.model_module,
+      _model_module_version: LuxModel.model_module_version,
+      _view_name: LuxModel.view_name,
+      _view_module: LuxModel.view_module,
       value : 'Hello World'
     };
   }
@@ -42,15 +53,15 @@ export class ExampleModel extends DOMWidgetModel {
       // Add any extra serializers here
     }
 
-  static model_name = 'ExampleModel';
+  static model_name = 'LuxModel';
   static model_module = MODULE_NAME;
   static model_module_version = MODULE_VERSION;
-  static view_name = 'JupyterWidgetView';   // Set to null if no view
+  static view_name = 'LuxWidgetView';   // Set to null if no view
   static view_module = MODULE_NAME;   // Set to null if no view
   
 }
 
-export class JupyterWidgetView extends DOMWidgetView {
+export class LuxWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
     interface WidgetProps{
@@ -70,7 +81,7 @@ export class JupyterWidgetView extends DOMWidgetView {
       openWarning: boolean
     }
 
-    class ReactWidget extends React.Component<JupyterWidgetView,WidgetProps> {
+    class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
       private chartComponents = Array<any>();
 
       constructor(props:any){

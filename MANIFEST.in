@@ -1,1 +1,3 @@
-include luxWidget/nbextension/static/*.*
+include luxwidget/nbextension/static/*.*
+include requirements.txt
+include setupbase.py
