@@ -31,7 +31,8 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-To get started, the Lux Jupyter widget can be installed through PyPI: 
+To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed. 
+The Lux Jupyter widget can be installed through PyPI: 
 
 ```bash
     pip install lux-widget
@@ -40,29 +41,13 @@ To get started, the Lux Jupyter widget can be installed through PyPI:
 To install and activate the Jupyter notebook extension: 
 
 ```bash
-    jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget
-    jupyter nbextension enable --sys-prefix --py luxwidget
+    jupyter nbextension install --py luxwidget
+    jupyter nbextension enable --py luxwidget
 ```
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
-If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation.
+If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
-### Dev Installation
-
-To install the widget for dev purposes, we need to install npm and webpack:  
-
-```bash
-    npm install --save-dev webpack webpack-cli
-```
-
-Then, we can install the [Lux Jupyter widget](https://github.com/lux-org/lux-widget) using the custom installation script: 
-
-```bash
-    git clone https://github.com/lux-org/lux-widget.git
-    cd lux-widget/
-    npm install
-    bash install.sh
-```
 
 # Documentation and Support
 For detailed reference, please refer to the [documentation page](https://lux-api.readthedocs.io/en/latest/). Please report any bugs, issues, or requests through [Github Issues](https://github.com/lux-org/lux/issues) or post on the [#help](https://lux-project.slack.com/archives/C0174H16CK0) channel in the <a href="http://lux-project.slack.com/">Lux Slack org</a>.
