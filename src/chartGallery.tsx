@@ -1,9 +1,20 @@
+//  Copyright 2019-2020 The Lux Authors.
+// 
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-// import ToolComponent from './tool';
 import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
-// import { VisualizationSpec } from 'vega-embed';
 import ScrollableContent from './scrollableContent'
 import {dispatchLogEvent} from './utils';
 interface chartGalleryProps{
@@ -25,6 +36,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         };
         this.state = initialState;
     }
+
     onItemSelected(index) {
         // Implementation based on https://codepen.io/j-burgos/pen/VpQxLv
         this.setState((prevState, props) => {
@@ -54,8 +66,13 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           }
         });
       }
+
+    removeDeletedCharts() {
+      this.setState({selected:[]});
+    }
+    
     render() {
-      console.log('chart render');
+        console.log('chart render');
         return (
           <div className="chartGalleryTabContent">
             <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
