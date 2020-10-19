@@ -6,5 +6,5 @@ export interface ButtonProps {
     setIntent: () => void,
     closeExportInfo: () => void,
     showAlert: boolean,
-    showIntentWarning: boolean
+    intentEnabled: boolean
 }

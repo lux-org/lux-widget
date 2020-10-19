@@ -70,7 +70,6 @@ export class LuxWidgetView extends DOMWidgetView {
       tabItems: any,
       activeTab:any,
       showAlert:boolean,
-      showIntentWarning: boolean,
       selectedRec:object,
       _exportedVisIdxs:object,
       deletedIndices:object,
@@ -97,7 +96,6 @@ export class LuxWidgetView extends DOMWidgetView {
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
           showAlert:false,
-          showIntentWarning: false,
           selectedRec:{},
           _exportedVisIdxs:{},
           deletedIndices: {},
@@ -126,8 +124,7 @@ export class LuxWidgetView extends DOMWidgetView {
       // called to close alert pop up upon export button hit by user
       closeExportInfo() {
         this.setState({
-          showAlert: false,
-          showIntentWarning: false});
+          showAlert: false});
       }
   
       // called when the variable is changed in the view.model
@@ -191,7 +188,6 @@ export class LuxWidgetView extends DOMWidgetView {
         dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs);
         this.setState(
           state => ({
-            showIntentWarning: false,
             showAlert:true
         }));
         // Expire alert box in 1 minute
@@ -257,23 +253,6 @@ export class LuxWidgetView extends DOMWidgetView {
               return;
           }
         }
-
-        var seconds = 1000;
-
-        this.setState(
-          state => ({
-            showAlert: false,
-            showIntentWarning:true
-        }));
-
-        // Expire alert box in 7 seconds
-        setTimeout(()=>{
-          this.setState(
-                state => ({
-                  showIntentWarning:false
-           }));
-        }, 7*seconds);
-
       }
 
       generateTabItems() {
@@ -300,6 +279,7 @@ export class LuxWidgetView extends DOMWidgetView {
 
       render() {
         var buttonsEnabled = Object.keys(this.state._exportedVisIdxs).length > 0;
+        var intentEnabled = Object.keys(this.state._exportedVisIdxs).length == 1 && Object.values(this.state._exportedVisIdxs)[0].length == 1;
         
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
@@ -316,7 +296,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      closeExportInfo={this.closeExportInfo}
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
-                                     showIntentWarning = {this.state.showIntentWarning}
+                                     intentEnabled={intentEnabled}
                                      />               
                 </div>);
         } else {
@@ -340,7 +320,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      closeExportInfo={this.closeExportInfo}
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
-                                     showIntentWarning = {this.state.showIntentWarning}
+                                     intentEnabled={intentEnabled}
                                      />
                     <WarningBtn message={this.state.message} openPanel={this.openPanel} closePanel={this.closePanel} openWarning={this.state.openWarning} />
                   </div>);

@@ -8,7 +8,7 @@ class ButtonsBroker extends Component<ButtonProps> {
     }
 
     render() {
-      const{ buttonsEnabled, tabItems, deleteSelection, exportSelection, setIntent, closeExportInfo, showAlert, showIntentWarning } = this.props;
+      const{ buttonsEnabled, tabItems, deleteSelection, exportSelection, setIntent, closeExportInfo, showAlert, intentEnabled } = this.props;
 
       let deleteBtn;
       let exportBtn;
@@ -17,31 +17,36 @@ class ButtonsBroker extends Component<ButtonProps> {
 
       if (tabItems.length > 0){
         if (buttonsEnabled) {
-          intentBtn = <i id="intentBtn"
-                        className="fa fa-chevron-up"
-                        title='Set selected card as intent'
-                        onClick={() => setIntent()}/>
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
                          title='Delete selected cards'
-                         onClick={() => deleteSelection()}/>
+                         onClick={() => deleteSelection()} />
           exportBtn = <i  id="exportBtn" 
                           className='fa fa-upload' 
                           title='Export selected visualization into variable'
-                          onClick={(e) => exportSelection()}/>            
+                          onClick={(e) => exportSelection()} />
+               
         } else {
-          intentBtn = <i id="intentBtn"
-                          className="fa fa-chevron-up"
-                          style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select card to set as intent'/>
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
                          style={{opacity: 0.2, cursor: 'not-allowed'}}
-                         title='Select card(s) to delete'/>
+                         title='Select card(s) to delete' />
           exportBtn = <i  id="exportBtn" 
                           className= 'fa fa-upload'
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select card(s) to export into variable'/>
+                          title='Select card(s) to export into variable' />
+        }
+
+        if (buttonsEnabled && intentEnabled) {
+          intentBtn = <i  id="intentBtn"
+                          className="fa fa-chevron-up"
+                          title='Set selected card as intent'
+                          onClick={() => setIntent()} /> 
+        } else {
+          intentBtn = <i  id="intentBtn"
+                          className="fa fa-chevron-up"
+                          style={{opacity: 0.2, cursor: 'not-allowed'}}
+                          title='Select card to set as intent' />
         }
       }
 
@@ -52,14 +57,6 @@ class ButtonsBroker extends Component<ButtonProps> {
                          onClose={() => closeExportInfo()} 
                          dismissible>
                     Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html" target="_blank">More details</a>)
-                  </Alert>
-      } else if (showIntentWarning) {
-        alertBox= <Alert id="alertBox" 
-                         key="infoAlert" 
-                         variant="info" 
-                         onClose={() => closeExportInfo()} 
-                         dismissible>
-                    Select only one card to set as intent.
                   </Alert>
       }
 
