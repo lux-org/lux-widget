@@ -46,7 +46,7 @@ class ButtonsBroker extends Component<ButtonProps> {
           intentBtn = <i  id="intentBtn"
                           className="fa fa-search"
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select card to set as intent' />
+                          title='Select 1 card to set as intent' />
         }
       }
 
