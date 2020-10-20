@@ -39,12 +39,12 @@ class ButtonsBroker extends Component<ButtonProps> {
 
         if (buttonsEnabled && intentEnabled) {
           intentBtn = <i  id="intentBtn"
-                          className="fa fa-chevron-up"
+                          className="fa fa-search"
                           title='Set selected card as intent'
                           onClick={() => setIntent()} /> 
         } else {
           intentBtn = <i  id="intentBtn"
-                          className="fa fa-chevron-up"
+                          className="fa fa-search"
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
                           title='Select card to set as intent' />
         }
