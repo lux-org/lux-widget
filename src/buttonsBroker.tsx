@@ -19,34 +19,34 @@ class ButtonsBroker extends Component<ButtonProps> {
         if (buttonsEnabled) {
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
-                         title='Delete selected cards'
+                         title='Delete selected visualizations'
                          onClick={() => deleteSelection()} />
           exportBtn = <i  id="exportBtn" 
                           className='fa fa-upload' 
-                          title='Export selected visualization into variable'
+                          title='Export selected visualizations into variable'
                           onClick={(e) => exportSelection()} />
                
         } else {
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
                          style={{opacity: 0.2, cursor: 'not-allowed'}}
-                         title='Select one or more cards to delete' />
+                         title='Select one or more visualizations to delete' />
           exportBtn = <i  id="exportBtn" 
                           className= 'fa fa-upload'
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select one or more cards to export into variable' />
+                          title='Select one or more visualizations to export into variable' />
         }
 
         if (buttonsEnabled && intentEnabled) {
           intentBtn = <i  id="intentBtn"
                           className="fa fa-search"
-                          title='Set selected card as intent'
+                          title='Set selected visualization as intent'
                           onClick={() => setIntent()} /> 
         } else {
           intentBtn = <i  id="intentBtn"
                           className="fa fa-search"
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select only one card to set as intent' />
+                          title='Select no more than one visualization to set as intent' />
         }
       }
 
