@@ -65,7 +65,7 @@ export class LuxWidgetView extends DOMWidgetView {
       currentVis:object,
       recommendations:any[],
       intent:string,
-      intentIndex: object,
+      selectedIntentIndex: object,
       message:string,
       tabItems: any,
       activeTab:any,
@@ -91,7 +91,7 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
           intent:props.model.get("intent"),
-          intentIndex: {},
+          selectedIntentIndex: {},
           message:props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
@@ -244,11 +244,11 @@ export class LuxWidgetView extends DOMWidgetView {
        * Shows warning if user tries to select more than one Vis card.
        */
       setIntent() {
-        dispatchLogEvent("intentBtnClick", this.state.intentIndex);
+        dispatchLogEvent("intentBtnClick", this.state.selectedIntentIndex);
         if (Object.keys(this.state._exportedVisIdxs).length == 1) {
           var action = Object.keys(this.state._exportedVisIdxs)[0];
             if (this.state._exportedVisIdxs[action].length == 1) {
-              view.model.set('intentIndex', this.state._exportedVisIdxs);
+              view.model.set('selectedIntentIndex', this.state._exportedVisIdxs);
               view.model.save();
               return;
           }
