@@ -30,11 +30,11 @@ class ButtonsBroker extends Component<ButtonProps> {
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
                          style={{opacity: 0.2, cursor: 'not-allowed'}}
-                         title='Select card(s) to delete' />
+                         title='Select one or more cards to delete' />
           exportBtn = <i  id="exportBtn" 
                           className= 'fa fa-upload'
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select card(s) to export into variable' />
+                          title='Select one or more cards to export into variable' />
         }
 
         if (buttonsEnabled && intentEnabled) {
@@ -46,7 +46,7 @@ class ButtonsBroker extends Component<ButtonProps> {
           intentBtn = <i  id="intentBtn"
                           className="fa fa-search"
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select 1 card to set as intent' />
+                          title='Select only one card to set as intent' />
         }
       }
 
