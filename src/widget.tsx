@@ -25,10 +25,14 @@ import '../css/widget.css'
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
-import {Tabs, Tab, Alert} from 'react-bootstrap';
+import {Tabs,Tab} from 'react-bootstrap';
+
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
 import {dispatchLogEvent} from './utils';
+import ButtonsBroker from './buttonsBroker';
+import WarningBtn from './warningBtn';
+
 export class LuxModel extends DOMWidgetModel {
   defaults() {
     return {...super.defaults(),
@@ -61,6 +65,7 @@ export class LuxWidgetView extends DOMWidgetView {
       currentVis:object,
       recommendations:any[],
       intent:string,
+      selectedIntentIndex: object,
       message:string,
       tabItems: any,
       activeTab:any,
@@ -86,6 +91,7 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVis :  props.model.get("current_vis"),
           recommendations:  props.model.get("recommendations"),
           intent:props.model.get("intent"),
+          selectedIntentIndex: {},
           message:props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
@@ -104,6 +110,8 @@ export class LuxWidgetView extends DOMWidgetView {
         this.openPanel = this.openPanel.bind(this);
         this.closePanel = this.closePanel.bind(this);
         this.deleteSelection = this.deleteSelection.bind(this);
+        this.setIntent = this.setIntent.bind(this);
+        this.closeExportInfo = this.closeExportInfo.bind(this);
       }
 
       openPanel(e){
@@ -113,20 +121,26 @@ export class LuxWidgetView extends DOMWidgetView {
         this.setState({openWarning:false})
       }
 
-      closeExportInfo(){// called to close alert pop up upon export button hit by user
-        this.setState({showAlert:false});
+      // called to close alert pop up upon export button hit by user
+      closeExportInfo() {
+        this.setState({
+          showAlert: false});
       }
   
-      onChange(model:any){// called when the variable is changed in the view.model
+      // called when the variable is changed in the view.model
+      onChange(model:any){
         this.setState(model.changed);
       }
 
-      componentDidMount(){ //triggered when component is mounted (i.e., when widget first rendered)
+      //triggered when component is mounted (i.e., when widget first rendered)
+      componentDidMount(){ 
         view.listenTo(view.model,"change",this.onChange.bind(this));
       }
 
-      componentDidUpdate(){ //triggered after component is updated
-        view.model.save_changes(); // instead of touch (which leads to callback issues), we have to use save_changes
+      //triggered after component is updated
+      // instead of touch (which leads to callback issues), we have to use save_changes
+      componentDidUpdate(){ 
+        view.model.save_changes();
       }
   
       handleSelect(selectedTab) {
@@ -225,6 +239,22 @@ export class LuxWidgetView extends DOMWidgetView {
         view.model.save();
       }
 
+      /* 
+       * Set selected Vis as intent and re-renders widget to update to new view.
+       * Shows warning if user tries to select more than one Vis card.
+       */
+      setIntent() {
+        dispatchLogEvent("intentBtnClick", this.state.selectedIntentIndex);
+        if (Object.keys(this.state._exportedVisIdxs).length == 1) {
+          var action = Object.keys(this.state._exportedVisIdxs)[0];
+            if (this.state._exportedVisIdxs[action].length == 1) {
+              view.model.set('selectedIntentIndex', this.state._exportedVisIdxs);
+              view.model.save();
+              return;
+          }
+        }
+      }
+
       generateTabItems() {
         return (
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
@@ -248,62 +278,9 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       render() {
-        let exportBtn;
-        var exportEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
-        if (this.state.tabItems.length>0){
-          if (exportEnabled) {
-            exportBtn = <i  id="exportBtn" 
-                            className='fa fa-upload' 
-                            title='Export selected visualization into variable'
-                            onClick={(e) => this.exportSelection()}/>
-                            
-          } else {
-            exportBtn = <i  id="exportBtn" 
-                            className= 'fa fa-upload'
-                            style={{opacity: 0.2, cursor: 'not-allowed'}}
-                            title='Select card(s) to export into variable'/>
-          }
-        }
-
-        let deleteBtn;
-        var deleteEnabled = Object.keys(this.state._exportedVisIdxs).length > 0
-        if (this.state.tabItems.length > 0){
-          if (deleteEnabled) {
-            deleteBtn = <i id="deleteBtn"
-                           className="fa fa-trash"
-                           title='Delete Selected Cards'
-                           onClick={() => this.deleteSelection()}/>
-          } else {
-            deleteBtn = <i id="deleteBtn"
-                           className="fa fa-trash"
-                           style={{opacity: 0.2, cursor: 'not-allowed'}}
-                           title='Select card(s) to delete'/>
-          }
-        }
-
-        let alertBtn;
-        if (this.state.showAlert){
-          alertBtn= <Alert id="alertBox" 
-                           key="infoAlert" 
-                           variant="info" 
-                           onClose={() => this.closeExportInfo()} 
-                           dismissible>
-                      Access exported visualizations via the property `exported` (<a href="https://lux-api.readthedocs.io/en/latest/source/guide/export.html" target="_blank">More details</a>)
-                    </Alert>
-        }
-        let warnBtn;
-        let warnMsg;
-        if (this.state.message!=""){
-          warnBtn = <i  id="warnBtn" 
-                          className='fa fa-exclamation-triangle'
-                          onClick={(e)=>this.openPanel(e)}/>;
-          warnMsg = <div className="warning-footer" style={{display: (this.state.openWarning) ? 'flex' : 'none' }} >
-          <p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p> 
-          <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>this.closePanel(e)}
-          style={{position: 'absolute', right: '15px', fontSize: '15px' }}
-          ></i> 
-          </div>;
-        }
+        var buttonsEnabled = Object.keys(this.state._exportedVisIdxs).length > 0;
+        var intentEnabled = Object.keys(this.state._exportedVisIdxs).length == 1 && Object.values(this.state._exportedVisIdxs)[0].length == 1;
+        
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -311,10 +288,16 @@ export class LuxWidgetView extends DOMWidgetView {
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentVisSelect}/>
-                    {deleteBtn}
-                    {exportBtn}
-                    {alertBtn}
-                  </div>               
+                  </div>
+                  <ButtonsBroker buttonsEnabled={buttonsEnabled}
+                                     deleteSelection={this.deleteSelection}
+                                     exportSelection={this.exportSelection}
+                                     setIntent={this.setIntent}
+                                     closeExportInfo={this.closeExportInfo}
+                                     tabItems={this.state.tabItems}
+                                     showAlert={this.state.showAlert}
+                                     intentEnabled={intentEnabled}
+                                     />               
                 </div>);
         } else {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
@@ -329,12 +312,17 @@ export class LuxWidgetView extends DOMWidgetView {
                           {this.state.tabItems}
                         </Tabs>
                       </div>
-                      {deleteBtn}
-                      {exportBtn}
-                      {alertBtn}
                     </div>
-                    {warnBtn}
-                    {warnMsg}
+                    <ButtonsBroker buttonsEnabled={buttonsEnabled}
+                                     deleteSelection={this.deleteSelection}
+                                     exportSelection={this.exportSelection}
+                                     setIntent={this.setIntent}
+                                     closeExportInfo={this.closeExportInfo}
+                                     tabItems={this.state.tabItems}
+                                     showAlert={this.state.showAlert}
+                                     intentEnabled={intentEnabled}
+                                     />
+                    <WarningBtn message={this.state.message} openPanel={this.openPanel} closePanel={this.closePanel} openWarning={this.state.openWarning} />
                   </div>);
         }
       }
