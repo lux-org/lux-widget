@@ -44,11 +44,19 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             var selectedIndexes = prevState.selected;
             var selectedIndex = selectedIndexes.indexOf(index);
             if (selectedIndex > -1) {
-              dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
+              // dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
+              dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,
+                                              "title":this.props.graphSpec[index]['config']['title'],
+                                              "mark":this.props.graphSpec[index]['mark'],
+                                              "encoding":this.props.graphSpec[index]['encoding']})
               selectedIndexes = selectedIndexes.filter(item => item != index);
               props.onChange(selectedIndexes);
             } else {
-              dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]})
+              // dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
+              dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,
+                                            "title":this.props.graphSpec[index]['config']['title'],
+                                            "mark":this.props.graphSpec[index]['mark'],
+                                            "encoding":this.props.graphSpec[index]['encoding']})
               if (!(selectedIndexes.length >= props.maxSelectable)) {
                 selectedIndexes.push(index);
                 props.onChange(selectedIndexes);
