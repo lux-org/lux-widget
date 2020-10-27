@@ -115,14 +115,17 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       openPanel(e){
-        this.setState({openWarning:true})
+        dispatchLogEvent("openWarning",this.state.message);
+        this.setState({openWarning:true});
       }
       closePanel(e){
-        this.setState({openWarning:false})
+        dispatchLogEvent("closeWarning",this.state.message);
+        this.setState({openWarning:false});
       }
 
       // called to close alert pop up upon export button hit by user
       closeExportInfo() {
+        dispatchLogEvent("closeExportInfo", null);
         this.setState({
           showAlert: false});
       }
