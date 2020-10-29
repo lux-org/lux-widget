@@ -16,7 +16,7 @@ class LuxWidget(DOMWidget):
     current_vis = Dict({}).tag(sync=True)
     recommendations = List([]).tag(sync=True)
     data = List([]).tag(sync=True)
-    _exportedVisIdxs = Dict({}).tag(sync=True)
+    _selectedVisIdxs = Dict({}).tag(sync=True)
     deletedIndices = Dict({}).tag(sync=True)
     intent = Unicode("").tag(sync=True)
     selectedIntentIndex = Dict({}).tag(sync=True)
