@@ -46,7 +46,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             if (selectedIndex > -1) {
               // dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
               dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,
-                                              "title":this.props.graphSpec[index]['config']['title'],
+                                              "title":this.props.graphSpec[index]['title'],
                                               "mark":this.props.graphSpec[index]['mark'],
                                               "encoding":this.props.graphSpec[index]['encoding']})
               selectedIndexes = selectedIndexes.filter(item => item != index);
@@ -54,7 +54,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
             } else {
               // dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
               dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,
-                                            "title":this.props.graphSpec[index]['config']['title'],
+                                            "title":this.props.graphSpec[index]['title'],
                                             "mark":this.props.graphSpec[index]['mark'],
                                             "encoding":this.props.graphSpec[index]['encoding']})
               if (!(selectedIndexes.length >= props.maxSelectable)) {
