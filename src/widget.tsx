@@ -71,7 +71,7 @@ export class LuxWidgetView extends DOMWidgetView {
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
-      _exportedVisIdxs:object,
+      _selectedVisIdxs:object,
       deletedIndices:object,
       currentVisSelected:number,
       openWarning: boolean
@@ -97,7 +97,7 @@ export class LuxWidgetView extends DOMWidgetView {
           activeTab: props.activeTab,
           showAlert:false,
           selectedRec:{},
-          _exportedVisIdxs:{},
+          _selectedVisIdxs:{},
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning:false
@@ -168,27 +168,27 @@ export class LuxWidgetView extends DOMWidgetView {
       }   
 
       onListChanged(tabIdx,selectedLst) {
-        // Example _exportedVisIdxs : {'Correlation': [0, 2], 'Occurrence': [1]}
-        var _exportedVisIdxs = {}
+        // Example _selectedVisIdxs : {'Correlation': [0, 2], 'Occurrence': [1]}
+        var _selectedVisIdxs = {}
         this.state.selectedRec[tabIdx] = selectedLst // set selected elements as th selectedRec of this tab
 
           for (var tabID of Object.keys(this.state.selectedRec)){
             if (tabID in this.state.recommendations) {
               var actionName =  this.state.recommendations[tabID]["action"]
               if (this.state.selectedRec[tabID].length > 0) {
-                _exportedVisIdxs[actionName] = this.state.selectedRec[tabID]
+                _selectedVisIdxs[actionName] = this.state.selectedRec[tabID]
               }
             } else if (this.state.currentVisSelected == -1) {
-              _exportedVisIdxs["currentVis"] = this.state.currentVis
+              _selectedVisIdxs["currentVis"] = this.state.currentVis
             }
         }
         this.setState({
-          _exportedVisIdxs: _exportedVisIdxs
+          _selectedVisIdxs: _selectedVisIdxs
         });
       }
 
       exportSelection() {
-        dispatchLogEvent("exportBtnClick",this.state._exportedVisIdxs);
+        dispatchLogEvent("exportBtnClick",this.state._selectedVisIdxs);
         this.setState(
           state => ({
             showAlert:true
@@ -201,7 +201,7 @@ export class LuxWidgetView extends DOMWidgetView {
            }));
         },60000);
 
-        view.model.set('_exportedVisIdxs', this.state._exportedVisIdxs);
+        view.model.set('_selectedVisIdxs', this.state._selectedVisIdxs);
         view.model.save();
 
       }
@@ -212,14 +212,14 @@ export class LuxWidgetView extends DOMWidgetView {
        * Re-renders each tab's chart component, with the updated recommendations.
        */
       deleteSelection() {
-        dispatchLogEvent("deleteBtnClick", this.state.deletedIndices);
-        var currDeletions = this.state._exportedVisIdxs;
+        dispatchLogEvent("deleteBtnClick", this.state._selectedVisIdxs);
+        var currDeletions = this.state._selectedVisIdxs;
 
         // Deleting from the frontend's visualization data structure
         for (var recommendation of this.state.recommendations) {
-          if (this.state._exportedVisIdxs[recommendation.action]) {
+          if (this.state._selectedVisIdxs[recommendation.action]) {
             let delCount = 0;
-            for (var index of this.state._exportedVisIdxs[recommendation.action]) {
+            for (var index of this.state._selectedVisIdxs[recommendation.action]) {
               recommendation.vspec.splice(index - delCount, 1);
               delCount++;
             }
@@ -228,7 +228,7 @@ export class LuxWidgetView extends DOMWidgetView {
 
         this.setState({
             selectedRec: {},
-            _exportedVisIdxs: {},
+            _selectedVisIdxs: {},
             deletedIndices: currDeletions
         });
 
@@ -238,7 +238,7 @@ export class LuxWidgetView extends DOMWidgetView {
         }
 
         view.model.set('deletedIndices', currDeletions);
-        view.model.set('_exportedVisIdxs', {});
+        view.model.set('_selectedVisIdxs', {});
         view.model.save();
       }
 
@@ -247,11 +247,11 @@ export class LuxWidgetView extends DOMWidgetView {
        * Shows warning if user tries to select more than one Vis card.
        */
       setIntent() {
-        dispatchLogEvent("intentBtnClick", this.state.selectedIntentIndex);
-        if (Object.keys(this.state._exportedVisIdxs).length == 1) {
-          var action = Object.keys(this.state._exportedVisIdxs)[0];
-            if (this.state._exportedVisIdxs[action].length == 1) {
-              view.model.set('selectedIntentIndex', this.state._exportedVisIdxs);
+        dispatchLogEvent("intentBtnClick", this.state._selectedVisIdxs);
+        if (Object.keys(this.state._selectedVisIdxs).length == 1) {
+          var action = Object.keys(this.state._selectedVisIdxs)[0];
+            if (this.state._selectedVisIdxs[action].length == 1) {
+              view.model.set('selectedIntentIndex', this.state._selectedVisIdxs);
               view.model.save();
               return;
           }
@@ -281,8 +281,8 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       render() {
-        var buttonsEnabled = Object.keys(this.state._exportedVisIdxs).length > 0;
-        var intentEnabled = Object.keys(this.state._exportedVisIdxs).length == 1 && Object.values(this.state._exportedVisIdxs)[0].length == 1;
+        var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
+        var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
         
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
