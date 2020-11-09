@@ -253,7 +253,6 @@ export class LuxWidgetView extends DOMWidgetView {
             if (this.state._selectedVisIdxs[action].length == 1) {
               view.model.set('selectedIntentIndex', this.state._selectedVisIdxs);
               view.model.save();
-              return;
           }
         }
       }

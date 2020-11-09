@@ -12,46 +12,80 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import {
-  Application, IPlugin
-} from '@phosphor/application';
+// import {
+//   Application, IPlugin
+// } from '@Lumino/application';
+
+// import {
+//   Widget
+// } from '@Lumino/widgets';
+
+// import {
+//   IJupyterWidgetRegistry
+//  } from '@jupyter-widgets/base';
+
+// import * as widgetExports from './widget';
+
+// import {
+//   MODULE_NAME, MODULE_VERSION
+// } from './version';
+
+// const EXTENSION_ID = 'lux-widget:plugin';
+
+// /**
+//  * The Lux plugin.
+//  */
+// const plugin: IPlugin<Application<Widget>, void> = {
+//   id: EXTENSION_ID,
+//   requires: [IJupyterWidgetRegistry],
+//   activate: activateWidgetExtension,
+//   autoStart: true,
+// };
+
+// export default plugin;
+
+// /**
+//  * Activate the widget extension.
+//  */
+// function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
+//   registry.registerWidget({
+//     name: MODULE_NAME,
+//     version: MODULE_VERSION,
+//     exports: widgetExports,
+//   });
+// }
 
 import {
-  Widget
-} from '@phosphor/widgets';
-
-import {
-  IJupyterWidgetRegistry
- } from '@jupyter-widgets/base';
-
-import * as widgetExports from './widget';
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from '@jupyterlab/application';
 
 import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-const EXTENSION_ID = 'displayWidget:plugin';
+import {
+  IJupyterWidgetRegistry
+ } from '@jupyter-widgets/base';
+
+ import * as widgetExports from './widget';
 
 /**
- * The example plugin.
+ * Lux Extension
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
-  id: EXTENSION_ID,
+const extension: JupyterFrontEndPlugin<void> = {
+  id: MODULE_NAME,
   requires: [IJupyterWidgetRegistry],
-  activate: activateWidgetExtension,
+  activate: (app: JupyterFrontEnd, widgets: IJupyterWidgetRegistry) => {
+    // app.docRegistry.addWidgetExtension("Notebook", new NBWidgetExtension())
+
+    widgets.registerWidget({
+      name: MODULE_NAME,
+      version: MODULE_VERSION,
+      exports: widgetExports
+    })
+  },
   autoStart: true
 };
 
-export default examplePlugin;
-
-
-/**
- * Activate the widget extension.
- */
-function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
-  registry.registerWidget({
-    name: MODULE_NAME,
-    version: MODULE_VERSION,
-    exports: widgetExports,
-  });
-}
+export default extension;
