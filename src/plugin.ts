@@ -12,9 +12,9 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import { Application, IPlugin } from '@phosphor/application';
+import { Application, IPlugin } from '@Lumino/application';
 
-import { Widget } from '@phosphor/widgets';
+import { Widget } from '@Lumino/widgets';
 
 import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
@@ -32,9 +32,7 @@ const luxPlugin: IPlugin<Application<Widget>, void> = ({
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
   autoStart: true,
-} as unknown) as IPlugin<Application<Widget>, void>;
-// the "as unknown as ..." typecast above is solely to support JupyterLab 1
-// and 2 in the same codebase and should be removed when we migrate to Lumino.
+});
 
 export default luxPlugin;
 
