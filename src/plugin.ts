@@ -22,7 +22,7 @@ import * as widgetExports from './widget';
 
 import { MODULE_NAME, MODULE_VERSION } from './version';
 
-const EXTENSION_ID = 'lux-widget:plugin';
+const EXTENSION_ID = 'luxwidget:plugin';
 
 /**
  * The Lux plugin.

@@ -6,7 +6,6 @@ from ._frontend import module_name, module_version
 import json
 
 
-@widgets.register
 class LuxWidget(widgets.DOMWidget):
     _model_name = Unicode("LuxModel").tag(sync=True)
     _model_module = Unicode(module_name).tag(sync=True)

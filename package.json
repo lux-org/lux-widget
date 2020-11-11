@@ -1,5 +1,5 @@
 {
-  "name": "lux-widget",
+  "name": "luxwidget",
   "version": "0.2.0",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
