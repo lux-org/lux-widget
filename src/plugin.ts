@@ -12,80 +12,42 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-// import {
-//   Application, IPlugin
-// } from '@Lumino/application';
+import { Application, IPlugin } from '@phosphor/application';
 
-// import {
-//   Widget
-// } from '@Lumino/widgets';
+import { Widget } from '@phosphor/widgets';
 
-// import {
-//   IJupyterWidgetRegistry
-//  } from '@jupyter-widgets/base';
+import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
-// import * as widgetExports from './widget';
+import * as widgetExports from './widget';
 
-// import {
-//   MODULE_NAME, MODULE_VERSION
-// } from './version';
+import { MODULE_NAME, MODULE_VERSION } from './version';
 
-// const EXTENSION_ID = 'lux-widget:plugin';
-
-// /**
-//  * The Lux plugin.
-//  */
-// const plugin: IPlugin<Application<Widget>, void> = {
-//   id: EXTENSION_ID,
-//   requires: [IJupyterWidgetRegistry],
-//   activate: activateWidgetExtension,
-//   autoStart: true,
-// };
-
-// export default plugin;
-
-// /**
-//  * Activate the widget extension.
-//  */
-// function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
-//   registry.registerWidget({
-//     name: MODULE_NAME,
-//     version: MODULE_VERSION,
-//     exports: widgetExports,
-//   });
-// }
-
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
-
-import {
-  MODULE_NAME, MODULE_VERSION
-} from './version';
-
-import {
-  IJupyterWidgetRegistry
- } from '@jupyter-widgets/base';
-
- import * as widgetExports from './widget';
+const EXTENSION_ID = 'lux-widget:plugin';
 
 /**
- * Lux Extension
+ * The Lux plugin.
  */
-const extension: JupyterFrontEndPlugin<void> = {
-  id: MODULE_NAME,
+const luxPlugin: IPlugin<Application<Widget>, void> = ({
+  id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
-  activate: (app: JupyterFrontEnd, widgets: IJupyterWidgetRegistry) => {
-    // app.docRegistry.addWidgetExtension("Notebook", new NBWidgetExtension())
+  activate: activateWidgetExtension,
+  autoStart: true,
+} as unknown) as IPlugin<Application<Widget>, void>;
+// the "as unknown as ..." typecast above is solely to support JupyterLab 1
+// and 2 in the same codebase and should be removed when we migrate to Lumino.
 
-    widgets.registerWidget({
-      name: MODULE_NAME,
-      version: MODULE_VERSION,
-      exports: widgetExports
-    })
-  },
-  autoStart: true
-};
+export default luxPlugin;
 
-export default extension;
+/**
+ * Activate the widget extension.
+ */
+function activateWidgetExtension(
+  app: Application<Widget>,
+  registry: IJupyterWidgetRegistry
+): void {
+  registry.registerWidget({
+    name: MODULE_NAME,
+    version: MODULE_VERSION,
+    exports: widgetExports,
+  });
+}

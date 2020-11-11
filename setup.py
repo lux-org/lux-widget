@@ -29,10 +29,12 @@ HERE = path.abspath(path.dirname(__file__))
 with open(path.join(HERE, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-# install_requires = [
-#     "bokeh >=2.0.0dev5",	    "bokeh >=2.0.0", # TODO >=2.0.1
-#     "ipywidgets >=7.5.0",	    "ipywidgets >=7.5.0",
-#
+install_requires = [
+    "jupyter",
+    "notebook >= 4.0.0",
+    "ipywidgets >=7.5.0",
+]
+
 # with open(path.join(HERE, 'requirements.txt')) as fp:
 #     install_requires = fp.read()
 
@@ -108,6 +110,6 @@ setup(
         "Framework :: Jupyter",
     ],
     include_package_data=True,
-    # setup_requires=install_requires,
-    # install_requires=install_requires,
+    setup_requires=install_requires,
+    install_requires=install_requires,
 )
