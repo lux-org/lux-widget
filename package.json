@@ -54,9 +54,6 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3",
-    "@jupyterlab/application": "^2.0.0",
-    "@jupyterlab/launcher": "^2.0.0",
-    "@jupyterlab/ui-components": "^2.0.0",
     "@material-ui/core": "^4.11.0",
     "bootstrap": "^4.4.1",
     "detect-libc": "^1.0.3",

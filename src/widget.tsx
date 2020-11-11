@@ -56,7 +56,7 @@ export class LuxModel extends DOMWidgetModel {
   static model_module_version = MODULE_VERSION;
   static view_name = 'LuxWidgetView';   // Set to null if no view
   static view_module = MODULE_NAME;   // Set to null if no view
-  static view_module_version = MODULE_VERSION; // Set to null if no view
+  static view_module_version = MODULE_VERSION;
   
 }
 
