@@ -76,7 +76,7 @@ data_files_spec = [
 
 
 setup(
-    name="lux-widget",
+    name="luxwidget",
     description="Jupyter Widget for Intelligent Data Discovery",
     long_description=long_description,
     long_description_content_type="text/markdown",
