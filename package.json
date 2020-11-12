@@ -55,8 +55,6 @@
   "dependencies": {
     "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3",
     "@material-ui/core": "^4.11.0",
-    "@lumino/application": "^1.6.0",
-    "@lumino/widgets": "^1.8.0",
     "bootstrap": "^4.4.1",
     "detect-libc": "^1.0.3",
     "jquery": "^3.4.1",
@@ -73,6 +71,8 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.7.4",
+    "@lumino/application": "^1.6.0",
+    "@lumino/widgets": "^1.8.0",
     "@types/expect.js": "^0.3.29",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.6",
