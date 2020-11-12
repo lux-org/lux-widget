@@ -12,9 +12,9 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import { Application, IPlugin } from '@Lumino/application';
+import { Application, IPlugin } from '@lumino/application';
 
-import { Widget } from '@Lumino/widgets';
+import { Widget } from '@lumino/widgets';
 
 import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
