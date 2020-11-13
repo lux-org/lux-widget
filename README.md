@@ -17,37 +17,49 @@
 </p>
 
 Lux is a library designed to make data science easier and facilitate fast experimentation with data.
-You can learn more about Lux by referring to the core [Lux API](https://github.com/lux-org/lux/) in Python. 
-This is the Jupyter widget frontend for Lux, written in Typescript and React. 
+You can learn more about Lux by referring to the core [Lux API](https://github.com/lux-org/lux/) in Python.
+This is the Jupyter widget frontend for Lux, written in Typescript and React.
 
-Here is an example of the Lux widget in action. 
+Here is an example of the Lux widget in action.
 
 <img src="https://github.com/lux-org/lux-resources/blob/master/readme_img/basicDemo.gif?raw=true"
      alt="Basic recommendations in Lux"
      style="width:900px" />
 
-You can find the full demo example in this live [notebook](https://mybinder.org/v2/gh/lux-org/lux-binder/master?urlpath=tree/examples/demo/college_demo.ipynb). 
-
+You can find the full demo example in this live [notebook](https://mybinder.org/v2/gh/lux-org/lux-binder/master?urlpath=tree/examples/demo/college_demo.ipynb).
 
 # Installation
 
-To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed. 
-The Lux Jupyter widget can be installed through PyPI: 
+To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed.
+The Lux Jupyter widget can be installed through PyPI:
 
 ```bash
     pip install lux-widget
 ```
 
-To install and activate the Jupyter notebook extension: 
+To install and activate the Jupyter notebook extension:
 
 ```bash
     jupyter nbextension install --py luxwidget
     jupyter nbextension enable --py luxwidget
 ```
 
+To install and active the JupyterLab extension:
+
+```bash
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager
+    jupyter labextension install luxwidget
+```
+
+To install a specific version:
+
+```bash
+    jupyter labextension install luxwidget@x.y.z
+```
+
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
 If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
-
 # Documentation and Support
+
 For detailed reference, please refer to the [documentation page](https://lux-api.readthedocs.io/en/latest/). Please report any bugs, issues, or requests through [Github Issues](https://github.com/lux-org/lux/issues) or post on the [#help](https://lux-project.slack.com/archives/C0174H16CK0) channel in the <a href="http://lux-project.slack.com/">Lux Slack org</a>.

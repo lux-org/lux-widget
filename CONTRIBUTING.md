@@ -8,7 +8,7 @@ To setup Lux Widget manually for development purposes, you should [fork](https:/
 git clone https://github.com/USERNAME/lux-widget.git
 ```
 
-To build the widget locally, you need to install webpack:  
+To build the widget locally, you need to install webpack:
 
 ```bash
     npm install --save-dev webpack webpack-cli
@@ -18,20 +18,35 @@ You can install lux-widget by building from the source code in your fork directl
 
 ```bash
 cd lux-widget/
-npm install 
+npm install
 sh install.sh
 ```
-The `install.sh` transpiles the typescript files to javascript source, then packs everything into an index.js for the Jupyter Widget. Then we install the jupyter extension. 
+
+The `install.sh` transpiles the typescript files to javascript source, then packs everything into an index.js for the Jupyter Widget. Then we install the jupyter extension.
 
 # Debugging and Testing with Jupyter
 
-When you make a change to the source code in the `lux-widget/` folder, you can rebuild by doing this: 
+When you make a change to the source code in the `lux-widget/` folder, you can rebuild by doing this:
 
 ```bash
 sh install.sh
 ```
 
-In order for the Jupyter extension to get updated, we need to restart the Jupyter notebook server by killing the currently running notebook, then restarting the kernel via: 
+If you are developing with JupyterLab, you can rebuild by running this command in the `lux-widget/` folder:
+
+```bash
+jupyter labextension install
+```
+
+On low memory systems or for faster build times, you can run:
+
+```bash
+jupyter lab build --minimize=False
+```
+
+We recommend working in JupyterLab as the build time is much faster than building for Notebook.
+
+In order for the Jupyter extension to get updated, we need to restart the Jupyter notebook server by killing the currently running notebook, then restarting the kernel via:
 
 ```bash
 jupyter notebook
