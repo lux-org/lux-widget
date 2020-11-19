@@ -26,7 +26,7 @@ The `install.sh` transpiles the typescript files to javascript source, then pack
 
 # Debugging and Testing with Jupyter
 
-When you make a change to the source code in the `lux-widget/` folder, you can rebuild by doing this:
+If you are developing with Jupyter Notebook and make a change to the source code in the `lux-widget/` folder, you can rebuild by doing this:
 
 ```bash
 sh install.sh
