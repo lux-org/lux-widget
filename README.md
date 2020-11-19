@@ -30,14 +30,14 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed. If you are using JupyterLab, make sure you have [NodeJS])(https://nodejs.org/en/) installed as well.
+To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed.
 The Lux Jupyter widget can be installed through PyPI:
 
 ```bash
     pip install lux-widget
 ```
 
-To install and activate the Jupyter notebook extension:
+To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activate the notebook extension:
 
 ```bash
     jupyter nbextension install --py luxwidget
@@ -45,14 +45,15 @@ To install and activate the Jupyter notebook extension:
 ```
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
-If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
-To install and active the JupyterLab extension:
+To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate the lab extension:
 
 ```bash
     jupyter labextension install @jupyter-widgets/jupyterlab-manager
     jupyter lab build
 ```
+
+If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
 # Documentation and Support
 
