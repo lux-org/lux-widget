@@ -1,14 +1,14 @@
-Lux is a project undergoing active development. If you are interested in contributing to Lux, the open tasks on [GitHub issues](https://github.com/lux-org/lux-widget/issues) (esp. issues labelled with the tag [`easy`](https://github.com/lux-org/lux-widget/labels/easy)) are good places for newcomers to contribute. This guide contains information on the workflow for contributing to the Lux Widget codebase. For any additional questions and issues, please post on the [Slack channel](http://lux-project.slack.com/).
+Lux is a project undergoing active development. If you are interested in contributing to Lux, the open tasks on [GitHub issues](https://github.com/lux-org/lux-widget/issues) (esp. issues labelled with the tag [`easy`](https://github.com/lux-org/lux-widget/labels/easy)) are good places for newcomers to contribute. This guide contains information on the workflow for contributing to the Lux Widget codebase. For any additional questions and issues, please post on the [Slack channel](https://join.slack.com/t/lux-project/shared_invite/zt-iwg84wfb-fBPaGTBBZfkb9arziy3W~g).
 
 # Setting up Build and Installation Process
 
-To setup Lux Widget manually for development purposes, you should [fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the Github repo and clone the forked version.
+To setup Lux widget manually for development purposes, you should [fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the Github repo and clone the forked version.
 
 ```bash
 git clone https://github.com/USERNAME/lux-widget.git
 ```
 
-To build the widget locally, you need to install webpack:
+To build the widget locally, you need to install npm and webpack:
 
 ```bash
     npm install --save-dev webpack webpack-cli
@@ -22,7 +22,7 @@ npm install
 sh install.sh
 ```
 
-The `install.sh` transpiles the typescript files to javascript source, then packs everything into an index.js for the Jupyter Widget. Then we install the jupyter extension.
+The `install.sh` transpiles the typescript files to javascript source, then packs everything into an `index.js` for the Jupyter Widget. Then we install the jupyter extension.
 
 # Debugging and Testing with Jupyter
 
@@ -52,8 +52,4 @@ jupyter lab build --minimize=False
 
 We recommend working in JupyterLab as the build time is much faster than building for Notebook.
 
-In order for the Jupyter extension to get updated, we need to restart the Jupyter notebook server by killing the currently running notebook, then restarting the kernel via:
-
-```bash
-jupyter notebook
-```
+In order for the Jupyter extension to get updated, we need to restart the Jupyter notebook server by killing the currently running notebook, then restarting the kernel via `jupyter notebook` or `jupyter lab`.
