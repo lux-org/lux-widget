@@ -38,7 +38,7 @@ If you are developing with JupyterLab, first make sure your JupyterLab is up to 
 sh install_lab.sh
 ```
 
-Uou can rebuild by running this command in the `lux-widget/` folder:
+You can rebuild by running this command in the `lux-widget/` folder:
 
 ```bash
 jupyter labextension install

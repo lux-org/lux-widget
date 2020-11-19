@@ -48,13 +48,7 @@ To install and active the JupyterLab extension:
 
 ```bash
     jupyter labextension install @jupyter-widgets/jupyterlab-manager
-    jupyter labextension install luxwidget
-```
-
-To install a specific version:
-
-```bash
-    jupyter labextension install luxwidget@x.y.z
+    jupyter lab build
 ```
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
