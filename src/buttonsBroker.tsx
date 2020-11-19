@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ButtonProps } from './interfaces/buttonProps';
-import {Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 class ButtonsBroker extends Component<ButtonProps> {
     constructor(props:any) {

@@ -32,7 +32,13 @@ When you make a change to the source code in the `lux-widget/` folder, you can r
 sh install.sh
 ```
 
-If you are developing with JupyterLab, you can rebuild by running this command in the `lux-widget/` folder:
+If you are developing with JupyterLab, first make sure your JupyterLab is up to date using:
+
+```bash
+sh install_lab.sh
+```
+
+Uou can rebuild by running this command in the `lux-widget/` folder:
 
 ```bash
 jupyter labextension install

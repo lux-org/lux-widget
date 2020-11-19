@@ -30,7 +30,7 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed.
+To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed. If you are using JupyterLab, make sure you have [NodeJS])(https://nodejs.org/en/) installed as well.
 The Lux Jupyter widget can be installed through PyPI:
 
 ```bash
