@@ -74,7 +74,6 @@ cmdclass["jsdeps"] = combine_commands(
 )
 
 
-
 setup(
     name="luxwidget",
     description="Jupyter Widget for Intelligent Data Discovery",
@@ -97,7 +96,6 @@ setup(
         "Data Science",
         "Data Analysis",
         "IPython",
-<<<<<<< HEAD
     ],
     classifiers=[
         "Development Status :: 1 - Planning",
@@ -110,20 +108,6 @@ setup(
         "Programming Language :: Python :: 3",
         "Framework :: Jupyter",
     ],
-=======
-    ],
-    classifiers=[
-        "Development Status :: 1 - Planning",
-        "Intended Audience :: Developers",
-        "Intended Audience :: Science/Research",
-        "Intended Audience :: Other Audience",
-        "Topic :: Scientific/Engineering :: Information Analysis",
-        "Topic :: Scientific/Engineering :: Visualization",
-        "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3",
-        "Framework :: Jupyter",
-    ],
->>>>>>> master
     include_package_data=True,
     setup_requires=install_requires,
     install_requires=install_requires,
