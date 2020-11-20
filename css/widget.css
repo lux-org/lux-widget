@@ -1,15 +1,29 @@
-#widgetContainer{
+.jp-OutputArea-output {
+  height: auto;
+  overflow: auto;
+  user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  width: 90%;
+  padding-bottom: 4px;
+}
+
+#widgetContainer {
   /* height: 315px; */
-  width:100%;
-  display:inline-flex;
+  width: 100%;
+  height: 97%;
+  display: inline-flex;
 }
 
 #oneViewWidgetContainer {
-  height:200px;
-  width:100%;
-  display:inline-flex;
+  height: 200px;
+  width: 100%;
+  display: inline-flex;
 }
-input[type=text], select {
+
+input[type="text"],
+select {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -18,10 +32,10 @@ input[type=text], select {
   border-radius: 4px;
   box-sizing: border-box;
 }
-#mult-graph-container{
+#mult-graph-container {
   display: inline-flex;
 }
-.recommendationStaticContentOuter{
+.recommendationStaticContentOuter {
   scroll-snap-align: start;
   /* border: 0.5px solid #bcbdbd; */
   overflow-x: auto;
@@ -35,7 +49,7 @@ input[type=text], select {
   width: 100%;
   position: relative;
 }
-.recommendationContentOuter{
+.recommendationContentOuter {
   /* overflow: scroll; */
   /* Prevents unneccesary x-scroll for specified facet */
   /* width:  100%; */
@@ -58,11 +72,11 @@ input[type=text], select {
   box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.5);
   cursor: pointer;
 }   */
-.vega-embed:checked{
+.vega-embed:checked {
   border: solid 1px;
   border-color: blue;
 }
-.recommendationContentInner{
+.recommendationContentInner {
   /*width: auto;
   max-width: 150%;*/
   /*display: inline-block;*/
@@ -80,51 +94,51 @@ input[type=text], select {
   /* height: 100px; */
 }
 
-.toolDiv{
+.toolDiv {
   position: relative;
   top: -20px;
   left: -5px;
 }
 .fa {
-  color:gray;
+  color: gray;
 }
-.fa:hover{
-  color:black;
+.fa:hover {
+  color: black;
 }
-.graph-container{
+.graph-container {
   height: 250px;
   max-height: 270px;
   margin: 10px 0px 5px 5px;
   padding: 0px 0px 0px 0px;
 }
-#mainVizTitle{
+#mainVizTitle {
   font-size: 20px;
   display: inline-block;
   left: 10%;
   top: 0px;
   position: absolute;
 }
-#mainVizContainer{
+#mainVizContainer {
   padding: 10px 0px 0px 0px;
   border: 0.5px solid #bcbdbd;
   overflow-y: auto;
 }
 
-#mainVizInnerContainer{
+#mainVizInnerContainer {
   margin-top: 50px;
 }
 
-#placeHolderVizContainer{
+#placeHolderVizContainer {
   min-height: 100%;
   min-width: 1px;
 }
-#tabBanner{
+#tabBanner {
   border: 0.5px solid #bcbdbd;
   width: auto;
   overflow: hidden;
   flex: 1;
 }
-#exportBtn{
+#exportBtn {
   position: absolute;
   /* bottom: 90%; */
   /* left: 97%; */
@@ -134,7 +148,7 @@ input[type=text], select {
   padding: 5px;
 }
 
-#deleteBtn{
+#deleteBtn {
   position: absolute;
   top: 5px;
   right: 33px;
@@ -142,7 +156,7 @@ input[type=text], select {
   padding: 5px;
 }
 
-#intentBtn{
+#intentBtn {
   position: absolute;
   top: 5px;
   right: 59px;
@@ -150,7 +164,7 @@ input[type=text], select {
   padding: 5px;
 }
 
-#alertBox{
+#alertBox {
   position: absolute;
   left: 23%;
   width: 54%;
@@ -158,6 +172,56 @@ input[type=text], select {
   padding: 5px 30px 5px 10px;
 }
 
+/* 
+  JupyterLab does support bootstrap, so need to add bootstrap css
+  https://gist.github.com/EvanHerman/315952ebf371cb83ee9db6c54499933d
+*/
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-dismissable .close,
+.alert-dismissible .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
+
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: 35px;
+}
+
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.close {
+  float: right;
+  font-size: 19.5px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: 0.2;
+}
+
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
 
 /* canvas{
   width: 229px;
@@ -165,7 +229,7 @@ input[type=text], select {
 } */
 /* Override .fade default to show tab*/
 .fade {
-  opacity:1;
+  opacity: 1;
 }
 /* Copied from bootstrap.css */
 .nav {
@@ -183,7 +247,8 @@ input[type=text], select {
   padding: 0.5rem 1rem;
 }
 
-.nav-link:hover, .nav-link:focus {
+.nav-link:hover,
+.nav-link:focus {
   text-decoration: none;
 }
 
@@ -211,7 +276,8 @@ input[type=text], select {
   border-top-right-radius: 0.25rem;
 }
 
-.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
   border-color: #e9ecef #e9ecef #dee2e6;
 }
 
@@ -295,7 +361,7 @@ input[type=text], select {
 }
 .card .selectable .check:before {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  content: '';
+  content: "";
   border: 20px solid;
   border-color: transparent;
   position: absolute;
@@ -322,7 +388,8 @@ input[type=text], select {
 .content {
   padding: 24px;
 }
-.content .title, .content .description {
+.content .title,
+.content .description {
   margin: 0;
   padding: 4px;
 }
@@ -351,7 +418,7 @@ button.card {
 button.card:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-.title-description{
+.title-description {
   line-height: 2;
   font-weight: 500;
   margin-left: 15px;
@@ -376,7 +443,7 @@ button.card:focus {
 }
 #scroll-indicator {
   margin-right: 10px;
-  margin-top:  5px;
+  margin-top: 5px;
   text-align: right;
   color: rgb(80, 80, 80);
   font-weight: 700;
@@ -400,23 +467,23 @@ button.card:focus {
   border-radius: 5px;
 } */
 
-#first-arrow{
+#first-arrow {
   margin-left: 25px;
   opacity: 50%;
 }
 
-#second-arrow{
+#second-arrow {
   margin-left: -4px;
 }
 
-.highlight-intent{
+.highlight-intent {
   font-weight: 500;
   background: aliceblue;
   display: inline;
   /* display: inline-table;
   text-align: left; */
 }
-.highlight-descriptor{
+.highlight-descriptor {
   font-weight: 500;
   background: #fffee1;
   display: inline;
@@ -426,10 +493,10 @@ button.card:focus {
 #intent_str {
   margin-top: 5px;
   font-weight: 500;
-  max-width:100px
+  max-width: 100px;
 }
 
-#warnBtn{
+#warnBtn {
   color: #ffbc00;
   position: absolute;
   top: 5px;
@@ -437,10 +504,10 @@ button.card:focus {
   font-size: 20px;
   padding: 5px;
 }
-#warnBtn:hover{
-  color:black;
+#warnBtn:hover {
+  color: black;
 }
-.warnMsgText{
+.warnMsgText {
   color: rgb(80, 80, 80);
   margin-top: 5px;
   margin-left: 5px;
