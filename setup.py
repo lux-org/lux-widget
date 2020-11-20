@@ -64,7 +64,6 @@ data_files_spec = [
     ("etc/jupyter/nbconfig/notebook.d", HERE, "luxwidget.json"),
 ]
 
-
 cmdclass = create_cmdclass(
     "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
 )
@@ -73,6 +72,7 @@ cmdclass["jsdeps"] = combine_commands(
     install_npm(HERE, build_cmd="build:all"),
     ensure_targets(jstargets),
 )
+
 
 
 setup(
@@ -97,6 +97,7 @@ setup(
         "Data Science",
         "Data Analysis",
         "IPython",
+<<<<<<< HEAD
     ],
     classifiers=[
         "Development Status :: 1 - Planning",
@@ -109,6 +110,20 @@ setup(
         "Programming Language :: Python :: 3",
         "Framework :: Jupyter",
     ],
+=======
+    ],
+    classifiers=[
+        "Development Status :: 1 - Planning",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Other Audience",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+        "Topic :: Scientific/Engineering :: Visualization",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3",
+        "Framework :: Jupyter",
+    ],
+>>>>>>> master
     include_package_data=True,
     setup_requires=install_requires,
     install_requires=install_requires,
