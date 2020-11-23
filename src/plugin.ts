@@ -12,43 +12,37 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import {
-  Application, IPlugin
-} from '@phosphor/application';
+import { Application, IPlugin } from '@lumino/application';
 
-import {
-  Widget
-} from '@phosphor/widgets';
+import { Widget } from '@lumino/widgets';
 
-import {
-  IJupyterWidgetRegistry
- } from '@jupyter-widgets/base';
+import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
 import * as widgetExports from './widget';
 
-import {
-  MODULE_NAME, MODULE_VERSION
-} from './version';
+import { MODULE_NAME, MODULE_VERSION } from './version';
 
-const EXTENSION_ID = 'displayWidget:plugin';
+const EXTENSION_ID = 'luxwidget:plugin';
 
 /**
- * The example plugin.
+ * The Lux plugin.
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
+const luxPlugin: IPlugin<Application<Widget>, void> = ({
   id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
-  autoStart: true
-};
+  autoStart: true,
+} as unknown) as IPlugin<Application<Widget>, void>;
 
-export default examplePlugin;
-
+export default luxPlugin;
 
 /**
  * Activate the widget extension.
  */
-function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
+function activateWidgetExtension(
+  app: Application<Widget>,
+  registry: IJupyterWidgetRegistry
+): void {
   registry.registerWidget({
     name: MODULE_NAME,
     version: MODULE_VERSION,
