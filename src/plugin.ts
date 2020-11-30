@@ -30,7 +30,7 @@ import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-const EXTENSION_ID = 'displayWidget:plugin';
+const EXTENSION_ID = 'luxwidget:plugin';
 
 /**
  * The Lux plugin.
