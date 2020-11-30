@@ -14,11 +14,11 @@
 
 import {
   Application, IPlugin
-} from '@phosphor/application';
+} from '@lumino/application';
 
 import {
   Widget
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 import {
   IJupyterWidgetRegistry
@@ -33,16 +33,16 @@ import {
 const EXTENSION_ID = 'displayWidget:plugin';
 
 /**
- * The example plugin.
+ * The Lux plugin.
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
+const luxPlugin: IPlugin<Application<Widget>, void> = ({
   id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
   autoStart: true
-};
+} as unknown) as IPlugin<Application<Widget>, void>;
 
-export default examplePlugin;
+export default luxPlugin;
 
 
 /**

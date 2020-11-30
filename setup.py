@@ -24,8 +24,12 @@ HERE = path.abspath(path.dirname(__file__))
 with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-with open(path.join(HERE, 'requirements.txt')) as fp:
-    install_requires = fp.read()
+install_requires = [
+    "jupyter",
+    "notebook >= 4.0.0",
+    "ipywidgets >=7.5.0",
+]
+
 # The name of the project
 name = 'luxwidget'
 

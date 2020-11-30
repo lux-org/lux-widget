@@ -38,7 +38,7 @@ The Lux Jupyter widget can be installed through PyPI:
     pip install lux-widget
 ```
 
-To install and activate the Jupyter notebook extension: 
+To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activate the notebook extension:
 
 ```bash
     jupyter nbextension install --py luxwidget
@@ -48,6 +48,16 @@ To install and activate the Jupyter notebook extension:
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
 If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
+To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate the lab extension:
+
+```bash
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager
+    jupyter lab build
+```
+
+If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
 # Documentation and Support
 For detailed reference, please refer to the [documentation page](https://lux-api.readthedocs.io/en/latest/). Please report any bugs, issues, or requests through [Github Issues](https://github.com/lux-org/lux/issues) or post on the [#help](https://lux-project.slack.com/archives/C0174H16CK0) channel in the <a href="http://lux-project.slack.com/">Lux Slack org</a>.
+
+Lux has only been tested with Jupyter notebook and Chrome - there have been issues with other browsers and we advise using Chrome.
