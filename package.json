@@ -1,5 +1,6 @@
 {
-  "name": "lux-widget",
+  "name": "luxwidget",
+  "version": "0.1.1",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
     "jupyter",
@@ -52,16 +53,16 @@
     "watch:nbextension": "webpack --watch"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.1.10 || ^2",
+    "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3",
     "@material-ui/core": "^4.11.0",
     "bootstrap": "^4.4.1",
     "detect-libc": "^1.0.3",
     "needle": "^2.4.0",
     "nopt": "^4.0.1",
     "rc": "^1.2.8",
-    "react": "^16.12.0",
+    "react": "^16.5.0",
     "react-bootstrap": "^1.0.0-beta.16",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.9.0",
     "react-vega": "7.1.1",
     "vega": "^5.9.0",
     "vega-embed": "^6.2.1",
