@@ -1,3 +1,14 @@
+.jp-OutputArea-output {
+  height: auto;
+  overflow: auto;
+  user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  width: 90%;
+  padding-bottom: 4px;
+}
+
 #widgetContainer{
   /* height: 315px; */
   width:100%;
@@ -158,6 +169,56 @@ input[type=text], select {
   padding: 5px 30px 5px 10px;
 }
 
+/* 
+  JupyterLab does support bootstrap, so need to add bootstrap css
+  https://gist.github.com/EvanHerman/315952ebf371cb83ee9db6c54499933d
+*/
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-dismissable .close,
+.alert-dismissible .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
+
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: 35px;
+}
+
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.close {
+  float: right;
+  font-size: 19.5px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: 0.2;
+}
+
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
 
 /* canvas{
   width: 229px;

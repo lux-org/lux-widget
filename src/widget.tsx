@@ -22,6 +22,7 @@ import {
 
 import '../css/widget.css'
 
+import $ =  require("jquery");
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
@@ -41,7 +42,7 @@ export class LuxModel extends DOMWidgetModel {
       _model_module_version: LuxModel.model_module_version,
       _view_name: LuxModel.view_name,
       _view_module: LuxModel.view_module,
-      value : 'Hello World'
+      _view_module_version : LuxModel.model_module_version
     };
   }
 
@@ -55,7 +56,7 @@ export class LuxModel extends DOMWidgetModel {
   static model_module_version = MODULE_VERSION;
   static view_name = 'LuxWidgetView';   // Set to null if no view
   static view_module = MODULE_NAME;   // Set to null if no view
-  
+  static view_module_version = MODULE_VERSION;
 }
 
 export class LuxWidgetView extends DOMWidgetView {
