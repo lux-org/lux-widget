@@ -53,7 +53,6 @@ To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate 
 ```bash
     jupyter labextension install @jupyter-widgets/jupyterlab-manager
     jupyter labextension install luxwidget
-
 ```
 
 If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
