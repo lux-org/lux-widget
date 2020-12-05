@@ -11,7 +11,7 @@ git clone https://github.com/USERNAME/lux-widget.git
 To build the widget locally, you need to install npm and webpack:  
 
 ```bash
-    npm install --save-dev webpack webpack-cli
+npm install --save-dev webpack webpack-cli
 ```
 
 You can install lux-widget by building from the source code in your fork directly:
