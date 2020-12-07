@@ -22,7 +22,6 @@ import {
 
 import '../css/widget.css'
 
-import $ =  require("jquery");
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
@@ -336,17 +335,5 @@ export class LuxWidgetView extends DOMWidgetView {
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
     dispatchLogEvent("initWidget","")
-    $(".widget-button").on('click',function(event){
-      var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
-      var toLux = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector(".dataframe")!=null
-      var viewType;
-      if (toLux){
-        viewType = "lux"
-      }else if (toPandas){
-        viewType = "pandas"
-      }
-      dispatchLogEvent("toggleBtnClick",viewType)
-      event.stopImmediatePropagation()
-    })
   }
 }
