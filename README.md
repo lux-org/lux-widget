@@ -31,11 +31,10 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed. 
-The Lux Jupyter widget can be installed through PyPI: 
+Lux can be installed through PyPI: 
 
 ```bash
-    pip install lux-widget
+    pip install lux-api
 ```
 
 To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activate the notebook extension:
