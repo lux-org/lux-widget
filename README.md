@@ -1,9 +1,7 @@
-<p align="center"><a href="#"><img width=77% alt="" src="https://github.com/lux-org/lux-resources/blob/master/readme_img/logo.png?raw=true"></a></p>
+<p align="center"><a href="#"><img width=77% alt="" src="https://github.com/lux-org/lux-resources/blob/master/logo/logo.png?raw=true"></a></p>
 
-<!-- <p align="center">
-    <a href="https://badge.fury.io/js/lux-widget"><img src="https://badge.fury.io/js/lux-widget.svg" alt="npm version" height="18" align="center"></a>
-</p> -->
 <p align="center">
+    <a href="https://badge.fury.io/js/luxwidget"><img src="https://badge.fury.io/js/luxwidget.svg" alt="npm version" height="18" align="center"></a>
     <a href="https://badge.fury.io/py/lux-widget"><img src="https://badge.fury.io/py/lux-widget.svg" alt="PyPI version" height="18" align="center"></a>
     <a href='https://lux-api.readthedocs.io/en/latest/?badge=latest'>
         <img src='https://readthedocs.org/projects/lux-api/badge/?version=latest' alt='Documentation Status'  align="center"/>
