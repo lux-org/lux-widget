@@ -35,7 +35,9 @@ Lux can be installed through PyPI:
     pip install lux-api
 ```
 
-To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activate the notebook extension:
+## Setup in Jupyter Notebook, VSCode
+
+To use Lux in [Jupyter notebook](https://github.com/jupyter/notebook) or [VSCode](https://code.visualstudio.com/docs/python/jupyter-support), activate the notebook extension:
 
 ```bash
     jupyter nbextension install --py luxwidget
@@ -43,7 +45,8 @@ To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activat
 ```
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
-If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
+
+## Setup in Jupyter Lab
 
 To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate the lab extension:
 
