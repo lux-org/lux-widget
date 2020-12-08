@@ -6,7 +6,7 @@
     <a href='https://lux-api.readthedocs.io/en/latest/?badge=latest'>
         <img src='https://readthedocs.org/projects/lux-api/badge/?version=latest' alt='Documentation Status'  align="center"/>
     </a>
-    <a href='http://lux-project.slack.com/'>
+    <a href='https://join.slack.com/t/lux-project/shared_invite/zt-iwg84wfb-fBPaGTBBZfkb9arziy3W~g'>
         <img src='https://img.shields.io/static/v1?label=chat&logo=slack&message=Slack&color=brightgreen' alt='Slack'  align="center"/>
     </a>
     <a href='https://mybinder.org/v2/gh/lux-org/lux-binder/master'>

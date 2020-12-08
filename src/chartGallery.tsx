@@ -80,7 +80,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     }
     
     render() {
-        console.log('chart render');
         return (
           <div className="chartGalleryTabContent">
             <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
@@ -92,7 +91,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     <SelectableCard 
                       key={idx} 
                       selected={true} 
-                      onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
+                      onClick={(e) => {this.onItemSelected(idx);}}>
                       <VegaLite
                         spec={item}  
                         padding={{left: 10, top: 5, right: 5, bottom: 5}}
@@ -102,7 +101,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     <SelectableCard 
                         key={idx} 
                         selected={false} 
-                        onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
+                        onClick={(e) => {this.onItemSelected(idx);}}>
                         <VegaLite
                           spec={item}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
