@@ -72,7 +72,7 @@ data_files_spec = [
 
 
 setup(
-    name            = 'luxwidget',
+    name            = 'lux-widget',
     description     = 'Jupyter Widget for Intelligent Data Discovery',
     long_description= long_description, 
     long_description_content_type='text/markdown', 
@@ -82,7 +82,7 @@ setup(
     packages        = find_packages(),
     author          = 'Doris Jung-Lin Lee',
     author_email    = 'dorisjunglinlee@gmail.com',
-    url             = 'https://github.com/lux-org/luxwidget',
+    url             = 'https://github.com/lux-org/lux-widget',
     license         = 'Apache-2.0 License',
     platforms       = "Linux, Mac OS X, Windows",
     keywords        = ['Jupyter', 'Widgets', 'Visualization','Analytics','Data Science','Data Analysis','IPython'],
