@@ -48,13 +48,19 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
         }
     }
     render() {
+        const vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
+        const png_string = JSON.stringify(this.props.currentVisSpec['config']);
+        const task = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
         if (!_.isEmpty(this.props.currentVisSpec)){
             if (this.props.numRecommendations == 0) {
                 return (
                     <div className="vizContainer" style={{width:'320px'}}>
+                        {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
+                        <img src={task}></img> :
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
-                                actions={false}/>
+                            actions={false}/>
+                        }
                     </div>
                 );
             } else {
@@ -67,7 +73,6 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
-
                 return (
                     <div id="mainVizContainer">
                             <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
@@ -81,10 +86,13 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
+                                        {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
+                                        <img src={task}></img> :
                                         <VegaLite spec={this.props.currentVisSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
                                                 width={185} height={160} 
                                                 actions={false}/>
+                                        }
                                     </SelectableCard>
                                 </div>
                             </div>

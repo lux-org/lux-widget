@@ -92,20 +92,26 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                       key={idx} 
                       selected={true} 
                       onClick={(e) => {this.onItemSelected(idx);}}>
+                      { JSON.stringify(item['vislib']).substring(1, JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
+                      <img src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1, JSON.stringify(item['config']).length - 1) + "\ "}></img> :
                       <VegaLite
                         spec={item}  
                         padding={{left: 10, top: 5, right: 5, bottom: 5}}
                         actions={false}/>
+                      }
                     </SelectableCard>
                   :
                     <SelectableCard 
                         key={idx} 
                         selected={false} 
                         onClick={(e) => {this.onItemSelected(idx);}}>
-                        <VegaLite
+                        { JSON.stringify(item['vislib']).substring(1,JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
+                      <img src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1,JSON.stringify(item['config']).length - 1) + "\ "}></img> :
+                      <VegaLite
                           spec={item}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
                           actions={false}/>
+                        }
                     </SelectableCard>
                   }
               </div>  
