@@ -50,13 +50,13 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
     render() {
         const vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
         const png_string = JSON.stringify(this.props.currentVisSpec['config']);
-        const task = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
+        const img_str = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
         if (!_.isEmpty(this.props.currentVisSpec)){
             if (this.props.numRecommendations == 0) {
                 return (
                     <div className="vizContainer" style={{width:'320px'}}>
                         {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
-                        <img src={task}></img> :
+                        <img id="cur-img" src={img_str}></img> :
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
                             actions={false}/>
@@ -87,7 +87,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
                                         {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
-                                        <img src={task}></img> :
+                                        <img id="cur-img" src={img_str}></img> :
                                         <VegaLite spec={this.props.currentVisSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
                                                 width={185} height={160} 
