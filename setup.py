@@ -34,7 +34,7 @@ install_requires = [
 name = 'luxwidget'
 
 # Ensure a valid python version
-ensure_python('>=3.4')
+ensure_python('>=3.7')
 
 # Get our version
 version = get_version(pjoin(name, '_version.py'))
@@ -55,13 +55,11 @@ package_data_spec = {
     ]
 }
 
-data_files_spec = [
-    ('share/jupyter/nbextensions/luxwidget',
-        nb_path, '*.js*'),
-    ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
-    ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxwidget.json')
-]
-
+# data_files_spec = [
+#     ('share/jupyter/nbextensions/luxwidget', nb_path, '*.js*'),
+#     ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
+#     ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxwidget.json')
+# ]
 
 # cmdclass = create_cmdclass('jsdeps', package_data_spec=package_data_spec,
 #     data_files_spec=data_files_spec)
@@ -71,7 +69,7 @@ data_files_spec = [
 # )
 
 
-setup(
+setup_args = dict(
     name            = 'lux-widget',
     description     = 'Jupyter Widget for Intelligent Data Discovery',
     long_description= long_description, 
@@ -98,6 +96,15 @@ setup(
         'Framework :: Jupyter'
     ],
     include_package_data = True,
+    data_files=[
+        ('share/jupyter/nbextensions/luxwidget', [
+                'luxwidget/nbextension/static/extension.js',
+                'luxwidget/nbextension/static/index.js',
+                'luxwidget/nbextension/static/index.js.map',
+        ]),
+    ],
     setup_requires=install_requires,
     install_requires=install_requires
 )
+
+setup(**setup_args)
