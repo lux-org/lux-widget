@@ -48,10 +48,10 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
         }
     }
     render() {
-        const vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
-        const png_string = JSON.stringify(this.props.currentVisSpec['config']);
-        const img_str = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
         if (!_.isEmpty(this.props.currentVisSpec)){
+            const vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
+            const png_string = JSON.stringify(this.props.currentVisSpec['config']);
+            const img_str = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
             if (this.props.numRecommendations == 0) {
                 return (
                     <div className="vizContainer" style={{width:'320px'}}>
