@@ -55,20 +55,6 @@ package_data_spec = {
     ]
 }
 
-# data_files_spec = [
-#     ('share/jupyter/nbextensions/luxwidget', nb_path, '*.js*'),
-#     ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
-#     ('etc/jupyter/nbconfig/notebook.d' , HERE, 'luxwidget.json')
-# ]
-
-# cmdclass = create_cmdclass('jsdeps', package_data_spec=package_data_spec,
-#     data_files_spec=data_files_spec)
-# cmdclass['jsdeps'] = combine_commands(
-#     install_npm(HERE, build_cmd='build:all'),
-#     ensure_targets(jstargets),
-# )
-
-
 setup_args = dict(
     name            = 'lux-widget',
     description     = 'Jupyter Widget for Intelligent Data Discovery',
@@ -76,7 +62,6 @@ setup_args = dict(
     long_description_content_type='text/markdown', 
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
-    # cmdclass        = cmdclass,
     packages        = find_packages(),
     author          = 'Doris Jung-Lin Lee',
     author_email    = 'dorisjunglinlee@gmail.com',
