@@ -2,26 +2,25 @@ Lux is a project undergoing active development. If you are interested in contrib
 
 # Setting up Build and Installation Process
 
-To setup Lux widget manually for development purposes, you should [fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the Github repo and clone the forked version.
+To setup the Lux widget manually for development purposes, you should [fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the Github repo and clone the forked version.
 
 ```bash
 git clone https://github.com/USERNAME/lux-widget.git
 ```
 
-To build the widget locally, you need to install npm and webpack:
+To build the widget locally, you need to install npm and webpack:  
 
 ```bash
-    npm install --save-dev webpack webpack-cli
+npm install --save-dev webpack webpack-cli
 ```
 
 You can install lux-widget by building from the source code in your fork directly:
 
 ```bash
 cd lux-widget/
-npm install
+npm install 
 sh install.sh
 ```
-
 The `install.sh` transpiles the typescript files to javascript source, then packs everything into an `index.js` for the Jupyter Widget. Then we install the jupyter extension.
 
 # Debugging and Testing with Jupyter

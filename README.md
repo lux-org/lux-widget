@@ -1,14 +1,12 @@
-<p align="center"><a href="#"><img width=77% alt="" src="https://github.com/lux-org/lux-resources/blob/master/readme_img/logo.png?raw=true"></a></p>
+<p align="center"><a href="#"><img width=77% alt="" src="https://github.com/lux-org/lux-resources/blob/master/logo/logo.png?raw=true"></a></p>
 
-<!-- <p align="center">
-    <a href="https://badge.fury.io/js/lux-widget"><img src="https://badge.fury.io/js/lux-widget.svg" alt="npm version" height="18" align="center"></a>
-</p> -->
 <p align="center">
+    <a href="https://badge.fury.io/js/luxwidget"><img src="https://badge.fury.io/js/luxwidget.svg" alt="npm version" height="18" align="center"></a>
     <a href="https://badge.fury.io/py/lux-widget"><img src="https://badge.fury.io/py/lux-widget.svg" alt="PyPI version" height="18" align="center"></a>
     <a href='https://lux-api.readthedocs.io/en/latest/?badge=latest'>
         <img src='https://readthedocs.org/projects/lux-api/badge/?version=latest' alt='Documentation Status'  align="center"/>
     </a>
-    <a href='http://lux-project.slack.com/'>
+    <a href='https://join.slack.com/t/lux-project/shared_invite/zt-iwg84wfb-fBPaGTBBZfkb9arziy3W~g'>
         <img src='https://img.shields.io/static/v1?label=chat&logo=slack&message=Slack&color=brightgreen' alt='Slack'  align="center"/>
     </a>
     <a href='https://mybinder.org/v2/gh/lux-org/lux-binder/master'>
@@ -17,27 +15,29 @@
 </p>
 
 Lux is a library designed to make data science easier and facilitate fast experimentation with data.
-You can learn more about Lux by referring to the core [Lux API](https://github.com/lux-org/lux/) in Python.
-This is the Jupyter widget frontend for Lux, written in Typescript and React.
+You can learn more about Lux by referring to the core [Lux API](https://github.com/lux-org/lux/) in Python. 
+This is the Jupyter widget frontend for Lux, written in Typescript and React. 
 
-Here is an example of the Lux widget in action.
+Here is an example of the Lux widget in action. 
 
 <img src="https://github.com/lux-org/lux-resources/blob/master/readme_img/basicDemo.gif?raw=true"
      alt="Basic recommendations in Lux"
      style="width:900px" />
 
-You can find the full demo example in this live [notebook](https://mybinder.org/v2/gh/lux-org/lux-binder/master?urlpath=tree/examples/demo/college_demo.ipynb).
+You can find the full demo example in this live [notebook](https://mybinder.org/v2/gh/lux-org/lux-binder/master?urlpath=tree/examples/demo/college_demo.ipynb). 
+
 
 # Installation
 
-To use Lux, you should also have the [lux-api](https://github.com/lux-org/lux#quick-installation) also installed.
-The Lux Jupyter widget can be installed through PyPI:
+Lux can be installed through PyPI: 
 
 ```bash
-    pip install lux-widget
+    pip install lux-api
 ```
 
-To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activate the notebook extension:
+## Setup in Jupyter Notebook, VSCode
+
+To use Lux in [Jupyter notebook](https://github.com/jupyter/notebook) or [VSCode](https://code.visualstudio.com/docs/python/jupyter-support), activate the notebook extension:
 
 ```bash
     jupyter nbextension install --py luxwidget
@@ -46,15 +46,18 @@ To use Lux in a [Jupyter notebook](https://github.com/jupyter/notebook), activat
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
 
+## Setup in Jupyter Lab
+
 To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate the lab extension:
 
 ```bash
     jupyter labextension install @jupyter-widgets/jupyterlab-manager
-    jupyter lab build
+    jupyter labextension install luxwidget
 ```
 
 If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
 # Documentation and Support
-
 For detailed reference, please refer to the [documentation page](https://lux-api.readthedocs.io/en/latest/). Please report any bugs, issues, or requests through [Github Issues](https://github.com/lux-org/lux/issues) or post on the [#help](https://lux-project.slack.com/archives/C0174H16CK0) channel in the <a href="http://lux-project.slack.com/">Lux Slack org</a>.
+
+Lux has only been tested with Jupyter notebook and Chrome - there have been issues with other browsers and we advise using Chrome.

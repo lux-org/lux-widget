@@ -20,9 +20,8 @@ import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-import '../css/widget.css';
+import '../css/widget.css'
 
-import $ =  require("jquery");
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
@@ -57,7 +56,6 @@ export class LuxModel extends DOMWidgetModel {
   static view_name = 'LuxWidgetView';   // Set to null if no view
   static view_module = MODULE_NAME;   // Set to null if no view
   static view_module_version = MODULE_VERSION;
-  
 }
 
 export class LuxWidgetView extends DOMWidgetView {
@@ -255,6 +253,7 @@ export class LuxWidgetView extends DOMWidgetView {
             if (this.state._selectedVisIdxs[action].length == 1) {
               view.model.set('selectedIntentIndex', this.state._selectedVisIdxs);
               view.model.save();
+              return;
           }
         }
       }
@@ -332,21 +331,9 @@ export class LuxWidgetView extends DOMWidgetView {
       }
     }
     const $app = document.createElement("div");
-    const App = React.createElement(ReactWidget, view);
+    const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
     dispatchLogEvent("initWidget","")
-    $(".widget-button").on('click',function(event){
-      var toPandas = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector("#widgetContainer") !=null 
-      var toLux = (event.currentTarget.parentNode.parentNode.nextSibling as HTMLElement).querySelector(".dataframe")!=null
-      var viewType;
-      if (toLux){
-        viewType = "lux"
-      }else if (toPandas){
-        viewType = "pandas"
-      }
-      dispatchLogEvent("toggleBtnClick",viewType)
-      event.stopImmediatePropagation()
-    })
   }
 }
