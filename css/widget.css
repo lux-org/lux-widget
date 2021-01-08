@@ -506,3 +506,13 @@ button.card:focus {
   margin-top: 5px;
   margin-left: 5px;
 }
+
+#cur-img {
+  all: revert;
+  height: 218px;
+}
+
+#gal-img {
+  all: revert;
+  height: 212px;
+}
