@@ -15,7 +15,7 @@
     "sourceMap": true,
     "strict": false,
     "target": "es6",
-    "jsx":"react",
+    "jsx":"react"
   },
   "include": [
     "src/**/*.ts",
