@@ -4,3 +4,5 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install git+https://github.com/lux-org/lux-widget
+script:
+  - echo "successful build" 
