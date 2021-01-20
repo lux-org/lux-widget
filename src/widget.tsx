@@ -274,6 +274,7 @@ export class LuxWidgetView extends DOMWidgetView {
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  openInfo={false}
                   /> 
             </Tab>
           )

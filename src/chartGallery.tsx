@@ -17,6 +17,8 @@ import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 import ScrollableContent from './scrollableContent'
 import {dispatchLogEvent} from './utils';
+import InfoBtn from './infoBtn';
+
 interface chartGalleryProps{
     title:string,
     multiple: boolean,
@@ -25,6 +27,7 @@ interface chartGalleryProps{
     graphSpec: object[],
     description: string,
     currentVisShow: boolean,
+    openInfo: boolean
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -35,6 +38,9 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           selected: selected,
         };
         this.state = initialState;
+        // this.setState({openInfo:true});
+        this.openPanel = this.openPanel.bind(this);
+        this.closePanel = this.closePanel.bind(this);
     }
 
     onItemSelected(index) {
@@ -78,11 +84,25 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     removeDeletedCharts() {
       this.setState({selected:[]});
     }
+
+    openPanel(e){
+      dispatchLogEvent("openInfo",this.state.message);
+      console.log("OPEN PANEL RAN");
+      this.setState({openInfo:true});
+      console.log(this.state.openInfo);
+    }
+    closePanel(e){
+      dispatchLogEvent("closeInfo",this.state.message);
+      this.setState({openInfo:false});
+    }
     
     render() {
         return (
           <div className="chartGalleryTabContent">
-            <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
+            <span className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
+            <span className="long-description"> 
+            <InfoBtn message={"TEST"} openPanel={this.openPanel} closePanel={this.closePanel} openInfo={this.state.openInfo} /> 
+            </span> 
             <ScrollableContent galleryItems={this.props.graphSpec.map((item,idx) =>
               <div key={idx.toString()} 
                   className="graph-container"
