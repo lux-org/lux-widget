@@ -49,13 +49,18 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
     }
     render() {
         if (!_.isEmpty(this.props.currentVisSpec)){
-            const vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
-            const png_string = JSON.stringify(this.props.currentVisSpec['config']);
-            const img_str = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
+            var vislib = "vegalite";
+            var img_str = "";
+            if ('vislib' in this.props.currentVisSpec && 'config' in this.props.currentVisSpec) {
+                vislib = JSON.stringify(this.props.currentVisSpec['vislib']);
+                vislib = vislib.substring(1, vislib.length - 1);
+                const png_string = JSON.stringify(this.props.currentVisSpec['config']);
+                img_str = "data:image/png;base64," + png_string.substring(1, png_string.length - 1) + "\ ";
+            }
             if (this.props.numRecommendations == 0) {
                 return (
                     <div className="vizContainer" style={{width:'320px'}}>
-                        {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
+                        {vislib === 'matplotlib' ?                     
                         <img id="cur-img" src={img_str}></img> :
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
@@ -86,7 +91,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
-                                        {vislib.substring(1, vislib.length - 1) === 'matplotlib' ?                     
+                                        {vislib === 'matplotlib' ?                     
                                         <img id="cur-img" src={img_str}></img> :
                                         <VegaLite spec={this.props.currentVisSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
