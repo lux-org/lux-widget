@@ -34,7 +34,7 @@ install_requires = [
 name = 'luxwidget'
 
 # Ensure a valid python version
-ensure_python('>=3.7')
+ensure_python('>=3.6')
 
 # Get our version
 version = get_version(pjoin(name, '_version.py'))
