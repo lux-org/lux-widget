@@ -269,6 +269,7 @@ export class LuxWidgetView extends DOMWidgetView {
                   ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
+                  longDescription={actionResult.longDescription}
                   multiple={true}
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}
