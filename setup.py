@@ -34,7 +34,7 @@ install_requires = [
 name = 'luxwidget'
 
 # Ensure a valid python version
-ensure_python('>=3.7')
+ensure_python('>=3.6')
 
 # Get our version
 version = get_version(pjoin(name, '_version.py'))
@@ -48,40 +48,6 @@ jstargets = [
     pjoin(HERE, 'lib', 'plugin.js'),
 ]
 
-<<<<<<< HEAD
-cmdclass = create_cmdclass(
-    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
-)
-
-cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all"),
-    ensure_targets(jstargets),
-)
-
-
-setup(
-    name="luxwidget",
-    description="Jupyter Widget for Intelligent Data Discovery",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    version=version,
-    scripts=glob(pjoin("scripts", "*")),
-    cmdclass=cmdclass,
-    packages=find_packages(),
-    author="Doris Jung-Lin Lee",
-    author_email="dorisjunglinlee@gmail.com",
-    url="https://github.com/lux-org/luxwidget",
-    license="Apache-2.0 License",
-    platforms="Linux, Mac OS X, Windows",
-    keywords=[
-        "Jupyter",
-        "Widgets",
-        "Visualization",
-        "Analytics",
-        "Data Science",
-        "Data Analysis",
-        "IPython",
-=======
 package_data_spec = {
     name: [
         'nbextension/static/*.*js*',
@@ -113,7 +79,6 @@ setup_args = dict(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
         'Framework :: Jupyter'
->>>>>>> upstream/master
     ],
     include_package_data = True,
     data_files=[
