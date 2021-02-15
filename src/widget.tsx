@@ -263,13 +263,13 @@ export class LuxWidgetView extends DOMWidgetView {
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
             <Tab eventKey={actionResult.action} title={actionResult.action} >
               <ChartGalleryComponent 
-                  // this exists to prevent chart gallergy from refreshing while changing tabs
+                  // this exists to prevent chart gallery from refreshing while changing tabs
                   // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
                   ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
-                  longDescription={actionResult.longDescription}
+                  longDescription={actionResult.long_description}
                   multiple={true}
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}

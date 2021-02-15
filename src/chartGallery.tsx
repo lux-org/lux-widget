@@ -98,10 +98,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     render() {
         return (
           <div className="chartGalleryTabContent">
-            <span className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
-            <span className="long-description"> 
-            <InfoBtn message={this.props.longDescription} openPanel={this.openPanel} closePanel={this.closePanel} openInfo={this.state.openInfo} /> 
-            </span> 
+            <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
             <ScrollableContent galleryItems={this.props.graphSpec.map((item,idx) =>
               <div key={idx.toString()} 
                   className="graph-container"
@@ -134,7 +131,11 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     </SelectableCard>
                   }
               </div>  
-            )} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
+            )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
+            </ScrollableContent>
+            {/* <span className="long-description"> */}
+            <InfoBtn message={this.props.longDescription} openPanel={this.openPanel} closePanel={this.closePanel} openInfo={this.state.openInfo} /> 
+            {/* </span>  */}
           </div>
         );
     }

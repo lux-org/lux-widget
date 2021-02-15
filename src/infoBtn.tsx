@@ -17,7 +17,7 @@ class InfoBtn extends Component<InfoBtnProps> {
         infoMsg = <div className="info-footer" style={{display: (openInfo) ? 'flex' : 'none' }} >
         <p className="infoMsgText" dangerouslySetInnerHTML={{__html: message}}></p> 
         <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>closePanel(e)}
-        style={{position: 'absolute', right: '5px', fontSize: '15px' }}
+        style={{position: 'absolute', right: '15px', fontSize: '15px' }}
         ></i> 
         </div>;
       }

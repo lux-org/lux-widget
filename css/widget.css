@@ -438,10 +438,11 @@ button.card:focus {
 .info-footer {
   padding: 10px;
   border: 0.5px solid #bcbdbd;
-  background-color: lightyellow;
+  background-color: rgb(206, 228, 255);
   display: flex;
   flex-direction: row;
   border-top: 0px;
+  position: relative;
 }
 #scroll-indicator {
   margin-right: 10px;
@@ -514,10 +515,18 @@ button.card:focus {
   margin-top: 5px;
   margin-left: 5px;
 }
+#infoBtn{
+  position: absolute;
+  top: 45px;
+  right: 5px;
+  font-size: 20px;
+  padding: 5px;
+}
 .infoMsgText{
   color: rgb(80, 80, 80);
   margin-top: 5px;
   margin-left: 5px;
+  margin-right: 30px;
 }
 
 #cur-img {
