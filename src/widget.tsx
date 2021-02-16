@@ -107,18 +107,22 @@ export class LuxWidgetView extends DOMWidgetView {
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
-        this.openPanel = this.openPanel.bind(this);
-        this.closePanel = this.closePanel.bind(this);
+        this.toggleWarningPanel = this.toggleWarningPanel.bind(this);
+        this.closeWarningPanel = this.closeWarningPanel.bind(this);
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
       }
 
-      openPanel(e){
-        dispatchLogEvent("openWarning",this.state.message);
+      toggleWarningPanel(e){
+        if (this.state.openWarning){
+          this.closeWarningPanel(e)
+        } else {
+          dispatchLogEvent("openWarning",this.state.message);
         this.setState({openWarning:true});
+        }
       }
-      closePanel(e){
+      closeWarningPanel(e){
         dispatchLogEvent("closeWarning",this.state.message);
         this.setState({openWarning:false});
       }
@@ -327,7 +331,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    <WarningBtn message={this.state.message} openPanel={this.openPanel} closePanel={this.closePanel} openWarning={this.state.openWarning} />
+                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} closeWarningPanel={this.closeWarningPanel} openWarning={this.state.openWarning} />
                   </div>);
         }
       }

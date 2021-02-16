@@ -1,6 +1,6 @@
 export interface InfoBtnProps {
   message: string,
-  openPanel: (e) => void,
-  closePanel: (e) => void,
+  toggleInfoPanel: (e) => void,
+  closeInfoPanel: (e) => void,
   openInfo: boolean
 }
