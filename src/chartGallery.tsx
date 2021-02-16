@@ -133,9 +133,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               </div>  
             )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
             </ScrollableContent>
-            {/* <span className="long-description"> */}
             <InfoBtn message={this.props.longDescription} openPanel={this.openPanel} closePanel={this.closePanel} openInfo={this.state.openInfo} /> 
-            {/* </span>  */}
           </div>
         );
     }
