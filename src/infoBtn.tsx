@@ -12,7 +12,7 @@ class InfoBtn extends Component<InfoBtnProps> {
       let infoMsg;
       if (message!=""){
         infoBtn = <i  id="infoBtn" 
-                        className='fa fa-exclamation-circle'
+                        className='fa fa-info-circle'
                         onClick={(e)=>openPanel(e)}/>;
         infoMsg = <div className="info-footer" style={{display: (openInfo) ? 'flex' : 'none' }} >
         <p className="infoMsgText" dangerouslySetInnerHTML={{__html: message}}></p> 
