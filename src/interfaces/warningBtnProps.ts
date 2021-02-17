@@ -1,6 +1,5 @@
 export interface WarningBtnProps {
     message: string,
-    openPanel: (e) => void,
-    closePanel: (e) => void,
+    toggleWarningPanel: (e) => void,
     openWarning: boolean
 }

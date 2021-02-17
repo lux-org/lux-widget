@@ -67,14 +67,14 @@ export class LuxWidgetView extends DOMWidgetView {
       intent:string,
       selectedIntentIndex: object,
       message:string,
-      tabItems: any,
+      tabItems:any,
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _selectedVisIdxs:object,
       deletedIndices:object,
       currentVisSelected:number,
-      openWarning: boolean
+      openWarning:boolean,
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -88,46 +88,46 @@ export class LuxWidgetView extends DOMWidgetView {
         }
 
         this.state = {
-          currentVis :  props.model.get("current_vis"),
-          recommendations:  props.model.get("recommendations"),
-          intent:props.model.get("intent"),
+          currentVis: props.model.get("current_vis"),
+          recommendations: props.model.get("recommendations"),
+          intent: props.model.get("intent"),
           selectedIntentIndex: {},
-          message:props.model.get("message"),
+          message: props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
-          showAlert:false,
-          selectedRec:{},
-          _selectedVisIdxs:{},
+          showAlert: false,
+          selectedRec: {},
+          _selectedVisIdxs: {},
           deletedIndices: {},
           currentVisSelected: -2,
-          openWarning:false
+          openWarning: false,
         }
 
         // This binding is necessary to make `this` work in the callback
         this.handleCurrentVisSelect = this.handleCurrentVisSelect.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
-        this.openPanel = this.openPanel.bind(this);
-        this.closePanel = this.closePanel.bind(this);
+        this.toggleWarningPanel = this.toggleWarningPanel.bind(this);
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
       }
 
-      openPanel(e){
-        dispatchLogEvent("openWarning",this.state.message);
+      toggleWarningPanel(e){
+        if (this.state.openWarning){
+          dispatchLogEvent("closeWarning",this.state.message);
+          this.setState({openWarning:false});
+        } else {
+          dispatchLogEvent("openWarning",this.state.message);
         this.setState({openWarning:true});
-      }
-      closePanel(e){
-        dispatchLogEvent("closeWarning",this.state.message);
-        this.setState({openWarning:false});
+        }
       }
 
       // called to close alert pop up upon export button hit by user
       closeExportInfo() {
         dispatchLogEvent("closeExportInfo", null);
         this.setState({
-          showAlert: false});
+          showAlert:false});
       }
   
       // called when the variable is changed in the view.model
@@ -263,17 +263,19 @@ export class LuxWidgetView extends DOMWidgetView {
           this.props.model.get("recommendations").map((actionResult,tabIdx) =>
             <Tab eventKey={actionResult.action} title={actionResult.action} >
               <ChartGalleryComponent 
-                  // this exists to prevent chart gallergy from refreshing while changing tabs
+                  // this exists to prevent chart gallery from refreshing while changing tabs
                   // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
                   ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
+                  longDescription={actionResult.long_description}
                   multiple={true}
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  openInfo={false}
                   /> 
             </Tab>
           )
@@ -325,7 +327,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    <WarningBtn message={this.state.message} openPanel={this.openPanel} closePanel={this.closePanel} openWarning={this.state.openWarning} />
+                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
                   </div>);
         }
       }
