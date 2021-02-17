@@ -41,7 +41,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
         this.state = initialState;
 
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
-        this.closeInfoPanel = this.closeInfoPanel.bind(this);
     }
 
     onItemSelected(index) {
@@ -88,15 +87,12 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
 
     toggleInfoPanel(e){
       if (this.state.openInfo) {
-        this.closeInfoPanel(e)
+        dispatchLogEvent("closeInfo",this.state.message);
+        this.setState({openInfo:false});
       } else {
         dispatchLogEvent("openInfo",this.state.message);
         this.setState({openInfo:true});
       }
-    }
-    closeInfoPanel(e){
-      dispatchLogEvent("closeInfo",this.state.message);
-      this.setState({openInfo:false});
     }
     
     render() {
@@ -137,7 +133,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               </div>  
             )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
             </ScrollableContent>
-            <InfoBtn message={this.props.longDescription} toggleInfoPanel={this.toggleInfoPanel} closeInfoPanel={this.closeInfoPanel} openInfo={this.state.openInfo} /> 
+            <InfoBtn message={this.props.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
           </div>
         );
     }

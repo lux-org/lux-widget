@@ -67,14 +67,14 @@ export class LuxWidgetView extends DOMWidgetView {
       intent:string,
       selectedIntentIndex: object,
       message:string,
-      tabItems: any,
+      tabItems:any,
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
       _selectedVisIdxs:object,
       deletedIndices:object,
       currentVisSelected:number,
-      openWarning: boolean
+      openWarning:boolean,
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -88,19 +88,19 @@ export class LuxWidgetView extends DOMWidgetView {
         }
 
         this.state = {
-          currentVis :  props.model.get("current_vis"),
-          recommendations:  props.model.get("recommendations"),
-          intent:props.model.get("intent"),
+          currentVis: props.model.get("current_vis"),
+          recommendations: props.model.get("recommendations"),
+          intent: props.model.get("intent"),
           selectedIntentIndex: {},
-          message:props.model.get("message"),
+          message: props.model.get("message"),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
-          showAlert:false,
-          selectedRec:{},
-          _selectedVisIdxs:{},
+          showAlert: false,
+          selectedRec: {},
+          _selectedVisIdxs: {},
           deletedIndices: {},
           currentVisSelected: -2,
-          openWarning:false
+          openWarning: false,
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -108,7 +108,6 @@ export class LuxWidgetView extends DOMWidgetView {
         this.handleSelect = this.handleSelect.bind(this);
         this.exportSelection = this.exportSelection.bind(this);
         this.toggleWarningPanel = this.toggleWarningPanel.bind(this);
-        this.closeWarningPanel = this.closeWarningPanel.bind(this);
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
@@ -116,22 +115,19 @@ export class LuxWidgetView extends DOMWidgetView {
 
       toggleWarningPanel(e){
         if (this.state.openWarning){
-          this.closeWarningPanel(e)
+          dispatchLogEvent("closeWarning",this.state.message);
+          this.setState({openWarning:false});
         } else {
           dispatchLogEvent("openWarning",this.state.message);
         this.setState({openWarning:true});
         }
-      }
-      closeWarningPanel(e){
-        dispatchLogEvent("closeWarning",this.state.message);
-        this.setState({openWarning:false});
       }
 
       // called to close alert pop up upon export button hit by user
       closeExportInfo() {
         dispatchLogEvent("closeExportInfo", null);
         this.setState({
-          showAlert: false});
+          showAlert:false});
       }
   
       // called when the variable is changed in the view.model
@@ -331,7 +327,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} closeWarningPanel={this.closeWarningPanel} openWarning={this.state.openWarning} />
+                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
                   </div>);
         }
       }

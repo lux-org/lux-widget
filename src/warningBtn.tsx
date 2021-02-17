@@ -7,7 +7,7 @@ class WarningBtn extends Component<WarningBtnProps> {
     }
 
     render() {
-      const{ message, toggleWarningPanel, closeWarningPanel, openWarning } = this.props;
+      const{ message, toggleWarningPanel, openWarning } = this.props;
       let warnBtn;
       let warnMsg;
       if (message!=""){
@@ -16,9 +16,6 @@ class WarningBtn extends Component<WarningBtnProps> {
                         onClick={(e)=>toggleWarningPanel(e)}/>;
         warnMsg = <div className="warning-footer" style={{display: (openWarning) ? 'flex' : 'none' }} >
         <p className="warnMsgText" dangerouslySetInnerHTML={{__html: message}}></p> 
-        <i className="fa fa-window-close" aria-hidden="true" onClick={(e)=>closeWarningPanel(e)}
-        style={{position: 'absolute', right: '15px', fontSize: '15px' }}
-        ></i> 
         </div>;
       }
         return (
