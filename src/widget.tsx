@@ -287,21 +287,8 @@ export class LuxWidgetView extends DOMWidgetView {
         
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                  {/* {attributeShelf}
-                  {filterShelf} */}
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
-                    onChange={this.handleCurrentVisSelect}/>
-                  </div>
-                  <ButtonsBroker buttonsEnabled={buttonsEnabled}
-                                     deleteSelection={this.deleteSelection}
-                                     exportSelection={this.exportSelection}
-                                     setIntent={this.setIntent}
-                                     closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems}
-                                     showAlert={this.state.showAlert}
-                                     intentEnabled={intentEnabled}
-                                     />               
+                  console.log(this.state.message)
+                  <WarningBtn message={this.state.message} openPanel={this.openPanel} closePanel={this.closePanel} openWarning={this.state.openWarning} />                           
                 </div>);
         } else {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>

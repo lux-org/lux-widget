@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { WarningBtnProps } from './interfaces/warningBtnProps';
+import { constants } from 'zlib';
 
 class WarningBtn extends Component<WarningBtnProps> {
     constructor(props:any) {
@@ -10,7 +11,7 @@ class WarningBtn extends Component<WarningBtnProps> {
       const{ message, openPanel, closePanel, openWarning } = this.props;
       let warnBtn;
       let warnMsg;
-      if (message!=""){
+      if (true){
         warnBtn = <i  id="warnBtn" 
                         className='fa fa-exclamation-triangle'
                         onClick={(e)=>openPanel(e)}/>;
