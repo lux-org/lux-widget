@@ -67,7 +67,7 @@ export class LuxWidgetView extends DOMWidgetView {
       intent:string,
       selectedIntentIndex: object,
       message:string,
-      tabItems:any,
+      tabItems:Tab[],
       activeTab:any,
       showAlert:boolean,
       selectedRec:object,
@@ -111,6 +111,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
+        this.updateTabs = this.updateTabs.bind(this);
       }
 
       toggleWarningPanel(e){
@@ -259,33 +260,69 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       generateTabItems() {
-        return (
-          this.props.model.get("recommendations").map((actionResult,tabIdx) =>
-            <Tab eventKey={actionResult.action} title={actionResult.action} >
+        var tabs = [];
+        for (let i = 0; i < this.props.model.get("recommendations").length; i++) {
+          var actionResult = this.props.model.get("recommendations")[i];
+          var disabled = actionResult.vspec.length == 0;
+          tabs.push(
+            <Tab eventKey={actionResult.action} title={actionResult.action} disabled={disabled}>
               <ChartGalleryComponent 
                   // this exists to prevent chart gallery from refreshing while changing tabs
                   // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
-                  ref={this.chartComponents[tabIdx]}
+                  ref={this.chartComponents[i]}
                   title={actionResult.action}
                   description={actionResult.description}
                   longDescription={actionResult.long_description}
                   multiple={true}
                   maxSelectable={10}
-                  onChange={this.onListChanged.bind(this,tabIdx)}
+                  onChange={this.onListChanged.bind(this,i)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
                   openInfo={false}
                   /> 
-            </Tab>
-          )
-        )
+            </Tab>);
+          }
+        return tabs;
+      }
+
+      updateTabs() {
+        var tabs = [];
+        for (var i = 0; i < this.state.tabItems.length; i++) {
+            if (this.state.tabItems[i].props.title === this.props.model.get("loadNewTab")) {
+              var actionResult = this.props.model.get("recommendations")[i];
+              tabs.push(
+                <Tab eventKey={actionResult.action} title={actionResult.action} disabled={false}>
+                  <ChartGalleryComponent 
+                      // this exists to prevent chart gallery from refreshing while changing tabs
+                      // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
+                      key={'no refresh'}
+                      ref={this.chartComponents[i]}
+                      title={actionResult.action}
+                      description={actionResult.description}
+                      longDescription={actionResult.long_description}
+                      multiple={true}
+                      maxSelectable={10}
+                      onChange={this.onListChanged.bind(this,i)}
+                      graphSpec={actionResult.vspec}
+                      currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                      openInfo={false}
+                      /> 
+                </Tab>);
+            } else {
+              tabs.push(this.state.tabItems[i]);
+            }
+        }
+        this.setState({
+          tabItems: tabs
+        })
+        console.log("tab update func called");
       }
 
       render() {
+        view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                   {/* {attributeShelf}
@@ -299,7 +336,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
                                      closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems}
+                                     tabItems={this.state.tabItems.length}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />               
@@ -323,7 +360,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
                                      closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems}
+                                     tabItems={this.state.tabItems.length}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />

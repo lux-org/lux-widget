@@ -15,7 +15,7 @@ class ButtonsBroker extends Component<ButtonProps> {
       let intentBtn;
       let alertBox;
 
-      if (tabItems.length > 0){
+      if (tabItems > 0){
         if (buttonsEnabled) {
           deleteBtn = <i id="deleteBtn"
                          className="fa fa-trash"
