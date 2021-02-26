@@ -300,15 +300,10 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-
-                    {/* <div className="no-recs-footer" style={{display: 'flex'}}> */}
                       <div id="no-recs-footer" style={{display:"flex"}}>
                         <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
                         <div><p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p></div> 
                       </div>
-
-                        {/* <p className="infoMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p> */}
-                    {/* </div> */}
                   </div>);
         } else {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
