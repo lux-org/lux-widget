@@ -35,14 +35,11 @@ install_requires = [
     "ipywidgets >=7.5.0",
 ]
 
-# with open(path.join(HERE, 'requirements.txt')) as fp:
-#     install_requires = fp.read()
-
 # The name of the project
 name = "luxwidget"
 
 # Ensure a valid python version
-ensure_python(">=3.4")
+ensure_python(">=3.6")
 
 # Get our version
 version = get_version(pjoin(name, "_version.py"))
@@ -58,35 +55,17 @@ jstargets = [
 
 package_data_spec = {name: ["nbextension/static/*.*js*", "labextension/*.tgz"]}
 
-data_files_spec = [
-    ("share/jupyter/nbextensions/luxwidget", nb_path, "*.js*"),
-    ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
-    ("etc/jupyter/nbconfig/notebook.d", HERE, "luxwidget.json"),
-]
-
-
-# cmdclass = create_cmdclass(
-#     "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
-# )
-
-# cmdclass["jsdeps"] = combine_commands(
-#     install_npm(HERE, build_cmd="build:all"),
-#     ensure_targets(jstargets),
-# )
-
-
-setup(
-    name="luxwidget",
+setup_args = dict(
+    name="lux-widget",
     description="Jupyter Widget for Intelligent Data Discovery",
     long_description=long_description,
     long_description_content_type="text/markdown",
     version=version,
     scripts=glob(pjoin("scripts", "*")),
-    # cmdclass=cmdclass,
     packages=find_packages(),
     author="Doris Jung-Lin Lee",
     author_email="dorisjunglinlee@gmail.com",
-    url="https://github.com/lux-org/luxwidget",
+    url="https://github.com/lux-org/lux-widget",
     license="Apache-2.0 License",
     platforms="Linux, Mac OS X, Windows",
     keywords=[
@@ -110,6 +89,18 @@ setup(
         "Framework :: Jupyter",
     ],
     include_package_data=True,
+    data_files=[
+        (
+            "share/jupyter/nbextensions/luxwidget",
+            [
+                "luxwidget/nbextension/static/extension.js",
+                "luxwidget/nbextension/static/index.js",
+                "luxwidget/nbextension/static/index.js.map",
+            ],
+        ),
+    ],
     setup_requires=install_requires,
     install_requires=install_requires,
 )
+
+setup(**setup_args)

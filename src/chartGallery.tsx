@@ -17,6 +17,8 @@ import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 import ScrollableContent from './scrollableContent'
 import {dispatchLogEvent} from './utils';
+import InfoBtn from './infoBtn';
+
 interface chartGalleryProps{
     title:string,
     multiple: boolean,
@@ -24,7 +26,9 @@ interface chartGalleryProps{
     onChange: Function,
     graphSpec: object[],
     description: string,
+    longDescription: string,
     currentVisShow: boolean,
+    openInfo: boolean
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -35,6 +39,8 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           selected: selected,
         };
         this.state = initialState;
+
+        this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
     }
 
     onItemSelected(index) {
@@ -78,9 +84,18 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     removeDeletedCharts() {
       this.setState({selected:[]});
     }
+
+    toggleInfoPanel(e){
+      if (this.state.openInfo) {
+        dispatchLogEvent("closeInfo",this.state.message);
+        this.setState({openInfo:false});
+      } else {
+        dispatchLogEvent("openInfo",this.state.message);
+        this.setState({openInfo:true});
+      }
+    }
     
     render() {
-        console.log('chart render');
         return (
           <div className="chartGalleryTabContent">
             <p className="text-description" dangerouslySetInnerHTML={{__html: this.props.description}}/>
@@ -92,25 +107,33 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     <SelectableCard 
                       key={idx} 
                       selected={true} 
-                      onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
+                      onClick={(e) => {this.onItemSelected(idx);}}>
+                      {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1, JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
+                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1, JSON.stringify(item['config']).length - 1) + "\ "}></img> :
                       <VegaLite
                         spec={item}  
                         padding={{left: 10, top: 5, right: 5, bottom: 5}}
                         actions={false}/>
+                      }
                     </SelectableCard>
                   :
                     <SelectableCard 
-                        key={idx} 
+                        key={idx}
                         selected={false} 
-                        onClick={(e) => {this.onItemSelected(idx); console.log(this.state)}}>
-                        <VegaLite
+                        onClick={(e) => {this.onItemSelected(idx);}}>
+                        {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1,JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
+                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1,JSON.stringify(item['config']).length - 1) + "\ "}></img> :
+                      <VegaLite
                           spec={item}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
                           actions={false}/>
+                        }
                     </SelectableCard>
                   }
               </div>  
-            )} title={this.props.title} currentVisShow={this.props.currentVisShow}></ScrollableContent>
+            )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
+            </ScrollableContent>
+            <InfoBtn message={this.props.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
           </div>
         );
     }
