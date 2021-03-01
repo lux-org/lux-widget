@@ -282,6 +282,16 @@ export class LuxWidgetView extends DOMWidgetView {
         )
       }
 
+      generateNoRecsWarning() {
+        if (this.state.message!= "") {
+          return <div id="no-recs-footer" style={{display:"flex"}}>
+            <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
+            <div><p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p></div> 
+          </div>
+        }
+      }
+
+
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
@@ -300,12 +310,9 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                      <div id="no-recs-footer" style={{display:"flex"}}>
-                        <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
-                        <div><p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p></div> 
-                      </div>
+                  {this.generateNoRecsWarning()}
                   </div>);
-        } else {
+        } else if (this.state.recommendations.length > 0) {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
                     {/* {attributeShelf}
                     {filterShelf} */}
