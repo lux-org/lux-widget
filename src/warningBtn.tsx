@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { WarningBtnProps } from './interfaces/warningBtnProps';
-// import { constants } from 'zlib';
 
 class WarningBtn extends Component<WarningBtnProps> {
     constructor(props:any) {
