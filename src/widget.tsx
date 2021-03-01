@@ -286,7 +286,7 @@ export class LuxWidgetView extends DOMWidgetView {
         if (this.state.message!= "") {
           return <div id="no-recs-footer" style={{display:"flex"}}>
             <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
-            <div><p className="warnMsgText" dangerouslySetInnerHTML={{__html: this.state.message}}></p></div> 
+            <div><p className="warnMsgText"  dangerouslySetInnerHTML={{__html: this.state.message.replace(/<[^>]+>/g, '')}}></p></div> 
           </div>
         }
       }
