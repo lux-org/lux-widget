@@ -49,20 +49,14 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           if (props.multiple) {
             var selectedIndexes = prevState.selected;
             var selectedIndex = selectedIndexes.indexOf(index);
+            dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,
+                            "title":this.props.graphSpec[index]['title'],
+                            "mark":this.props.graphSpec[index]['mark'],
+                            "encoding":this.props.graphSpec[index]['encoding']})
             if (selectedIndex > -1) {
-              // dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
-              dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,
-                                              "title":this.props.graphSpec[index]['title'],
-                                              "mark":this.props.graphSpec[index]['mark'],
-                                              "encoding":this.props.graphSpec[index]['encoding']})
               selectedIndexes = selectedIndexes.filter(item => item != index);
               props.onChange(selectedIndexes);
             } else {
-              // dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,"vis":this.props.graphSpec[index]});
-              dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,
-                                            "title":this.props.graphSpec[index]['title'],
-                                            "mark":this.props.graphSpec[index]['mark'],
-                                            "encoding":this.props.graphSpec[index]['encoding']})
               if (!(selectedIndexes.length >= props.maxSelectable)) {
                 selectedIndexes.push(index);
                 props.onChange(selectedIndexes);
@@ -103,10 +97,9 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               <div key={idx.toString()} 
                   className="graph-container"
                   id={"graph-container-".concat(idx.toString())}>
-                  {this.state.selected.indexOf(idx) > -1 ? 
                     <SelectableCard 
                       key={idx} 
-                      selected={true} 
+                      selected={this.state.selected.indexOf(idx) > -1} 
                       onClick={(e) => {this.onItemSelected(idx);}}>
                       {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1, JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
                       <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1, JSON.stringify(item['config']).length - 1) + "\ "}></img> :
@@ -116,20 +109,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                         actions={false}/>
                       }
                     </SelectableCard>
-                  :
-                    <SelectableCard 
-                        key={idx}
-                        selected={false} 
-                        onClick={(e) => {this.onItemSelected(idx);}}>
-                        {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1,JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
-                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1,JSON.stringify(item['config']).length - 1) + "\ "}></img> :
-                      <VegaLite
-                          spec={item}  
-                          padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                          actions={false}/>
-                        }
-                    </SelectableCard>
-                  }
               </div>  
             )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
             </ScrollableContent>

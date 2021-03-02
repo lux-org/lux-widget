@@ -327,33 +327,19 @@ export class LuxWidgetView extends DOMWidgetView {
         view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        if (this.state.recommendations.length == 0) {
-          return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
-                    onChange={this.handleCurrentVisSelect}/>
-                  </div>
-                  <ButtonsBroker buttonsEnabled={buttonsEnabled}
-                                     deleteSelection={this.deleteSelection}
-                                     exportSelection={this.exportSelection}
-                                     setIntent={this.setIntent}
-                                     closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems.length}
-                                     showAlert={this.state.showAlert}
-                                     intentEnabled={intentEnabled}
-                                     />               
-                </div>);
-        } else {
-          return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
+        var isRecEmpty = this.state.recommendations.length == 0;
+        var divId = isRecEmpty ? "oneViewWidgetContainer" : "widgetContainer";
+        
+        return (<div id={divId} style={{ flexDirection: 'column' }}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
-                      <div id="tabBanner">
+                      {!isRecEmpty && <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {this.state.tabItems}
                         </Tabs>
-                      </div>
+                      </div>}
                     </div>
                     <ButtonsBroker buttonsEnabled={buttonsEnabled}
                                      deleteSelection={this.deleteSelection}
@@ -364,15 +350,14 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
+                    {!isRecEmpty && <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />}
                   </div>);
-        }
       }
     }
     const $app = document.createElement("div");
     const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
-    dispatchLogEvent("initWidget","")
+    dispatchLogEvent("initWidget","");
   }
 }
