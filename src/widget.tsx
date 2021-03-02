@@ -83,9 +83,7 @@ export class LuxWidgetView extends DOMWidgetView {
       constructor(props:any){
         super(props);
 
-        for (var i = 0; i < this.props.model.get("recommendations").length; i++) {
-          this.chartComponents.push(React.createRef<ChartGalleryComponent>());
-        }
+        this.chartComponents.push(React.createRef<ChartGalleryComponent>());
 
         this.state = {
           currentVis: props.model.get("current_vis"),
@@ -267,8 +265,6 @@ export class LuxWidgetView extends DOMWidgetView {
           tabs.push(
             <Tab eventKey={actionResult.action} title={actionResult.action} disabled={disabled}>
               <ChartGalleryComponent 
-                  // this exists to prevent chart gallery from refreshing while changing tabs
-                  // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
                   ref={this.chartComponents[i]}
                   title={actionResult.action}
@@ -286,37 +282,45 @@ export class LuxWidgetView extends DOMWidgetView {
         return tabs;
       }
 
+      /*
+       * UpdateTabs is called whenever an action (e.g Correlation) is done computed and is ready to render.
+       */
       updateTabs() {
-        var tabs = [];
-        for (var i = 0; i < this.state.tabItems.length; i++) {
-            if (this.state.tabItems[i].props.title === this.props.model.get("loadNewTab")) {
-              var actionResult = this.props.model.get("recommendations")[i];
-              tabs.push(
-                <Tab eventKey={actionResult.action} title={actionResult.action} disabled={false}>
-                  <ChartGalleryComponent 
-                      // this exists to prevent chart gallery from refreshing while changing tabs
-                      // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
-                      key={'no refresh'}
-                      ref={this.chartComponents[i]}
-                      title={actionResult.action}
-                      description={actionResult.description}
-                      longDescription={actionResult.long_description}
-                      multiple={true}
-                      maxSelectable={10}
-                      onChange={this.onListChanged.bind(this,i)}
-                      graphSpec={actionResult.vspec}
-                      currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
-                      openInfo={false}
-                      /> 
-                </Tab>);
-            } else {
-              tabs.push(this.state.tabItems[i]);
-            }
+        // For some reason react is running this function around 15+ times more than necessary, but this will limit it to how many tabs there are.
+        if (this.state.tabItems.length === this.props.model.get("recommendations").length) {
+          return;
         }
+
+        var tabs = [];
+        var recs = this.props.model.get("recommendations");
+
+        for (var i = 0; i < recs.length - 1; i++) {
+          tabs.push(this.state.tabItems[i]);
+        }
+
+        this.chartComponents.push(React.createRef<ChartGalleryComponent>());
+
+        var actionResult = recs[i];
+        tabs.push(
+          <Tab eventKey={actionResult.action} title={actionResult.action} disabled={false}>
+            <ChartGalleryComponent 
+                key={'no refresh'}
+                ref={this.chartComponents[i]}
+                title={actionResult.action}
+                description={actionResult.description}
+                longDescription={actionResult.long_description}
+                multiple={true}
+                maxSelectable={10}
+                onChange={this.onListChanged.bind(this,i)}
+                graphSpec={actionResult.vspec}
+                currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                openInfo={false}
+                /> 
+          </Tab>);
+
         this.setState({
           tabItems: tabs
-        })
-        console.log("tab update func called");
+        });
       }
 
       render() {
@@ -325,8 +329,6 @@ export class LuxWidgetView extends DOMWidgetView {
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                  {/* {attributeShelf}
-                  {filterShelf} */}
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
                     onChange={this.handleCurrentVisSelect}/>
@@ -343,8 +345,6 @@ export class LuxWidgetView extends DOMWidgetView {
                 </div>);
         } else {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
-                    {/* {attributeShelf}
-                    {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
