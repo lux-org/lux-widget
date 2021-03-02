@@ -49,15 +49,19 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           if (props.multiple) {
             var selectedIndexes = prevState.selected;
             var selectedIndex = selectedIndexes.indexOf(index);
-            dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,
-                            "title":this.props.graphSpec[index]['title'],
-                            "mark":this.props.graphSpec[index]['mark'],
-                            "encoding":this.props.graphSpec[index]['encoding']})
             if (selectedIndex > -1) {
+              dispatchLogEvent("unclickVis",{"tabTitle":this.props.title,"index":index,	
+                                              "title":this.props.graphSpec[index]['title'],	
+                                              "mark":this.props.graphSpec[index]['mark'],	
+                                              "encoding":this.props.graphSpec[index]['encoding']})
               selectedIndexes = selectedIndexes.filter(item => item != index);
               props.onChange(selectedIndexes);
             } else {
               if (!(selectedIndexes.length >= props.maxSelectable)) {
+                dispatchLogEvent("clickVis",{"tabTitle":this.props.title,"index":index,	
+                                  "title":this.props.graphSpec[index]['title'],	
+                                  "mark":this.props.graphSpec[index]['mark'],	
+                                  "encoding":this.props.graphSpec[index]['encoding']})
                 selectedIndexes.push(index);
                 props.onChange(selectedIndexes);
               }
