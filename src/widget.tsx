@@ -32,6 +32,7 @@ import CurrentVisComponent from './currentVis';
 import {dispatchLogEvent} from './utils';
 import ButtonsBroker from './buttonsBroker';
 import WarningBtn from './warningBtn';
+import InfoBtn from './infoBtn';
 
 export class LuxModel extends DOMWidgetModel {
   defaults() {
@@ -62,19 +63,21 @@ export class LuxWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
     interface WidgetProps{
-      currentVis:object,
-      recommendations:any[],
-      intent:string,
+      currentVis: object,
+      recommendations: any[],
+      intent: string,
       selectedIntentIndex: object,
-      message:string,
-      tabItems:any,
-      activeTab:any,
-      showAlert:boolean,
-      selectedRec:object,
-      _selectedVisIdxs:object,
-      deletedIndices:object,
-      currentVisSelected:number,
-      openWarning:boolean,
+      message: string,
+      longDescription: string,
+      tabItems: any,
+      activeTab: any,
+      showAlert: boolean,
+      selectedRec: object,
+      _selectedVisIdxs: object,
+      deletedIndices: object,
+      currentVisSelected: number,
+      openWarning: boolean,
+      openInfo: boolean,
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -93,6 +96,7 @@ export class LuxWidgetView extends DOMWidgetView {
           intent: props.model.get("intent"),
           selectedIntentIndex: {},
           message: props.model.get("message"),
+          longDescription: this.generateDescription(null),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
           showAlert: false,
@@ -101,6 +105,7 @@ export class LuxWidgetView extends DOMWidgetView {
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning: false,
+          openInfo: false,
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -111,6 +116,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
+        this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
       }
 
       toggleWarningPanel(e){
@@ -120,6 +126,17 @@ export class LuxWidgetView extends DOMWidgetView {
         } else {
           dispatchLogEvent("openWarning",this.state.message);
         this.setState({openWarning:true});
+        }
+      }
+
+      // called to toggle the long description panel
+      toggleInfoPanel(e){
+        if (this.state.openInfo) {
+          dispatchLogEvent("closeInfo",this.state.longDescription);
+          this.setState({openInfo:false});
+        } else {
+          dispatchLogEvent("openInfo",this.state.longDescription);
+          this.setState({openInfo:true});
         }
       }
 
@@ -135,15 +152,35 @@ export class LuxWidgetView extends DOMWidgetView {
         this.setState(model.changed);
       }
 
-      //triggered when component is mounted (i.e., when widget first rendered)
+      // triggered when component is mounted (i.e., when widget first rendered)
       componentDidMount(){ 
         view.listenTo(view.model,"change",this.onChange.bind(this));
       }
 
-      //triggered after component is updated
+      // triggered after component is updated
       // instead of touch (which leads to callback issues), we have to use save_changes
       componentDidUpdate(){ 
         view.model.save_changes();
+      }
+
+      // populates the long description
+      generateDescription(selectedTab) {
+        // selectedTab starts out as null and is populated on switches of tabs
+        if (!selectedTab) {
+          // takes care of init, sets to first longDescription in recommendations list
+          if (this.props.model.get("recommendations").length > 0) {
+            selectedTab = this.props.model.get("recommendations")[0].action;
+          } else {
+            return "";
+          }
+        }
+        var description = "";
+        for (var recommendation of this.props.model.get("recommendations")) {
+          if (recommendation.action === selectedTab) {
+            description = recommendation.long_description
+          }
+        }
+        return description;
       }
   
       handleSelect(selectedTab) {
@@ -152,8 +189,10 @@ export class LuxWidgetView extends DOMWidgetView {
         if (selectedTab){
           dispatchLogEvent("switchTab",selectedTab)
         }
+        var description = this.generateDescription(selectedTab);
         this.setState({
-          activeTab: selectedTab
+          activeTab: selectedTab,
+          longDescription: description
         });
       }
 
@@ -269,13 +308,11 @@ export class LuxWidgetView extends DOMWidgetView {
                   ref={this.chartComponents[tabIdx]}
                   title={actionResult.action}
                   description={actionResult.description}
-                  longDescription={actionResult.long_description}
                   multiple={true}
                   maxSelectable={10}
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
-                  openInfo={false}
                   /> 
             </Tab>
           )
@@ -302,7 +339,9 @@ export class LuxWidgetView extends DOMWidgetView {
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
-                                     />               
+                                     />     
+                  <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
+                  <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />          
                 </div>);
         } else {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
@@ -327,6 +366,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
+                    <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
                     <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
                   </div>);
         }

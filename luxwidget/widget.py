@@ -23,7 +23,9 @@ class LuxWidget(DOMWidget):
     selectedIntentIndex = Dict({}).tag(sync=True)
     message = Unicode("").tag(sync=True)
 
-    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs):
+    def __init__(
+        self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs
+    ):
         super().__init__(**kwargs)
         self.current_vis = currentVis
         self.recommendations = recommendations
