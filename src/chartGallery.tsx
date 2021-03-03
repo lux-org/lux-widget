@@ -36,7 +36,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           selected: selected,
         };
         this.state = initialState;
-
     }
 
     onItemSelected(index) {
