@@ -282,19 +282,26 @@ export class LuxWidgetView extends DOMWidgetView {
         )
       }
 
+      generateNoRecsWarning() {
+        if (this.state.message!= "") {
+          return <div id="no-recs-footer" style={{display:"flex"}}>
+            <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
+            <div><p className="warnMsgText"  dangerouslySetInnerHTML={{__html: this.state.message.replace(/<[^>]+>/g, '')}}></p></div> 
+          </div>
+        }
+      }
+
+
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                  {/* {attributeShelf}
-                  {filterShelf} */}
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={0}
-                    onChange={this.handleCurrentVisSelect}/>
-                  </div>
-                  <ButtonsBroker buttonsEnabled={buttonsEnabled}
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
+                      onChange={this.handleCurrentVisSelect}/>
+                    </div>
+                    <ButtonsBroker buttonsEnabled={buttonsEnabled}
                                      deleteSelection={this.deleteSelection}
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
@@ -302,9 +309,10 @@ export class LuxWidgetView extends DOMWidgetView {
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
-                                     />               
-                </div>);
-        } else {
+                                     />
+                  {this.generateNoRecsWarning()}
+                  </div>);
+        } else if (this.state.recommendations.length > 0) {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
                     {/* {attributeShelf}
                     {filterShelf} */}
