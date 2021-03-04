@@ -16,7 +16,6 @@
 }
 
 #oneViewWidgetContainer {
-  height:200px;
   width:100%;
   display:inline-flex;
 }
@@ -102,6 +101,7 @@ input[type=text], select {
 .fa:hover{
   color:black;
 }
+
 .graph-container{
   height: 250px;
   max-height: 270px;
@@ -443,6 +443,30 @@ button.card:focus {
   flex-direction: row;
   border-top: 0px;
   position: relative;
+}
+#no-recs-footer {
+  padding: 10px;
+  border: 0.5px solid #bcbdbd;
+  background-color: lightyellow;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+#no-recs {
+  color: #ffbc00;
+  pointer-events: none;
+  position: relative;
+  top: 5px;
+  left: px;
+  font-size: 25px;
+  padding: 5px;
+}
+#no-recs-text {
+  color: rgb(80, 80, 80);
+  font-size: 20px;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 30px;
 }
 #scroll-indicator {
   margin-right: 10px;

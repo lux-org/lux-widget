@@ -323,6 +323,16 @@ export class LuxWidgetView extends DOMWidgetView {
         });
       }
 
+      generateNoRecsWarning() {
+        if (this.state.message!= "") {
+          return <div id="no-recs-footer" style={{display:"flex"}}>
+            <div id="no-recs" className = "fa fa-exclamation-triangle"></div>
+            <div><p className="warnMsgText"  dangerouslySetInnerHTML={{__html: this.state.message.replace(/<[^>]+>/g, '')}}></p></div> 
+          </div>
+        }
+      }
+
+
       render() {
         view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
@@ -350,6 +360,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
+                    {isRecEmpty && this.generateNoRecsWarning()}
                     {!isRecEmpty && <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />}
                   </div>);
       }
