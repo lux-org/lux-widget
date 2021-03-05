@@ -17,7 +17,6 @@ import SelectableCard from './selectableCard';
 import { VegaLite } from 'react-vega';
 import ScrollableContent from './scrollableContent'
 import {dispatchLogEvent} from './utils';
-import InfoBtn from './infoBtn';
 
 interface chartGalleryProps{
     title:string,
@@ -26,9 +25,7 @@ interface chartGalleryProps{
     onChange: Function,
     graphSpec: object[],
     description: string,
-    longDescription: string,
     currentVisShow: boolean,
-    openInfo: boolean
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -39,8 +36,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
           selected: selected,
         };
         this.state = initialState;
-
-        this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
     }
 
     onItemSelected(index) {
@@ -84,16 +79,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
     removeDeletedCharts() {
       this.setState({selected:[]});
     }
-
-    toggleInfoPanel(e){
-      if (this.state.openInfo) {
-        dispatchLogEvent("closeInfo",this.state.message);
-        this.setState({openInfo:false});
-      } else {
-        dispatchLogEvent("openInfo",this.state.message);
-        this.setState({openInfo:true});
-      }
-    }
     
     render() {
         return (
@@ -133,7 +118,6 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
               </div>  
             )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
             </ScrollableContent>
-            <InfoBtn message={this.props.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
           </div>
         );
     }
