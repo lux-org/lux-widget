@@ -1,3 +1,28 @@
+.jupyter-widgets.widget-tab > .p-TabBar .p-TabBar-tab {
+  flex: 0 1 var(--jp-widgets-horizontal-tab-width);
+  min-width: 35px;
+  min-height: calc(var(--jp-widgets-horizontal-tab-height) + var(--jp-border-width));
+  line-height: var(--jp-widgets-horizontal-tab-height);
+  margin-left: calc(-1 * var(--jp-border-width));
+  padding: 0px 10px;
+  background: var(--jp-layout-color2);
+  color: var(--jp-ui-font-color2);
+  border: var(--jp-border-width) solid var(--jp-border-color1);
+  position: relative;
+}
+
+.jupyter-widgets.widget-tab > .widget-tab-contents {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  background: var(--jp-layout-color1);
+  color: var(--jp-ui-font-color1);
+  border: none;
+  padding: 0px 0px;
+  flex-grow: 1;
+  overflow: auto;
+}
+
 .jp-OutputArea-output {
   height: auto;
   overflow: auto;
