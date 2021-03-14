@@ -9,6 +9,7 @@
   color: var(--jp-ui-font-color2);
   border: var(--jp-border-width) solid var(--jp-border-color1);
   position: relative;
+  left: 6px;
 }
 
 .jupyter-widgets.widget-tab > .widget-tab-contents {
