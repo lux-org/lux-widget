@@ -25,7 +25,7 @@ import '../css/widget.css'
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
-import {Tabs,Tab} from 'react-bootstrap';
+import {Tabs,Tab,Modal} from 'react-bootstrap';
 
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
@@ -33,6 +33,7 @@ import {dispatchLogEvent} from './utils';
 import ButtonsBroker from './buttonsBroker';
 import WarningBtn from './warningBtn';
 import InfoBtn from './infoBtn';
+import { VegaLite } from 'react-vega';
 
 export class LuxModel extends DOMWidgetModel {
   defaults() {
@@ -78,6 +79,8 @@ export class LuxWidgetView extends DOMWidgetView {
       currentVisSelected: number,
       openWarning: boolean,
       openInfo: boolean,
+      openFullScreen: boolean,
+      graphSpec: object
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -106,6 +109,8 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning: false,
           openInfo: false,
+          openFullScreen: false,
+          graphSpec: {}
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -117,9 +122,10 @@ export class LuxWidgetView extends DOMWidgetView {
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
+        this.toggleFullScreen = this.toggleFullScreen.bind(this);
       }
 
-      toggleWarningPanel(e){
+      toggleWarningPanel(e) {
         if (this.state.openWarning){
           dispatchLogEvent("closeWarning",this.state.message);
           this.setState({openWarning:false});
@@ -130,13 +136,37 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       // called to toggle the long description panel
-      toggleInfoPanel(e){
+      toggleInfoPanel(e) {
         if (this.state.openInfo) {
           dispatchLogEvent("closeInfo",this.state.longDescription);
           this.setState({openInfo:false});
         } else {
           dispatchLogEvent("openInfo",this.state.longDescription);
           this.setState({openInfo:true});
+        }
+      }
+
+      // called to toggle the long description panel
+      toggleFullScreen() {
+        console.log(this.props.model.get("recommendations"));
+        console.log(this.state._selectedVisIdxs);
+        console.log(this.state._selectedVisIdxs[0]);
+        console.log(this.props.model.get("recommendations"));
+        for (var recommendation of this.state.recommendations) {
+          if (this.state._selectedVisIdxs[recommendation.action]) {
+            var index = this.state._selectedVisIdxs[recommendation.action][0]
+            console.log(recommendation.vspec[index])
+            this.setState({
+              graphSpec:recommendation.vspec[index]});
+            break;
+          }
+        }
+        if (this.state.openFullScreen) {
+          dispatchLogEvent("closeFullScreen",this.state._selectedVisIdxs);
+          this.setState({openFullScreen:false});
+        } else {
+          dispatchLogEvent("openFullScreen",this.state._selectedVisIdxs);
+          this.setState({openFullScreen:true});
         }
       }
 
@@ -153,13 +183,13 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       // triggered when component is mounted (i.e., when widget first rendered)
-      componentDidMount(){ 
+      componentDidMount() { 
         view.listenTo(view.model,"change",this.onChange.bind(this));
       }
 
       // triggered after component is updated
       // instead of touch (which leads to callback issues), we have to use save_changes
-      componentDidUpdate(){ 
+      componentDidUpdate() { 
         view.model.save_changes();
       }
 
@@ -342,6 +372,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      deleteSelection={this.deleteSelection}
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
+                                     fullScreen={this.toggleFullScreen}
                                      closeExportInfo={this.closeExportInfo}
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
@@ -367,6 +398,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      deleteSelection={this.deleteSelection}
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
+                                     fullScreen={this.toggleFullScreen}
                                      closeExportInfo={this.closeExportInfo}
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
@@ -374,6 +406,24 @@ export class LuxWidgetView extends DOMWidgetView {
                                      />
                     <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
                     <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
+                    <Modal
+                      show={this.state.openFullScreen}
+                      onHide={() => this.toggleFullScreen()}
+                      dialogClassName="modal-content-custom"
+                      aria-labelledby="contained-modal-title-vcenter"
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                          Graph Full Screen View
+                        </Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <VegaLite
+                          spec={this.state.graphSpec}  
+                          padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                          actions={false}/>
+                      </Modal.Body>
+                    </Modal>
                   </div>);
         }
       }
