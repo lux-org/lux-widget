@@ -22,6 +22,9 @@ class LuxWidget(DOMWidget):
     intent = Unicode("").tag(sync=True)
     selectedIntentIndex = Dict({}).tag(sync=True)
     message = Unicode("").tag(sync=True)
+    visGraphCode = Unicode("").tag(sync=True)
+    visGraphSpec = Unicode("").tag(sync=True)
+    selectedFullScreenIndex = Dict({}).tag(sync=True)
 
     def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs):
         super().__init__(**kwargs)

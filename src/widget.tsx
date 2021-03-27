@@ -25,7 +25,7 @@ import '../css/widget.css'
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
-import {Tabs,Tab,Modal} from 'react-bootstrap';
+import {Tabs,Tab,Modal,Button} from 'react-bootstrap';
 
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
@@ -123,6 +123,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.closeExportInfo = this.closeExportInfo.bind(this);
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
         this.toggleFullScreen = this.toggleFullScreen.bind(this);
+        this.rerunFullScreen = this.rerunFullScreen.bind(this);
       }
 
       toggleWarningPanel(e) {
@@ -143,30 +144,6 @@ export class LuxWidgetView extends DOMWidgetView {
         } else {
           dispatchLogEvent("openInfo",this.state.longDescription);
           this.setState({openInfo:true});
-        }
-      }
-
-      // called to toggle the long description panel
-      toggleFullScreen() {
-        console.log(this.props.model.get("recommendations"));
-        console.log(this.state._selectedVisIdxs);
-        console.log(this.state._selectedVisIdxs[0]);
-        console.log(this.props.model.get("recommendations"));
-        for (var recommendation of this.state.recommendations) {
-          if (this.state._selectedVisIdxs[recommendation.action]) {
-            var index = this.state._selectedVisIdxs[recommendation.action][0]
-            console.log(recommendation.vspec[index])
-            this.setState({
-              graphSpec:recommendation.vspec[index]});
-            break;
-          }
-        }
-        if (this.state.openFullScreen) {
-          dispatchLogEvent("closeFullScreen",this.state._selectedVisIdxs);
-          this.setState({openFullScreen:false});
-        } else {
-          dispatchLogEvent("openFullScreen",this.state._selectedVisIdxs);
-          this.setState({openFullScreen:true});
         }
       }
 
@@ -358,6 +335,39 @@ export class LuxWidgetView extends DOMWidgetView {
         }
       }
 
+      // called to toggle the long description panel
+      toggleFullScreen() {
+        for (var recommendation of this.state.recommendations) {
+          if (this.state._selectedVisIdxs[recommendation.action]) {
+            var index = this.state._selectedVisIdxs[recommendation.action][0]
+            this.setState({
+              graphSpec:recommendation.vspec[index]});
+            view.model.set('selectedFullScreenIndex', this.state._selectedVisIdxs);
+            view.model.save();
+            break;
+          }
+        }
+        if (this.state.openFullScreen) {
+          dispatchLogEvent("closeFullScreen",this.state._selectedVisIdxs);
+          this.setState({openFullScreen:false});
+        } else {
+          dispatchLogEvent("openFullScreen",this.state._selectedVisIdxs);
+          this.setState({openFullScreen:true});
+        }
+        console.log(this.state.graphSpec);
+      }
+
+      rerunFullScreen() {
+        var x = "import altair as alt\nvisData = pd.DataFrame({'Cylinders': {0: 3, 1: 4, 2: 5, 3: 6, 4: 8}, 'Record': {0: 4, 1: 199, 2: 3, 3: 83, 4: 103}})\n\nchart = alt.Chart(visData).mark_bar().encode(\n    y = alt.Y('Cylinders', type= 'nominal', axis=alt.Axis(labelOverlap=True, title='Cylinders')),\n    x = alt.X('Record', type= 'quantitative', title='Number of Records', axis=alt.Axis(title='Number of Records')),\n)\nchart = chart.configure_mark(tooltip=alt.TooltipContent('encoding'))\nchart = chart.configure_title(fontWeight=500,fontSize=13,font='Helvetica Neue')\nchart = chart.configure_axis(titleFontWeight=500,titleFontSize=11,titleFont='Helvetica Neue',\n\t\t\tlabelFontWeight=400,labelFontSize=8,labelFont='Helvetica Neue',labelColor='#505050')\nchart = chart.configure_legend(titleFontWeight=500,titleFontSize=10,titleFont='Helvetica Neue',\n\t\t\tlabelFontWeight=400,labelFontSize=8,labelFont='Helvetica Neue')\nchart = chart.properties(width=160,height=150)\n\nchart";
+        view.model.set('visGraphCode', x);
+        view.model.save();
+        this.setState({
+          graphSpec: JSON.parse(this.props.model.get("visGraphSpec"))
+        })
+        console.log(JSON.parse(this.props.model.get("visGraphSpec")));
+        console.log(this.state.graphSpec);
+      }
+
 
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
@@ -418,10 +428,14 @@ export class LuxWidgetView extends DOMWidgetView {
                         </Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
+                        <Button onClick={this.rerunFullScreen}>
+                          Apply Changes
+                        </Button>
                         <VegaLite
                           spec={this.state.graphSpec}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
                           actions={false}/>
+                        <div className= "display-linebreak"> {this.props.model.get("visGraphCode")} </div>
                       </Modal.Body>
                     </Modal>
                   </div>);
