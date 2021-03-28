@@ -35,6 +35,9 @@ import WarningBtn from './warningBtn';
 import InfoBtn from './infoBtn';
 import { VegaLite } from 'react-vega';
 
+import ContentEditable from 'react-contenteditable'
+// import { CodeBlock } from "react-code-blocks";
+
 export class LuxModel extends DOMWidgetModel {
   defaults() {
     return {...super.defaults(),
@@ -81,6 +84,7 @@ export class LuxWidgetView extends DOMWidgetView {
       openInfo: boolean,
       openFullScreen: boolean,
       graphSpec: object
+      codeHTML: string,
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -110,7 +114,8 @@ export class LuxWidgetView extends DOMWidgetView {
           openWarning: false,
           openInfo: false,
           openFullScreen: false,
-          graphSpec: {}
+          graphSpec: {},
+          codeHTML: "Edit <b>me</b> !",
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -124,6 +129,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
         this.toggleFullScreen = this.toggleFullScreen.bind(this);
         this.rerunFullScreen = this.rerunFullScreen.bind(this);
+        this.handleCodeChange = this.handleCodeChange.bind(this);
       }
 
       toggleWarningPanel(e) {
@@ -335,38 +341,54 @@ export class LuxWidgetView extends DOMWidgetView {
         }
       }
 
-      // called to toggle the long description panel
+      // called to toggle the full screen view 
       toggleFullScreen() {
-        for (var recommendation of this.state.recommendations) {
-          if (this.state._selectedVisIdxs[recommendation.action]) {
-            var index = this.state._selectedVisIdxs[recommendation.action][0]
-            this.setState({
-              graphSpec:recommendation.vspec[index]});
-            view.model.set('selectedFullScreenIndex', this.state._selectedVisIdxs);
-            view.model.save();
-            break;
-          }
-        }
         if (this.state.openFullScreen) {
           dispatchLogEvent("closeFullScreen",this.state._selectedVisIdxs);
-          this.setState({openFullScreen:false});
+          this.setState({
+            _selectedVisIdxs: {},
+            openFullScreen:false
+          });
         } else {
+          for (var recommendation of this.state.recommendations) {
+            if (this.state._selectedVisIdxs[recommendation.action]) {
+              var index = this.state._selectedVisIdxs[recommendation.action][0]
+              this.setState({
+                graphSpec:recommendation.vspec[index]});
+              view.model.set('selectedFullScreenIndex', this.state._selectedVisIdxs);
+              view.model.save();
+              break;
+            }
+          }
           dispatchLogEvent("openFullScreen",this.state._selectedVisIdxs);
-          this.setState({openFullScreen:true});
+          // timeout so backend catches up, not best design
+          setTimeout(()=>{
+            this.setState(
+                  state => ({
+                    openFullScreen:true,
+                    codeHTML:view.model.get("visGraphCode")
+             }));
+          },1000);
         }
-        console.log(this.state.graphSpec);
       }
 
       rerunFullScreen() {
-        var x = "import altair as alt\nvisData = pd.DataFrame({'Cylinders': {0: 3, 1: 4, 2: 5, 3: 6, 4: 8}, 'Record': {0: 4, 1: 199, 2: 3, 3: 83, 4: 103}})\n\nchart = alt.Chart(visData).mark_bar().encode(\n    y = alt.Y('Cylinders', type= 'nominal', axis=alt.Axis(labelOverlap=True, title='Cylinders')),\n    x = alt.X('Record', type= 'quantitative', title='Number of Records', axis=alt.Axis(title='Number of Records')),\n)\nchart = chart.configure_mark(tooltip=alt.TooltipContent('encoding'))\nchart = chart.configure_title(fontWeight=500,fontSize=13,font='Helvetica Neue')\nchart = chart.configure_axis(titleFontWeight=500,titleFontSize=11,titleFont='Helvetica Neue',\n\t\t\tlabelFontWeight=400,labelFontSize=8,labelFont='Helvetica Neue',labelColor='#505050')\nchart = chart.configure_legend(titleFontWeight=500,titleFontSize=10,titleFont='Helvetica Neue',\n\t\t\tlabelFontWeight=400,labelFontSize=8,labelFont='Helvetica Neue')\nchart = chart.properties(width=160,height=150)\n\nchart";
-        view.model.set('visGraphCode', x);
+        var code_input = this.state.codeHTML;
+        view.model.set('visGraphCode', code_input);
         view.model.save();
-        this.setState({
-          graphSpec: JSON.parse(this.props.model.get("visGraphSpec"))
-        })
-        console.log(JSON.parse(this.props.model.get("visGraphSpec")));
-        console.log(this.state.graphSpec);
+        
+        // delay so backend finish running, not optimal
+        setTimeout(()=>{
+          this.setState(
+                state => ({
+                  graphSpec:JSON.parse(view.model.get("visGraphSpec"))
+           }));
+        },1000);
       }
+
+      handleCodeChange = evt => {
+        this.setState({ codeHTML: evt.target.value });
+      };
 
 
       render() {
@@ -435,7 +457,16 @@ export class LuxWidgetView extends DOMWidgetView {
                           spec={this.state.graphSpec}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
                           actions={false}/>
-                        <div className= "display-linebreak"> {this.props.model.get("visGraphCode")} </div>
+                        {/* <CodeBlock
+                          text={this.props.model.get("visGraphCode")}
+                          language={"python"}
+                        /> */}
+                        <ContentEditable // try to replace with editable code block instead
+                          html={this.state.codeHTML} // innerHTML of the editable div
+                          disabled={false} // use true to disable edition
+                          onChange={this.handleCodeChange} // handle innerHTML change
+                          className="display-linebreak" // causes new lines to appear on new lines
+                        />
                       </Modal.Body>
                     </Modal>
                   </div>);
