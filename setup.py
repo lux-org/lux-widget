@@ -8,20 +8,17 @@ from __future__ import print_function
 from glob import glob
 from os.path import join as pjoin
 from os import path
+import json
 
-
-from setupbase import (
+from jupyter_packaging import (
     create_cmdclass,
     install_npm,
     ensure_targets,
-    find_packages,
     combine_commands,
-    ensure_python,
-    get_version,
-    HERE,
+    skip_if_exists,
+    get_version
 )
-
-from setuptools import setup
+import setuptools
 
 HERE = path.abspath(path.dirname(__file__))
 
@@ -38,9 +35,6 @@ install_requires = [
 # The name of the project
 name = "luxwidget"
 
-# Ensure a valid python version
-ensure_python(">=3.6")
-
 # Get our version
 version = get_version(pjoin(name, "_version.py"))
 
@@ -56,18 +50,19 @@ jstargets = [
 package_data_spec = {name: ["nbextension/static/*.*js*", "labextension/*.tgz"]}
 
 setup_args = dict(
-    name="lux-widget",
+    name="luxwidget",
     description="Jupyter Widget for Intelligent Data Discovery",
     long_description=long_description,
     long_description_content_type="text/markdown",
     version=version,
     scripts=glob(pjoin("scripts", "*")),
-    packages=find_packages(),
+    packages=setuptools.find_packages(),
     author="Doris Jung-Lin Lee",
     author_email="dorisjunglinlee@gmail.com",
     url="https://github.com/lux-org/lux-widget",
     license="Apache-2.0 License",
     platforms="Linux, Mac OS X, Windows",
+    python_requires=">=3.6",
     keywords=[
         "Jupyter",
         "Widgets",
@@ -103,4 +98,4 @@ setup_args = dict(
     install_requires=install_requires,
 )
 
-setup(**setup_args)
+setuptools.setup(**setup_args)

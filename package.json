@@ -1,6 +1,6 @@
 {
   "name": "luxwidget",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
     "jupyter",
@@ -13,13 +13,15 @@
     "tsconfig.json",
     "luxwidget/*.py",
     "luxwidget/nbextension/static/*",
+    "luxwidget/labextension/static/*",
+    "luxwidget/labextension/package.json",
     "*.py",
     "src/*.tsx",
     "src/*.ts",
     "lib/**/*.js",
     "lib/**/*.ts",
     "dist/*.js",
-    "css/*.css"
+    "style/index.js"
   ],
   "homepage": "https://github.com/lux-org/lux-widget",
   "bugs": {
@@ -37,16 +39,16 @@
     "url": "https://github.com/lux-org/lux-widget"
   },
   "scripts": {
-    "postinstall": "pip install . && jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget && jupyter nbextension enable --sys-prefix --py luxwidget",
     "build": "npm install; npm run build:lib && npm run build:nbextension",
+    "build:all": "npm run build:labextension && npm run build:nbextension",
     "build:labextension": "npm run clean:labextension && mkdirp luxwidget/labextension && cd luxwidget/labextension && npm pack ../..",
     "build:lib": "tsc",
     "build:nbextension": "webpack -p",
-    "build:all": "npm run build:labextension && npm run build:nbextension",
     "clean": "npm run clean:lib && npm run clean:nbextension",
-    "clean:lib": "rimraf lib",
     "clean:labextension": "rimraf luxwidget/labextension",
+    "clean:lib": "rimraf lib",
     "clean:nbextension": "rimraf luxwidget/nbextension/static/index.js",
+    "postinstall": "pip install . && jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget && jupyter nbextension enable --sys-prefix --py luxwidget",
     "prepack": "npm run build:lib",
     "watch": "npm-run-all -p watch:*",
     "watch:lib": "tsc -w",
@@ -61,9 +63,9 @@
     "needle": "^2.4.0",
     "nopt": "^4.0.1",
     "rc": "^1.2.8",
-    "react": "^16.5.0",
+    "react": "^17.0.1",
     "react-bootstrap": "^1.0.0-beta.16",
-    "react-dom": "^16.9.0",
+    "react-dom": "^17.0.1",
     "react-vega": "7.1.1",
     "vega": "^5.9.0",
     "vega-embed": "^6.2.1",
@@ -71,8 +73,9 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.7.4",
-    "@lumino/application": "^1.6.0",
-    "@lumino/widgets": "^1.8.0",
+    "@jupyterlab/builder": "^3.0.0",
+    "@lumino/application": "^1.13.1",
+    "@lumino/widgets": "^1.16.1",
     "@types/expect.js": "^0.3.29",
     "@types/jquery": "^3.5.4",
     "@types/mocha": "^5.2.5",
@@ -80,25 +83,33 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/webpack-env": "^1.13.6",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
     "css-loader": "^3.2.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "expect.js": "^0.3.1",
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
-    "npm-run-all": "^4.1.3",
-    "rimraf": "^3.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.8",
+    "typescript": "~4.1.3",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
   },
   "jupyterlab": {
-    "extension": "lib/plugin"
+    "extension": "lib/plugin",
+    "outputDir": "luxwidget/labextension"
   },
   "presets": [
     "@babel/preset-env",
     "@babel/preset-react"
-  ]
+  ],
+  "styleModule": "style/index.js"
 }
