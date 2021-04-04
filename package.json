@@ -21,7 +21,8 @@
     "lib/**/*.js",
     "lib/**/*.ts",
     "dist/*.js",
-    "style/index.js"
+    "style/index.js",
+    "style/*.css"
   ],
   "homepage": "https://github.com/lux-org/lux-widget",
   "bugs": {
@@ -39,23 +40,25 @@
     "url": "https://github.com/lux-org/lux-widget"
   },
   "scripts": {
-    "build": "npm install; npm run build:lib && npm run build:nbextension",
-    "build:all": "npm run build:labextension && npm run build:nbextension",
-    "build:labextension": "npm run clean:labextension && mkdirp luxwidget/labextension && cd luxwidget/labextension && npm pack ../..",
+    "build": "jlpm run build:lib && jlpm run build:labextension:dev",
+    "build:prod": "jlpm run build:lib && jlpm run build:labextension",
+    "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc",
-    "build:nbextension": "webpack -p",
-    "clean": "npm run clean:lib && npm run clean:nbextension",
-    "clean:labextension": "rimraf luxwidget/labextension",
-    "clean:lib": "rimraf lib",
-    "clean:nbextension": "rimraf luxwidget/nbextension/static/index.js",
-    "postinstall": "pip install . && jupyter nbextension install --sys-prefix --symlink --overwrite --py luxwidget && jupyter nbextension enable --sys-prefix --py luxwidget",
-    "prepack": "npm run build:lib",
-    "watch": "npm-run-all -p watch:*",
-    "watch:lib": "tsc -w",
-    "watch:nbextension": "webpack --watch"
+    "clean": "jlpm run clean:lib",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "clean:labextension": "rimraf {{ cookiecutter.python_name }}/labextension",
+    "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
+    "eslint": "eslint . --ext .ts,.tsx --fix",
+    "eslint:check": "eslint . --ext .ts,.tsx",
+    "install:extension": "jupyter labextension develop --overwrite .",
+    "prepare": "jlpm run clean && jlpm run build:prod",
+    "watch": "run-p watch:src watch:labextension",
+    "watch:src": "tsc -w",
+    "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3",
+    "@jupyter-widgets/base": "^3 || ^4.0.0",
     "@material-ui/core": "^4.11.0",
     "bootstrap": "^4.4.1",
     "detect-libc": "^1.0.3",
