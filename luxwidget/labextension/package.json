@@ -21,7 +21,8 @@
     "lib/**/*.js",
     "lib/**/*.ts",
     "dist/*.js",
-    "style/index.js"
+    "style/index.js",
+    "style/*.css"
   ],
   "homepage": "https://github.com/lux-org/lux-widget",
   "bugs": {
@@ -107,12 +108,7 @@
   },
   "jupyterlab": {
     "extension": "lib/plugin",
-    "outputDir": "luxwidget/labextension",
-    "_build": {
-      "load": "static\\remoteEntry.4ebf20b75acc7950999a.js",
-      "extension": "./extension",
-      "style": "./style"
-    }
+    "outputDir": "luxwidget/labextension"
   },
   "presets": [
     "@babel/preset-env",
