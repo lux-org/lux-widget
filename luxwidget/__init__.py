@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from .widget import LuxWidget
-from ._version import __version__, version_info
+from ._version import __version__
 from .nbextension import _jupyter_nbextension_paths
 import json
 from pathlib import Path
