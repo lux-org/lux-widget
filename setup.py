@@ -75,7 +75,6 @@ setup_args = dict(
     cmdclass=cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0",
         "notebook >= 4.0.0",
         "ipywidgets >=7.5.0",
     ],
