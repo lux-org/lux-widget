@@ -78,8 +78,10 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
+                const scale: number = 2; 
+                const width: string = (28 * scale).toString() + "%"; 
                 return (
-                    <div id="mainVizContainer">
+                    <div id="mainVizContainer" style={{ width: width }}>
                             <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
                             <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
                             <CustomTooltip title={this.props.intent} arrow>

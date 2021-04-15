@@ -332,9 +332,11 @@ export class LuxWidgetView extends DOMWidgetView {
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
+        const scale: number = 2; 
+        const height: string = (350 * scale).toString() + "px";
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
                     </div>
@@ -353,7 +355,7 @@ export class LuxWidgetView extends DOMWidgetView {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
                     {/* {attributeShelf}
                     {filterShelf} */}
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
                       <div id="tabBanner">
