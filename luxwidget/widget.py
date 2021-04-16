@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from ipywidgets import DOMWidget
-from traitlets import Unicode, Int, List, Dict
+from traitlets import Unicode, Int, List, Dict, Bool
 from ._frontend import module_name, module_version
 import json
 
@@ -22,10 +22,12 @@ class LuxWidget(DOMWidget):
     intent = Unicode("").tag(sync=True)
     selectedIntentIndex = Dict({}).tag(sync=True)
     message = Unicode("").tag(sync=True)
+    all_column = Bool(False).tag(sync=True)
 
-    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs):
+    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, allColumn=False, **kwargs):
         super().__init__(**kwargs)
         self.current_vis = currentVis
         self.recommendations = recommendations
         self.intent = intent
         self.message = message
+        self.all_column = allColumn
