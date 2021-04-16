@@ -20,7 +20,7 @@ import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-import '../css/widget.css'
+import '../style/base.css'
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";

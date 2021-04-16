@@ -32,10 +32,16 @@ You can find the full demo example in this live [notebook](https://mybinder.org/
 
 # Installation
 
-Lux can be installed through PyPI: 
+For either Jupyter Notebooks or JupyterLab (versions 3.0 and above), you can install via pip or conda: 
 
 ```bash
     pip install lux-api
+```
+
+or 
+
+```bash
+    conda install -c conda-forge lux-api
 ```
 
 ## Setup in Jupyter Notebook, VSCode
@@ -48,15 +54,6 @@ To use Lux in [Jupyter notebook](https://github.com/jupyter/notebook) or [VSCode
 ```
 
 If the installation happens correctly, you should see two `- Validating: OK` after executing the two lines above.
-
-## Setup in Jupyter Lab
-
-To use Lux in [Jupyter Lab](https://github.com/jupyterlab/jupyterlab), activate the lab extension:
-
-```bash
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager
-    jupyter labextension install luxwidget
-```
 
 If you encounter issues with the installation, please refer to [this page](https://lux-api.readthedocs.io/en/latest/source/guide/FAQ.html#troubleshooting-tips) to troubleshoot the installation. Follow [these instructions](https://lux-api.readthedocs.io/en/latest/source/getting_started/installation.html#manual-installation-dev-setup) to set up Lux for development purposes.
 
