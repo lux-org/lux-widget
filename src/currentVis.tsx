@@ -23,8 +23,7 @@ interface currentVisProps{
     intent:string,
     currentVisSpec: object,
     numRecommendations: number,
-    onChange: Function,
-    allColumn: boolean,
+    onChange: Function
 }
 
 class CurrentVisComponent extends Component<currentVisProps,any> {
@@ -79,10 +78,11 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
+                
                 return (
                     <div id="mainVizContainer">
                             <div>
-                                {this.props.allColumn ?
+                                {this.props.currentVisSpec["allcols"] ?
                                     <div>
                                         <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
                                         <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>

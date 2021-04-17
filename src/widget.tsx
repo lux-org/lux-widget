@@ -58,7 +58,6 @@ export class LuxModel extends DOMWidgetModel {
   static view_module = MODULE_NAME;   // Set to null if no view
   static view_module_version = MODULE_VERSION;
 }
-
 export class LuxWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
@@ -77,8 +76,7 @@ export class LuxWidgetView extends DOMWidgetView {
       deletedIndices: object,
       currentVisSelected: number,
       openWarning: boolean,
-      openInfo: boolean,
-      allColumn: boolean,
+      openInfo: boolean
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -106,8 +104,7 @@ export class LuxWidgetView extends DOMWidgetView {
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning: false,
-          openInfo: false,
-          allColumn: props.model.get("all_column"),
+          openInfo: false
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -338,7 +335,7 @@ export class LuxWidgetView extends DOMWidgetView {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect} allColumn={this.state.allColumn}/>
+                      onChange={this.handleCurrentVisSelect}/>
                     </div>
                     <ButtonsBroker buttonsEnabled={buttonsEnabled}
                                      deleteSelection={this.deleteSelection}
@@ -357,7 +354,7 @@ export class LuxWidgetView extends DOMWidgetView {
                     {filterShelf} */}
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect} allColumn={this.state.allColumn}/>
+                      onChange={this.handleCurrentVisSelect}/>
                       <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>

@@ -24,10 +24,9 @@ class LuxWidget(DOMWidget):
     message = Unicode("").tag(sync=True)
     all_column = Bool(False).tag(sync=True)
 
-    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, allColumn=False, **kwargs):
+    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs):
         super().__init__(**kwargs)
         self.current_vis = currentVis
         self.recommendations = recommendations
         self.intent = intent
         self.message = message
-        self.all_column = allColumn
