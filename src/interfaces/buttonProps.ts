@@ -8,4 +8,5 @@ export interface ButtonProps {
     closeExportInfo: () => void,
     showAlert: boolean,
     intentEnabled: boolean
+    fullScreenEnabled: boolean
 }

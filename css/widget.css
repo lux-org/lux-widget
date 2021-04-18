@@ -572,11 +572,23 @@ button.card:focus {
   height: 212px;
 }
 
-#modal-content-custom {
-  width: 90%;
+.modal-content-custom {
+  width: 70%!important;
   max-width: none!important;
 } 
 
 .display-linebreak {
   white-space: pre-line;
+}
+
+.button-container-1 {
+  padding: 5px;
+  position: relative;
+  left: 12%;
+}
+
+.button-container-2 {
+  padding: 5px;
+  position: relative;
+  left: 12%;
 }

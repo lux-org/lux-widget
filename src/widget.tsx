@@ -27,16 +27,22 @@ import * as ReactDOM from "react-dom";
 import _ from 'lodash';
 import {Tabs,Tab,Modal,Button} from 'react-bootstrap';
 
+import { VegaLite } from 'react-vega';
+import Grid from '@material-ui/core/Grid';
+
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
 import {dispatchLogEvent} from './utils';
 import ButtonsBroker from './buttonsBroker';
 import WarningBtn from './warningBtn';
 import InfoBtn from './infoBtn';
-import { VegaLite } from 'react-vega';
 
-import ContentEditable from 'react-contenteditable'
-// import { CodeBlock } from "react-code-blocks";
+import 'codemirror/keymap/sublime';
+import 'codemirror/theme/eclipse.css';
+import 'codemirror/mode/python/python.js'
+
+import {UnControlled as CodeMirror} from 'react-codemirror2';
+
 
 export class LuxModel extends DOMWidgetModel {
   defaults() {
@@ -84,7 +90,10 @@ export class LuxWidgetView extends DOMWidgetView {
       openInfo: boolean,
       openFullScreen: boolean,
       graphSpec: object
-      codeHTML: string,
+      graphCodeHTML: string,
+      styleCodeHTML: string,
+      fullScreenLoading: boolean,
+      codeError: boolean,
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -115,7 +124,10 @@ export class LuxWidgetView extends DOMWidgetView {
           openInfo: false,
           openFullScreen: false,
           graphSpec: {},
-          codeHTML: "Edit <b>me</b> !",
+          graphCodeHTML: "",
+          styleCodeHTML: "",
+          fullScreenLoading: false,
+          codeError: false,
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -129,7 +141,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
         this.toggleFullScreen = this.toggleFullScreen.bind(this);
         this.rerunFullScreen = this.rerunFullScreen.bind(this);
-        this.handleCodeChange = this.handleCodeChange.bind(this);
+        this.applyStyleFullScreen = this.applyStyleFullScreen.bind(this);
       }
 
       toggleWarningPanel(e) {
@@ -346,7 +358,6 @@ export class LuxWidgetView extends DOMWidgetView {
         if (this.state.openFullScreen) {
           dispatchLogEvent("closeFullScreen",this.state._selectedVisIdxs);
           this.setState({
-            _selectedVisIdxs: {},
             openFullScreen:false
           });
         } else {
@@ -366,33 +377,67 @@ export class LuxWidgetView extends DOMWidgetView {
             this.setState(
                   state => ({
                     openFullScreen:true,
-                    codeHTML:view.model.get("visGraphCode")
+                    graphCodeHTML:view.model.get("visGraphCode"),
+                    styleCodeHTML:view.model.get("visStyleCode")
              }));
+             view.model.set('visGraphSpec', this.state.graphSpec);
           },1000);
         }
       }
 
+      // Rerenders just the graph in the full screen view
       rerunFullScreen() {
-        var code_input = this.state.codeHTML;
-        view.model.set('visGraphCode', code_input);
-        view.model.save();
-        
-        // delay so backend finish running, not optimal
-        setTimeout(()=>{
-          this.setState(
-                state => ({
-                  graphSpec:JSON.parse(view.model.get("visGraphSpec"))
-           }));
-        },1000);
+        this.setState({
+          fullScreenLoading: true,
+          codeError: false,
+        })
+        var graphCodeInput = this.state.graphCodeHTML;
+        var styleCodeInput = this.state.styleCodeHTML;
+
+        if (view.model.get('visGraphCode') === graphCodeInput && 
+            view.model.get('visStyleCode') === styleCodeInput) {
+        }
+        else {
+          var result = this.state.graphSpec;
+          view.model.set('visGraphCode', graphCodeInput);
+          view.model.set('visStyleCode', styleCodeInput);
+          view.model.save();
+          // delay so backend finish running, not optimal, onChange of variable, or set timeout in while loop
+          setTimeout(()=>{
+            try {
+              result = JSON.parse(view.model.get("visGraphSpec"));
+            }
+            catch(err) {
+              this.setState({
+                codeError: true,
+                graphSpec: view.model.get("visGraphSpec")
+              }); 
+            }
+            this.setState(
+                  state => ({
+                    graphSpec:result,
+                    fullScreenLoading:false
+            }));
+          },1000);
+        }
       }
 
-      handleCodeChange = evt => {
-        this.setState({ codeHTML: evt.target.value });
-      };
+      // Closes overlap and rerenders widget, applies style changes
+      applyStyleFullScreen() {
+        var codeInput = this.state.styleCodeHTML;
+        if (view.model.get('configPlottingStyle') === codeInput) {
+        }
+        else {
+          view.model.set('configPlottingStyle', codeInput);
+          view.model.save();
+        }
+        this.toggleFullScreen();
+      }
 
 
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
+        var fullScreenEnabled = Object.keys(this.state._selectedVisIdxs).length == 1;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
@@ -409,6 +454,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
+                                     fullScreenEnabled={fullScreenEnabled}
                                      />
                   {this.generateNoRecsWarning()}
                   </div>);
@@ -435,6 +481,7 @@ export class LuxWidgetView extends DOMWidgetView {
                                      tabItems={this.state.tabItems}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
+                                     fullScreenEnabled={fullScreenEnabled}
                                      />
                     <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
                     <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
@@ -446,27 +493,77 @@ export class LuxWidgetView extends DOMWidgetView {
                     >
                       <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                          Graph Full Screen View
+                          Chart Full Screen View
                         </Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <Button onClick={this.rerunFullScreen}>
-                          Apply Changes
-                        </Button>
-                        <VegaLite
-                          spec={this.state.graphSpec}  
-                          padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                          actions={false}/>
-                        {/* <CodeBlock
-                          text={this.props.model.get("visGraphCode")}
-                          language={"python"}
-                        /> */}
-                        <ContentEditable // try to replace with editable code block instead
-                          html={this.state.codeHTML} // innerHTML of the editable div
-                          disabled={false} // use true to disable edition
-                          onChange={this.handleCodeChange} // handle innerHTML change
-                          className="display-linebreak" // causes new lines to appear on new lines
-                        />
+                        <Grid container spacing={3}>
+                          <Grid item xs={6}>
+                            <div> <h4>Visualization Editor</h4> </div>
+                              <CodeMirror
+                                value={this.state.graphCodeHTML}
+                                onChange={(editor, data, value) => {
+                                  this.setState({graphCodeHTML: value})
+                                }}
+                                editorDidMount={(editor, [next]) => {
+                                  this.setState({graphCodeHTML: this.state.graphCodeHTML + " "})
+                                }}
+                                autoCursor={false}
+                                options={{
+                                  theme: 'eclipse',
+                                  keyMap: 'sublime',
+                                  mode: 'python',
+                                }} 
+                              />
+                            <div> <h4>Style Editor</h4> </div>
+                              <CodeMirror
+                                value={this.state.styleCodeHTML}
+                                onChange={(editor, data, value) => {
+                                  this.setState({styleCodeHTML: value})
+                                }}
+                                editorDidMount={(editor, [next]) => {
+                                  this.setState({styleCodeHTML: this.state.styleCodeHTML + " "})
+                                }}
+                                autoCursor={false}
+                                options={{
+                                  theme: 'eclipse',
+                                  keyMap: 'sublime',
+                                  mode: 'python',
+                                }}
+                              />
+                          </Grid>
+                          <Grid item xs={6} 
+                            justify="flex-start"
+                            alignItems="flex-end"
+                          >
+                            <div> {!this.state.codeError ? 
+                              <VegaLite
+                                  spec={this.state.graphSpec}  
+                                  padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                                  height={300}
+                                  width={320}
+                                  actions={false}/> 
+                                  :
+                                  <div>problems</div>
+                                } 
+                            </div>
+                            <div>
+                              <span className={"button-container-1"}>
+                                <Button variant="primary" 
+                                  onClick={!this.state.fullScreenLoading ? this.rerunFullScreen : null}
+                                  disabled={this.state.fullScreenLoading}
+                                >
+                                  Update Graph
+                                </Button>
+                              </span>
+                              <span className={"button-container-2"}>
+                                <Button variant="secondary" onClick={this.applyStyleFullScreen}>
+                                  Update Widget Plotting Style
+                                </Button>    
+                              </span>
+                            </div>
+                          </Grid>
+                        </Grid>                        
                       </Modal.Body>
                     </Modal>
                   </div>);

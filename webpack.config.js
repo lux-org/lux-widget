@@ -4,7 +4,9 @@ const version = require('./package.json').version;
 // Custom webpack rules
 const rules = [
   { test: /\.ts(x?)$/, exclude: /node_modules/, loader: 'ts-loader' },
-  { test: /\.css$/, exclude: /node_modules/, use: ['style-loader', 'css-loader']}
+  { test: /\.css$/, exclude: /node_modules/, use: ['style-loader', 'css-loader']},
+  { test: /\.ts(x?)$/, include: /codemirror/, loader: 'ts-loader' },
+  { test: /\.css$/,  include: /codemirror/, use: ['style-loader', 'css-loader']}
 ];
 
 // Packages that shouldn't be bundled but loaded at runtime

@@ -8,7 +8,7 @@ class ButtonsBroker extends Component<ButtonProps> {
     }
 
     render() {
-      const{ buttonsEnabled, tabItems, deleteSelection, exportSelection, setIntent, fullScreen, closeExportInfo, showAlert, intentEnabled } = this.props;
+      const{ buttonsEnabled, tabItems, deleteSelection, exportSelection, setIntent, fullScreen, closeExportInfo, showAlert, intentEnabled, fullScreenEnabled } = this.props;
 
       let deleteBtn;
       let exportBtn;
@@ -38,27 +38,31 @@ class ButtonsBroker extends Component<ButtonProps> {
                           title='Select one or more visualizations to export into variable' />
         }
 
-        if (buttonsEnabled && intentEnabled) {
-          intentBtn = <i  id="intentBtn"
-                          className="fa fa-search"
-                          title='Set selected visualization as intent'
-                          onClick={() => setIntent()} />
+        if (buttonsEnabled && fullScreenEnabled) {
           // located here for now since only handle one graph at a time, can move later
           fullScreenBtn = <i  id="fullScreenBtn" 
                           className='fa fa-external-link' 
-                          title='Open widget in full view overlay'
+                          title='Open selected chart in full view overlay'
                           onClick={(e) => fullScreen()} /> 
         } else {
-          intentBtn = <i  id="intentBtn"
-                          className="fa fa-search"
-                          style={{opacity: 0.2, cursor: 'not-allowed'}}
-                          title='Select no more than one visualization to set as intent' />
           // located here for now since only handle one graph at a time, can move later
           fullScreenBtn = <i  id="fullScreenBtn" 
                           className='fa fa-external-link' 
                           style={{opacity: 0.2, cursor: 'not-allowed'}}
                           title='Open widget in full view overlay'
                           onClick={(e) => fullScreen()} />
+        } 
+
+        if (buttonsEnabled && intentEnabled) {
+          intentBtn = <i  id="intentBtn"
+                          className="fa fa-search"
+                          title='Set selected visualization as intent'
+                          onClick={() => setIntent()} />
+        } else {
+          intentBtn = <i  id="intentBtn"
+                          className="fa fa-search"
+                          style={{opacity: 0.2, cursor: 'not-allowed'}}
+                          title='Select no more than one visualization to set as intent' />
         }
       }
 
