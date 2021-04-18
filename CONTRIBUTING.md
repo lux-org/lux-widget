@@ -31,23 +31,20 @@ If you are developing with Jupyter Notebook and make a change to the source code
 sh install.sh
 ```
 
-If you are developing with JupyterLab, first make sure your JupyterLab is up to date using:
-
-```bash
-sh install_lab.sh
-```
+If you are developing with JupyterLab, first make sure your JupyterLab is up to date to a version greater than 3.0.0.
 
 You can rebuild by running this command in the `lux-widget/` folder:
 
 ```bash
-jupyter labextension install
+pip install .
 ```
 
-On low memory systems or for faster build times, you can run:
+You can generate the files for the pre-built extension by running:
 
 ```bash
-jupyter lab build --minimize=False
+jupyter lab build
 ```
+
 
 We recommend working in JupyterLab as the build time is much faster than building for Notebook.
 

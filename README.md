@@ -44,6 +44,15 @@ or
     conda install -c conda-forge lux-api
 ```
 
+For older versions of JupyterLab, you can install via: 
+
+```bash
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+jupyter labextension install luxwidget
+```
+
+The most recent version of luxwidget to support older JupyterLab versions is version 0.1.4
+
 ## Setup in Jupyter Notebook, VSCode
 
 To use Lux in [Jupyter notebook](https://github.com/jupyter/notebook) or [VSCode](https://code.visualstudio.com/docs/python/jupyter-support), activate the notebook extension:
