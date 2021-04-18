@@ -82,7 +82,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                 const width: string = (28 * scale).toString() + "%"; 
                 
                 return (
-                    <div id="mainVizContainer" style={{ width: width }}>
+                    <div id="mainVizContainer" style={{ width: '50%' }}>
                             <div>
                                 {this.props.currentVisSpec["allcols"] ?
                                     <div>
