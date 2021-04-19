@@ -3,4 +3,3 @@ jupyter>=1.0.0
 notebook>=4.0.0
 ipywidgets>=7.0.0
 jupyterlab 
-jupyter-packaging
