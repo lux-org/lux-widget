@@ -59,7 +59,8 @@ try:
         cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
 except ImportError:
-    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'")
+
+    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'.")
     cmdclass = {}
 
 long_description = (HERE / "README.md").read_text()
