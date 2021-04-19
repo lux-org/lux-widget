@@ -59,7 +59,7 @@ try:
         cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
 except ImportError:
-    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'.")
+    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'")
     cmdclass = {}
 
 long_description = (HERE / "README.md").read_text()
@@ -68,7 +68,7 @@ long_description = (HERE / "README.md").read_text()
 pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
-    name=name,
+    name="lux-widget",
     version=pkg_json["version"],
     url=pkg_json["homepage"],
     author=pkg_json["author"]["name"],
