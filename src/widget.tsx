@@ -76,7 +76,8 @@ export class LuxWidgetView extends DOMWidgetView {
       deletedIndices: object,
       currentVisSelected: number,
       openWarning: boolean,
-      openInfo: boolean
+      openInfo: boolean,
+      plottingScale: number 
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -104,7 +105,8 @@ export class LuxWidgetView extends DOMWidgetView {
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning: false,
-          openInfo: false
+          openInfo: false,
+          plottingScale: props.model.get("plotting_scale")
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -312,6 +314,7 @@ export class LuxWidgetView extends DOMWidgetView {
                   onChange={this.onListChanged.bind(this,tabIdx)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  plottingScale={this.props.model.get("plotting_scale")}
                   /> 
             </Tab>
           )
@@ -331,13 +334,13 @@ export class LuxWidgetView extends DOMWidgetView {
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        const scale: number = 2; 
-        const height: string = (350 * scale).toString() + "px";
+        const height: string = (350 + 160 * (this.state.plottingScale - 1)).toString() + "px";
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', height: '700px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect}/>
+                      onChange={this.handleCurrentVisSelect}
+                      plottingScale={this.state.plottingScale} />
                     </div>
                     <ButtonsBroker buttonsEnabled={buttonsEnabled}
                                      deleteSelection={this.deleteSelection}
@@ -354,9 +357,10 @@ export class LuxWidgetView extends DOMWidgetView {
           return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
                     {/* {attributeShelf}
                     {filterShelf} */}
-                    <div style={{ display: 'flex', flexDirection: 'row', height: '700px'  }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: height  }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect}/>
+                      onChange={this.handleCurrentVisSelect}
+                      plottingScale={this.state.plottingScale} />
                       <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>

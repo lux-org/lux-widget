@@ -26,6 +26,7 @@ interface chartGalleryProps{
     graphSpec: object[],
     description: string,
     currentVisShow: boolean,
+    plottingScale: number,
 }
 
 class ChartGalleryComponent extends Component<chartGalleryProps,any> {
@@ -94,7 +95,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                       selected={true} 
                       onClick={(e) => {this.onItemSelected(idx);}}>
                       {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1, JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
-                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1, JSON.stringify(item['config']).length - 1) + "\ "}></img> :
+                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1, JSON.stringify(item['config']).length - 1) + "\ "} style={{ height: `${60 + 160 * this.props.plottingScale}px`}}></img> :
                       <VegaLite
                         spec={item}  
                         padding={{left: 10, top: 5, right: 5, bottom: 5}}
@@ -107,7 +108,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                         selected={false} 
                         onClick={(e) => {this.onItemSelected(idx);}}>
                         {'vislib' in item && 'config' in item && JSON.stringify(item['vislib']).substring(1,JSON.stringify(item['vislib']).length - 1) === 'matplotlib' ?
-                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1,JSON.stringify(item['config']).length - 1) + "\ "}></img> :
+                      <img id="gal-img" src={"data:image/png;base64," + JSON.stringify(item['config']).substring(1,JSON.stringify(item['config']).length - 1) + "\ "} style={{ height: `${60 + 160 * this.props.plottingScale}px`}}></img> :
                       <VegaLite
                           spec={item}  
                           padding={{left: 10, top: 5, right: 5, bottom: 5}}
@@ -116,7 +117,7 @@ class ChartGalleryComponent extends Component<chartGalleryProps,any> {
                     </SelectableCard>
                   }
               </div>  
-            )} title={this.props.title} currentVisShow={this.props.currentVisShow}>
+            )} title={this.props.title} currentVisShow={this.props.currentVisShow} plottingScale={this.props.plottingScale}>
             </ScrollableContent>
           </div>
         );

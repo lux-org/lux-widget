@@ -14,7 +14,7 @@
 
 import React, { Component } from 'react';
 import {dispatchLogEvent} from './utils';
-class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:string, currentVisShow: boolean},any>  {
+class ScrollableContent extends Component<{galleryItems: JSX.Element[] ,title:string, currentVisShow: boolean, plottingScale: number },any>  {
   constructor(props:any){
     super(props)
     this.state = {
@@ -73,7 +73,8 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[],title:str
     }else{
       scrollDescription= "Scroll for "+numMoreCharts+" more charts"
     }
-    return (<div id="staticOuterDiv" className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
+    const height: string = (130 + (this.props.plottingScale * 160)).toString() + "px"; 
+    return (<div id="staticOuterDiv" style={{ height: height}} className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
         <div id="mult-graph-container" className= "recommendationContentInner">
             {this.props.galleryItems}
         </div>

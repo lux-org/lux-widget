@@ -23,7 +23,8 @@ interface currentVisProps{
     intent:string,
     currentVisSpec: object,
     numRecommendations: number,
-    onChange: Function
+    onChange: Function,
+    plottingScale: number
 }
 
 class CurrentVisComponent extends Component<currentVisProps,any> {
@@ -59,9 +60,9 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
             }
             if (this.props.numRecommendations == 0) {
                 return (
-                    <div className="vizContainer" style={{width:'320px'}}>
+                    <div className="vizContainer" style={{ display: 'flex', justifyContent: 'center', width:'320px' }}>
                         {vislib === 'matplotlib' ?                     
-                        <img id="cur-img" src={img_str}></img> :
+                        <img id="cur-img" src={img_str} style={{ height: `${60 + 160 * this.props.plottingScale}px`, width: `${60 + 185 * this.props.plottingScale}px`}}></img> :
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
                             actions={false}/>
@@ -78,20 +79,19 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
-                const scale: number = 2; 
-                const width: string = (28 * scale).toString() + "%"; 
+                const width: string = (300 + (this.props.plottingScale - 1) * 185).toString() + "px";
                 
                 return (
-                    <div id="mainVizContainer" style={{ width: '50%' }}>
+                    <div id="mainVizContainer" style={{ width: width }}>
                             <div>
                                 {this.props.currentVisSpec["allcols"] ?
-                                    <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
-                                        <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
+                                    <div className="text-container-style">
+                                        <p className="title-description" style={{ fontSize: '20px', height:'15px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
+                                        <p className="text-description" style={{top: '40px',left: '10px', marginTop: '40px'}}>based on all columns in the dataframe</p>
                                     </div> :
-                                    <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
-                                        <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
+                                    <div className="text-container-style">
+                                        <p className="title-description" style={{ fontSize: '20px', height:'15px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
+                                        <p className="text-description" style={{top: '40px',left: '40px', marginTop: '40px' }}>based on user specified&nbsp;
                                         <CustomTooltip title={this.props.intent} arrow>
                                             <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
                                         </CustomTooltip>
@@ -100,15 +100,15 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                 }
                             </div>
                             <div id="mainVizInnerContainer">
-                                <div className="vizContainer">
+                                <div className="vizContainer" style={{ display: 'flex', justifyContent: 'center' }}>
                                     <SelectableCard key={0}
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
                                         {vislib === 'matplotlib' ?                     
-                                        <img id="cur-img" src={img_str}></img> :
+                                        <img id="cur-img" src={img_str} style={{ height: `${60 + 160 * this.props.plottingScale}px`, width: `${60 + 185 * this.props.plottingScale}px`}}></img> :
                                         <VegaLite spec={this.props.currentVisSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                                                width={185} height={160} 
+                                                width={185 * this.props.plottingScale} height={160 * this.props.plottingScale} 
                                                 actions={false}/>
                                         }
                                     </SelectableCard>
