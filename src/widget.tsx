@@ -334,7 +334,7 @@ export class LuxWidgetView extends DOMWidgetView {
       render() {
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        const height: string = (350 + 160 * (this.state.plottingScale - 1)).toString() + "px";
+        const height: string = (320 + 160 * (this.state.plottingScale - 1)).toString() + "px";
         if (this.state.recommendations.length == 0) {
           return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', height: height }}>

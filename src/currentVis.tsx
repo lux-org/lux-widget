@@ -62,7 +62,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                 return (
                     <div className="vizContainer" style={{ display: 'flex', justifyContent: 'center', width:'320px' }}>
                         {vislib === 'matplotlib' ?                     
-                        <img id="cur-img" src={img_str} style={{ height: `${60 + 160 * this.props.plottingScale}px`, width: `${60 + 185 * this.props.plottingScale}px`}}></img> :
+                        <img id="cur-img" src={img_str} style={{ height: `${50 + 160 * this.props.plottingScale}px`, width: `${50 + 185 * this.props.plottingScale}px`}}></img> :
                         <VegaLite spec={this.props.currentVisSpec}
                             padding={{left: 0, top: 5, right: 5, bottom: 5}} 
                             actions={false}/>
@@ -105,7 +105,7 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     selected={this.state.selected > -1}
                                     onClick={(e) => this.onItemSelected()}>
                                         {vislib === 'matplotlib' ?                     
-                                        <img id="cur-img" src={img_str} style={{ height: `${60 + 160 * this.props.plottingScale}px`, width: `${60 + 185 * this.props.plottingScale}px`}}></img> :
+                                        <img id="cur-img" src={img_str} style={{ height: `${50 + 160 * this.props.plottingScale}px`, width: `${50 + 185 * this.props.plottingScale}px`}}></img> :
                                         <VegaLite spec={this.props.currentVisSpec}
                                                 padding={{left: 10, top: 5, right: 5, bottom: 5}}
                                                 width={185 * this.props.plottingScale} height={160 * this.props.plottingScale} 
