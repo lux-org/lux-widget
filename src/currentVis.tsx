@@ -23,7 +23,7 @@ interface currentVisProps{
     intent:string,
     currentVisSpec: object,
     numRecommendations: number,
-    onChange: Function,
+    onChange: Function
 }
 
 class CurrentVisComponent extends Component<currentVisProps,any> {
@@ -78,14 +78,25 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
+                
                 return (
                     <div id="mainVizContainer">
-                            <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
-                            <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
-                            <CustomTooltip title={this.props.intent} arrow>
-                                <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
-                            </CustomTooltip>
-                            </p>
+                            <div>
+                                {this.props.currentVisSpec["allcols"] ?
+                                    <div>
+                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
+                                        <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
+                                    </div> :
+                                    <div>
+                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
+                                        <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
+                                        <CustomTooltip title={this.props.intent} arrow>
+                                            <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
+                                        </CustomTooltip>
+                                        </p>
+                                    </div>
+                                }
+                            </div>
                             <div id="mainVizInnerContainer">
                                 <div className="vizContainer">
                                     <SelectableCard key={0}

@@ -4,69 +4,89 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from __future__ import print_function
-from glob import glob
-from os.path import join as pjoin
-from os import path
+import json
+from pathlib import Path
 
+import setuptools
 
-from setupbase import (
-    create_cmdclass,
-    install_npm,
-    ensure_targets,
-    find_packages,
-    combine_commands,
-    ensure_python,
-    get_version,
-    HERE,
-)
-
-from setuptools import setup
-
-HERE = path.abspath(path.dirname(__file__))
-
-# Get the long description from the README file
-with open(path.join(HERE, "README.md"), encoding="utf-8") as f:
-    long_description = f.read()
-
-install_requires = [
-    "jupyter",
-    "notebook >= 4.0.0",
-    "ipywidgets >=7.5.0",
-]
+HERE = Path(__file__).parent.resolve()
 
 # The name of the project
 name = "luxwidget"
 
-# Ensure a valid python version
-ensure_python(">=3.6")
-
-# Get our version
-version = get_version(pjoin(name, "_version.py"))
-
-nb_path = pjoin(HERE, name, "nbextension", "static")
-lab_path = pjoin(HERE, name, "labextension")
+lab_path = (HERE / name / "labextension")
+nb_path = (HERE / name / "nbextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(nb_path, "index.js"),
-    pjoin(HERE, "lib", "plugin.js"),
+    str(lab_path / "package.json"),
 ]
 
-package_data_spec = {name: ["nbextension/static/*.*js*", "labextension/*.tgz"]}
+package_data_spec = {
+    name: ["*"],
+}
+
+labext_name = "luxwidget"
+
+try:
+    from jupyter_packaging import (
+        create_cmdclass,
+        install_npm,
+        ensure_targets,
+        combine_commands,
+        skip_if_exists
+    )
+    data_files_spec = [
+    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
+    ("share/jupyter/nbextensions/%s" % name, str(nb_path), '**'),
+    ]
+
+    cmdclass = create_cmdclass("jsdeps",
+        package_data_spec=package_data_spec,
+        data_files_spec=data_files_spec
+    )
+
+    js_command = combine_commands(
+        install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
+        ensure_targets(jstargets),
+    )
+
+    is_repo = (HERE / ".git").exists()
+    if is_repo:
+        cmdclass["jsdeps"] = js_command
+    else:
+        cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
+
+except ImportError:
+
+    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'.")
+    cmdclass = {}
+
+long_description = (HERE / "README.md").read_text()
+
+# Get the package info from package.json
+pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
     name="lux-widget",
-    description="Jupyter Widget for Intelligent Data Discovery",
+    version=pkg_json["version"],
+    url=pkg_json["homepage"],
+    author=pkg_json["author"]["name"],
+    author_email=pkg_json["author"]["email"],
+    description=pkg_json["description"],
+    license=pkg_json["license"],
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version=version,
-    scripts=glob(pjoin("scripts", "*")),
-    packages=find_packages(),
-    author="Doris Jung-Lin Lee",
-    author_email="dorisjunglinlee@gmail.com",
-    url="https://github.com/lux-org/lux-widget",
-    license="Apache-2.0 License",
+    cmdclass=cmdclass,
+    packages=setuptools.find_packages(),
+    install_requires=[
+        "notebook >= 4.0.0",
+        "ipywidgets >=7.5.0",
+    ],
+    zip_safe=False,
+    include_package_data=True,
+    python_requires=">=3.6",
     platforms="Linux, Mac OS X, Windows",
     keywords=[
         "Jupyter",
@@ -78,6 +98,13 @@ setup_args = dict(
         "IPython",
     ],
     classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Framework :: Jupyter",
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
@@ -85,22 +112,9 @@ setup_args = dict(
         "Topic :: Scientific/Engineering :: Information Analysis",
         "Topic :: Scientific/Engineering :: Visualization",
         "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3",
-        "Framework :: Jupyter",
     ],
-    include_package_data=True,
-    data_files=[
-        (
-            "share/jupyter/nbextensions/luxwidget",
-            [
-                "luxwidget/nbextension/static/extension.js",
-                "luxwidget/nbextension/static/index.js",
-                "luxwidget/nbextension/static/index.js.map",
-            ],
-        ),
-    ],
-    setup_requires=install_requires,
-    install_requires=install_requires,
 )
 
-setup(**setup_args)
+
+if __name__ == "__main__":
+    setuptools.setup(**setup_args)

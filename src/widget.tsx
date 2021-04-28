@@ -20,7 +20,7 @@ import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
 
-import '../css/widget.css'
+import '../style/base.css'
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -58,7 +58,6 @@ export class LuxModel extends DOMWidgetModel {
   static view_module = MODULE_NAME;   // Set to null if no view
   static view_module_version = MODULE_VERSION;
 }
-
 export class LuxWidgetView extends DOMWidgetView {
   initialize(){    
     let view = this;
@@ -77,7 +76,7 @@ export class LuxWidgetView extends DOMWidgetView {
       deletedIndices: object,
       currentVisSelected: number,
       openWarning: boolean,
-      openInfo: boolean,
+      openInfo: boolean
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -105,7 +104,7 @@ export class LuxWidgetView extends DOMWidgetView {
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning: false,
-          openInfo: false,
+          openInfo: false
         }
 
         // This binding is necessary to make `this` work in the callback
