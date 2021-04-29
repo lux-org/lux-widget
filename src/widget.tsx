@@ -76,7 +76,9 @@ export class LuxWidgetView extends DOMWidgetView {
       deletedIndices: object,
       currentVisSelected: number,
       openWarning: boolean,
-      openInfo: boolean
+      openInfo: boolean,
+      toggleTab: boolean,
+      pandasHtml: string
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -95,6 +97,7 @@ export class LuxWidgetView extends DOMWidgetView {
           intent: props.model.get("intent"),
           selectedIntentIndex: {},
           message: props.model.get("message"),
+          pandasHtml: props.model.get("pandasHtml"),
           longDescription: this.generateDescription(null),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
@@ -104,7 +107,8 @@ export class LuxWidgetView extends DOMWidgetView {
           deletedIndices: {},
           currentVisSelected: -2,
           openWarning: false,
-          openInfo: false
+          openInfo: false,
+          toggleTab: true
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -117,6 +121,7 @@ export class LuxWidgetView extends DOMWidgetView {
         this.closeExportInfo = this.closeExportInfo.bind(this);
         this.updateTabs = this.updateTabs.bind(this);
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
+        this.switchView = this.switchView.bind(this);
       }
 
       toggleWarningPanel(e){
@@ -366,6 +371,9 @@ export class LuxWidgetView extends DOMWidgetView {
         }
       }
 
+      switchView() {
+        this.setState({toggleTab: !this.state.toggleTab});
+      }
 
       render() {
         view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
@@ -374,7 +382,13 @@ export class LuxWidgetView extends DOMWidgetView {
         var isRecEmpty = this.state.recommendations.length == 0;
         var divId = isRecEmpty ? "oneViewWidgetContainer" : "widgetContainer";
         
-        return (<div id={divId} style={{ flexDirection: 'column' }}>
+        return (
+        <div>
+          <button onClick={this.switchView}>
+              Toggle Pandas/Lux
+          </button>
+           <div dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+           <div id={divId} style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}/>
@@ -397,7 +411,9 @@ export class LuxWidgetView extends DOMWidgetView {
                     {isRecEmpty && this.generateNoRecsWarning()}
                     {!isRecEmpty && <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} />}
                     {!isRecEmpty && <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />}
-                  </div>);
+                  </div>
+        </div>
+        );
       }
     }
     const $app = document.createElement("div");

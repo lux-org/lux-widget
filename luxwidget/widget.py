@@ -24,10 +24,12 @@ class LuxWidget(DOMWidget):
     message = Unicode("").tag(sync=True)
     loadNewTab = Unicode("").tag(sync=True)
     all_column = Bool(False).tag(sync=True)
+    pandasHtml = Unicode("").tag(sync=True)
 
-    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, **kwargs):
+    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, pandasHtml=None, **kwargs):
         super().__init__(**kwargs)
         self.current_vis = currentVis
         self.recommendations = recommendations
         self.intent = intent
         self.message = message
+        self.pandasHtml = pandasHtml
