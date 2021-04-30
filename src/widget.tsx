@@ -384,10 +384,10 @@ export class LuxWidgetView extends DOMWidgetView {
         
         return (
         <div>
-          <button onClick={this.switchView}>
+          <button className="toggleBtn" onClick={this.switchView}>
               Toggle Pandas/Lux
           </button>
-           <div dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+           <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
            <div id={divId} style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
