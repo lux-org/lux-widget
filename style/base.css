@@ -1,3 +1,47 @@
+/* Pandas CSS */
+.pandasView {
+  overflow: scroll;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+.pandasStyle {
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 12px;
+  table-layout: fixed;
+}
+
+.pandasStyle td, th, tr {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+
+.pandasStyle th {
+  font-weight: bold;
+}
+
+.pandasStyle tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+
+.pandasStyle thead tr:first-of-type {
+  background: #FFFFFF;
+  border-bottom: 1px solid black;
+}
+
+.pandasStyle tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
 .jp-OutputArea-output {
     height: auto;
     overflow: auto;
@@ -137,9 +181,7 @@
   }
   #exportBtn{
     position: absolute;
-    /* bottom: 90%; */
-    /* left: 97%; */
-    top: 5px;
+    top: 30px;
     right: 5px;
     font-size: 20px;
     padding: 5px;
@@ -147,7 +189,7 @@
   
   #deleteBtn{
     position: absolute;
-    top: 5px;
+    top: 30px;
     right: 33px;
     font-size: 20px;
     padding: 5px;
@@ -155,7 +197,7 @@
   
   #intentBtn{
     position: absolute;
-    top: 5px;
+    top: 30px;
     right: 59px;
     font-size: 20px;
     padding: 5px;
@@ -542,7 +584,7 @@
   }
   #infoBtn{
     position: absolute;
-    top: 45px;
+    top: 72px;
     right: 5px;
     font-size: 20px;
     padding: 5px;
