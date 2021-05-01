@@ -1,3 +1,53 @@
+.toggleBtn {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: var(--jp-widgets-font-size);
+  cursor: pointer;
+  height: var(--jp-widgets-inline-height);
+  line-height: var(--jp-widgets-inline-height);
+  box-shadow: none;
+  color: var(--jp-ui-font-color1);
+  background-color: var(--jp-layout-color2);
+  border-color: var(--jp-border-color2);
+  border: none;
+  user-select: none;
+  width: var(--jp-widgets-inline-width-short);
+  margin: var(--jp-widgets-margin);
+  box-sizing: border-box;
+  position: relative;
+  font-family: inherit;
+  -webkit-appearance: button;
+  text-transform: none;
+  align-items: flex-start;
+  text-indent: 0px;
+  text-shadow: none;
+  letter-spacing: normal;
+  word-spacing: normal;
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+}
+
+.toggleBtn:active, .toggleBtn.mod-active {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, var(--md-shadow-key-penumbra-opacity)), 0 1px 10px 0 rgba(0, 0, 0, var(--md-shadow-ambient-shadow-opacity)), 0 2px 4px -1px rgba(0, 0, 0, var(--md-shadow-key-umbra-opacity));
+  color: var(--jp-ui-font-color1);
+  background-color: var(--jp-layout-color3);
+}
+
+.toggleBtn:hover:enabled, .toggleBtn:focus:enabled {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, var(--md-shadow-key-penumbra-opacity)), 0 3px 1px -2px rgba(0, 0, 0, var(--md-shadow-key-umbra-opacity)), 0 1px 5px 0 rgba(0, 0, 0, var(--md-shadow-ambient-shadow-opacity));
+}
+
+.toggleBtn:focus:enabled {
+  outline: 1px solid var(--jp-widgets-input-focus-border-color);
+}
+
 /* Pandas CSS */
 .pandasView {
   overflow: scroll;
