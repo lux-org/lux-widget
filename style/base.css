@@ -231,7 +231,7 @@
   }
   #exportBtn{
     position: absolute;
-    top: 30px;
+    top: 33px;
     right: 5px;
     font-size: 20px;
     padding: 5px;
@@ -239,7 +239,7 @@
   
   #deleteBtn{
     position: absolute;
-    top: 30px;
+    top: 33px;
     right: 33px;
     font-size: 20px;
     padding: 5px;
@@ -247,7 +247,7 @@
   
   #intentBtn{
     position: absolute;
-    top: 30px;
+    top: 33px;
     right: 59px;
     font-size: 20px;
     padding: 5px;
