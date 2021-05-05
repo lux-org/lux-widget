@@ -84,12 +84,12 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                             <div>
                                 {this.props.currentVisSpec["allcols"] ?
                                     <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
-                                        <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
+                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'30px', display:'inline',top:'25px',left: '20px' }}>Dataframe Visualization</p>
+                                        <p className="text-description" style={{top: '50px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
                                     </div> :
                                     <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
-                                        <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
+                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'30px', display:'inline',top:'25px',left: '40px' }}>Current Visualization</p>   
+                                        <p className="text-description" style={{top: '50px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
                                         <CustomTooltip title={this.props.intent} arrow>
                                             <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
                                         </CustomTooltip>
