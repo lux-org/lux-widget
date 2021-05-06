@@ -21,11 +21,14 @@ import {
 } from './version';
 
 import '../style/base.css'
+import { css } from "@emotion/core";
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
 import {Tabs,Tab} from 'react-bootstrap';
+import FadeLoader from "react-spinners/FadeLoader";
+
 
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
@@ -304,11 +307,19 @@ export class LuxWidgetView extends DOMWidgetView {
 
       generateTabItems() {
         var tabs = [];
+        const override = css`
+          display: block;
+          margin: 0 auto;
+          height: 297px;
+        `;
+
         for (let i = 0; i < this.props.model.get("recommendations").length; i++) {
           var actionResult = this.props.model.get("recommendations")[i];
-          var disabled = actionResult.vspec.length == 0;
+          var emptyTab = actionResult.vspec.length == 0;
+          var tabTitle = actionResult.action;
           tabs.push(
-            <Tab eventKey={actionResult.action} title={actionResult.action} disabled={disabled}>
+            <Tab eventKey={actionResult.action} title={tabTitle} disabled={false}>
+              {emptyTab && <FadeLoader css={override}></FadeLoader>}
               <ChartGalleryComponent 
                   key={'no refresh'}
                   ref={this.chartComponents[i]}
@@ -336,6 +347,7 @@ export class LuxWidgetView extends DOMWidgetView {
         }
 
         var tabs = [];
+
         for (var i = 0; i < this.state.tabItems.length; i++) {
             if (this.state.tabItems[i].props.title === this.props.model.get("loadNewTab")) {
               var actionResult = this.props.model.get("recommendations")[i];
