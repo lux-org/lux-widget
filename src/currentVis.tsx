@@ -78,42 +78,47 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
-                
-                return (
-                    <div id="mainVizContainer">
-                            <div>
-                                {this.props.currentVisSpec["allcols"] ?
-                                    <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
-                                        <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
-                                    </div> :
-                                    <div>
-                                        <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
-                                        <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
-                                        <CustomTooltip title={this.props.intent} arrow>
-                                            <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
-                                        </CustomTooltip>
-                                        </p>
-                                    </div>
-                                }
-                            </div>
-                            <div id="mainVizInnerContainer">
-                                <div className="vizContainer">
-                                    <SelectableCard key={0}
-                                    selected={this.state.selected > -1}
-                                    onClick={(e) => this.onItemSelected()}>
-                                        {vislib === 'matplotlib' ?                     
-                                        <img id="cur-img" src={img_str}></img> :
-                                        <VegaLite spec={this.props.currentVisSpec}
-                                                padding={{left: 10, top: 5, right: 5, bottom: 5}}
-                                                width={185} height={160} 
-                                                actions={false}/>
-                                        }
-                                    </SelectableCard>
+                const hasCurrentVis = "vislib" in this.props.currentVisSpec
+                if (hasCurrentVis){
+                    return (
+                        <div id="mainVizContainer">
+                                <div>
+                                    {this.props.currentVisSpec["allcols"] ?
+                                        <div>
+                                            <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '20px' }}>Dataframe Visualization</p>
+                                            <p className="text-description" style={{top: '40px',left: '10px',position:'absolute'}}>based on all columns in the dataframe</p>
+                                        </div> :
+                                        <div>
+                                            <p className="title-description" style={{ position: 'absolute', fontSize: '20px', height:'25px', display:'inline',top:'10px',left: '40px' }}>Current Visualization</p>   
+                                            <p className="text-description" style={{top: '40px',left: '40px',position:'absolute'}}>based on user specified&nbsp;
+                                            <CustomTooltip title={this.props.intent} arrow>
+                                                <Button style={{ fontSize: "13px", minWidth: "0px", padding: "0px", background: "aliceblue", textTransform: "none", borderBottom: "1px dotted #505050"  }}>intent</Button>
+                                            </CustomTooltip>
+                                            </p>
+                                        </div>
+                                    }
                                 </div>
-                            </div>
-                    </div>
-                );
+                                <div id="mainVizInnerContainer">
+                                    <div className="vizContainer">
+                                        <SelectableCard key={0}
+                                        selected={this.state.selected > -1}
+                                        onClick={(e) => this.onItemSelected()}>
+                                            {vislib === 'matplotlib' ?                     
+                                            <img id="cur-img" src={img_str}></img> :
+                                            <VegaLite spec={this.props.currentVisSpec}
+                                                    padding={{left: 10, top: 5, right: 5, bottom: 5}}
+                                                    width={185} height={160} 
+                                                    actions={false}/>
+                                            }
+                                        </SelectableCard>
+                                    </div>
+                                </div>
+                        </div>
+                    );
+                }else{
+                    // Case when there is multiple current vis (current_vis empty, but rec populated with multiple vis)
+                    return null
+                }
             }
         }else{
             return (

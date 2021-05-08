@@ -108,7 +108,12 @@
   },
   "jupyterlab": {
     "extension": "lib/plugin",
-    "outputDir": "luxwidget/labextension"
+    "outputDir": "luxwidget/labextension",
+    "_build": {
+      "load": "static/remoteEntry.b28538087237c04d599f.js",
+      "extension": "./extension",
+      "style": "./style"
+    }
   },
   "presets": [
     "@babel/preset-env",
