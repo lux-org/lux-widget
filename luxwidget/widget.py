@@ -31,7 +31,9 @@ class LuxWidget(DOMWidget):
         recommendations=None,
         intent=None,
         message=None,
-        plottingScale=1.0,
+        config={
+            "plottingScale": 1.0
+        },
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -39,4 +41,4 @@ class LuxWidget(DOMWidget):
         self.recommendations = recommendations
         self.intent = intent
         self.message = message
-        self.plotting_scale = plottingScale
+        self.plotting_scale = config["plottingScale"]
