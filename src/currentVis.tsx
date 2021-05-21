@@ -79,9 +79,10 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                   }
                 };
                 const CustomTooltip = withStyles(styles)(Tooltip);
+                const hasCurrentVis = "vislib" in this.props.currentVisSpec
                 const width: string = (300 + (this.props.plottingScale - 1) * 185).toString() + "px";
                 
-                return (
+                return hasCurrentVis ? (
                     <div id="mainVizContainer" style={{ width: width }}>
                             <div>
                                 {this.props.currentVisSpec["allcols"] ?
@@ -114,10 +115,10 @@ class CurrentVisComponent extends Component<currentVisProps,any> {
                                     </SelectableCard>
                                 </div>
                             </div>
-                    </div>
-                );
+                        </div>
+                    ) : null;
             }
-        }else{
+        } else {
             return (
                 <div className="placeHolderVizContainer">
                 </div>

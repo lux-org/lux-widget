@@ -7,13 +7,6 @@
 import json
 from pathlib import Path
 
-from jupyter_packaging import (
-    create_cmdclass,
-    install_npm,
-    ensure_targets,
-    combine_commands,
-    skip_if_exists
-)
 import setuptools
 
 HERE = Path(__file__).parent.resolve()
@@ -35,27 +28,40 @@ package_data_spec = {
 
 labext_name = "luxwidget"
 
-data_files_spec = [
+try:
+    from jupyter_packaging import (
+        create_cmdclass,
+        install_npm,
+        ensure_targets,
+        combine_commands,
+        skip_if_exists
+    )
+    data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
     ("share/jupyter/nbextensions/%s" % name, str(nb_path), '**'),
-]
+    ]
 
-cmdclass = create_cmdclass("jsdeps",
-    package_data_spec=package_data_spec,
-    data_files_spec=data_files_spec
-)
+    cmdclass = create_cmdclass("jsdeps",
+        package_data_spec=package_data_spec,
+        data_files_spec=data_files_spec
+    )
 
-js_command = combine_commands(
-    install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
-    ensure_targets(jstargets),
-)
+    js_command = combine_commands(
+        install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
+        ensure_targets(jstargets),
+    )
 
-is_repo = (HERE / ".git").exists()
-if is_repo:
-    cmdclass["jsdeps"] = js_command
-else:
-    cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
+    is_repo = (HERE / ".git").exists()
+    if is_repo:
+        cmdclass["jsdeps"] = js_command
+    else:
+        cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
+
+except ImportError:
+
+    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'.")
+    cmdclass = {}
 
 long_description = (HERE / "README.md").read_text()
 
@@ -63,7 +69,7 @@ long_description = (HERE / "README.md").read_text()
 pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
-    name=name,
+    name="lux-widget",
     version=pkg_json["version"],
     url=pkg_json["homepage"],
     author=pkg_json["author"]["name"],
