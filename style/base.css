@@ -517,7 +517,13 @@
     margin-left: 15px;
     margin-bottom: -25px;
     color: rgb(80, 80, 80);
-    margin-top: 5px;
+    margin-top: 5px; 
+  }
+  .text-container-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -35px;
   }
   .warning-footer {
     padding: 10px;
@@ -648,11 +654,9 @@
   
   #cur-img {
     all: revert;
-    height: 218px;
   }
   
   #gal-img {
     all: revert;
-    height: 212px;
   }
   

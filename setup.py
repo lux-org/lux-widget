@@ -14,8 +14,8 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 name = "luxwidget"
 
-lab_path = (HERE / name / "labextension")
-nb_path = (HERE / name / "nbextension")
+lab_path = HERE / name / "labextension"
+nb_path = HERE / name / "nbextension"
 
 # Representative files that should exist after a successful build
 jstargets = [
@@ -34,17 +34,17 @@ try:
         install_npm,
         ensure_targets,
         combine_commands,
-        skip_if_exists
+        skip_if_exists,
     )
+
     data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("share/jupyter/nbextensions/%s" % name, str(nb_path), '**'),
+        ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
+        ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
+        ("share/jupyter/nbextensions/%s" % name, str(nb_path), "**"),
     ]
 
-    cmdclass = create_cmdclass("jsdeps",
-        package_data_spec=package_data_spec,
-        data_files_spec=data_files_spec
+    cmdclass = create_cmdclass(
+        "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
     )
 
     js_command = combine_commands(
@@ -60,7 +60,9 @@ try:
 
 except ImportError:
 
-    print("jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'.")
+    print(
+        "jupyter-packaging is not installed. Please install via 'pip install jupyter-packaging'."
+    )
     cmdclass = {}
 
 long_description = (HERE / "README.md").read_text()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from ipywidgets import DOMWidget
-from traitlets import Unicode, Int, List, Dict, Bool
+from traitlets import Unicode, Float, List, Dict, Bool
 from ._frontend import module_name, module_version
 import json
 
@@ -24,12 +24,24 @@ class LuxWidget(DOMWidget):
     message = Unicode("").tag(sync=True)
     loadNewTab = Unicode("").tag(sync=True)
     all_column = Bool(False).tag(sync=True)
-    pandasHtml = Unicode("").tag(sync=True)
+    plotting_scale = Float(1.0).tag(sync=True)
 
-    def __init__(self, currentVis=None, recommendations=None, intent=None, message=None, pandasHtml=None, **kwargs):
+    def __init__(
+        self,
+        currentVis=None,
+        recommendations=None,
+        intent=None,
+        message=None,
+        pandasHtml,
+        config={
+            "plottingScale": 1.0
+        },
+        **kwargs
+    ):
         super().__init__(**kwargs)
         self.current_vis = currentVis
         self.recommendations = recommendations
         self.intent = intent
         self.message = message
         self.pandasHtml = pandasHtml
+        self.plotting_scale = config["plottingScale"]

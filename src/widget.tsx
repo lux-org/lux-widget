@@ -82,6 +82,7 @@ export class LuxWidgetView extends DOMWidgetView {
       openInfo: boolean,
       toggleTab: boolean,
       pandasHtml: string
+      plottingScale: number 
     }
 
     class ReactWidget extends React.Component<LuxWidgetView,WidgetProps> {
@@ -111,7 +112,8 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning: false,
           openInfo: false,
-          toggleTab: true
+          toggleTab: true,
+          plottingScale: props.model.get("plotting_scale")
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -330,6 +332,7 @@ export class LuxWidgetView extends DOMWidgetView {
                   onChange={this.onListChanged.bind(this,i)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                  plottingScale={this.props.model.get("plotting_scale")}
                   /> 
             </Tab>);
           }
@@ -363,6 +366,7 @@ export class LuxWidgetView extends DOMWidgetView {
                       onChange={this.onListChanged.bind(this,i)}
                       graphSpec={actionResult.vspec}
                       currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                      plottingScale={this.props.model.get("plotting_scale")}
                       /> 
                 </Tab>);
             } else {
@@ -391,25 +395,54 @@ export class LuxWidgetView extends DOMWidgetView {
         view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
-        var isRecEmpty = this.state.recommendations.length == 0;
-        var divId = isRecEmpty ? "oneViewWidgetContainer" : "widgetContainer";
-        
-        return (
-        <div>
-          <button className="toggleBtn" onClick={this.switchView}>
-              Toggle Pandas/Lux
-          </button>
-           <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
-           <div id={divId} style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+        const height: string = (320 + 160 * (this.state.plottingScale - 1)).toString() + "px";
+      
+
+        if (this.state.recommendations.length == 0) {
+          return (
+          <div>
+            <button className="toggleBtn" onClick={this.switchView}>
+                Toggle Pandas/Lux
+            </button>
+            <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+            <div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
+                        <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
+                        onChange={this.handleCurrentVisSelect}
+                        plottingScale={this.state.plottingScale} />
+                      </div>
+                      <ButtonsBroker buttonsEnabled={buttonsEnabled}
+                                      deleteSelection={this.deleteSelection}
+                                      exportSelection={this.exportSelection}
+                                      setIntent={this.setIntent}
+                                      closeExportInfo={this.closeExportInfo}
+                                      tabItems={this.state.tabItems}
+                                      showAlert={this.state.showAlert}
+                                      intentEnabled={intentEnabled}
+                                      />
+                    {this.generateNoRecsWarning()}
+            </div>
+          </div>
+          );
+        } else if (this.state.recommendations.length > 0) {
+          return (
+          <div>
+            <button className="toggleBtn" onClick={this.switchView}>
+                Toggle Pandas/Lux
+            </button>
+            <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+
+            <div id="widgetContainer" style={{ flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: height  }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect}/>
-                      {!isRecEmpty && <div id="tabBanner">
+                      onChange={this.handleCurrentVisSelect}
+                      plottingScale={this.state.plottingScale} />
+                      <div id="tabBanner">
                         <p className="title-description" style={{visibility: !_.isEmpty(this.state.currentVis) ? 'visible' : 'hidden' }}>You might be interested in...</p>
                         <Tabs activeKey={this.state.activeTab} id="tabBannerList" onSelect={this.handleSelect} className={!_.isEmpty(this.state.currentVis) ? "tabBannerPadding" : ""}>
                           {this.state.tabItems}
                         </Tabs>
-                      </div>}
+                      </div>
                     </div>
                     <ButtonsBroker buttonsEnabled={buttonsEnabled}
                                      deleteSelection={this.deleteSelection}
@@ -420,12 +453,12 @@ export class LuxWidgetView extends DOMWidgetView {
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    {isRecEmpty && this.generateNoRecsWarning()}
-                    {!isRecEmpty && <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} />}
-                    {!isRecEmpty && <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />}
-                  </div>
+                    <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} />
+                    <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
+            </div>
         </div>
         );
+        }
       }
     }
     const $app = document.createElement("div");
