@@ -24,6 +24,7 @@ class LuxWidget(DOMWidget):
     message = Unicode("").tag(sync=True)
     loadNewTab = Unicode("").tag(sync=True)
     all_column = Bool(False).tag(sync=True)
+    pandasHtml = Unicode("").tag(sync=True)
     plotting_scale = Float(1.0).tag(sync=True)
 
     def __init__(
@@ -32,7 +33,7 @@ class LuxWidget(DOMWidget):
         recommendations=None,
         intent=None,
         message=None,
-        pandasHtml,
+        pandasHtml=None,
         config={
             "plottingScale": 1.0
         },

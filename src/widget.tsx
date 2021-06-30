@@ -21,13 +21,13 @@ import {
 } from './version';
 
 import '../style/base.css'
-import { css } from "@emotion/core";
+// import { css } from "@emotion/core";3
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
 import {Tabs,Tab} from 'react-bootstrap';
-import FadeLoader from "react-spinners/FadeLoader";
+// import FadeLoader from "react-spinners/FadeLoader";
 
 
 import ChartGalleryComponent from './chartGallery';
@@ -309,19 +309,19 @@ export class LuxWidgetView extends DOMWidgetView {
 
       generateTabItems() {
         var tabs = [];
-        const override = css`
-          display: block;
-          margin: 0 auto;
-          height: 297px;
-        `;
+        // const override = css`
+        //   display: block;
+        //   margin: 0 auto;
+        //   height: 297px;
+        // `;
 
         for (let i = 0; i < this.props.model.get("recommendations").length; i++) {
           var actionResult = this.props.model.get("recommendations")[i];
           var emptyTab = actionResult.vspec.length == 0;
           var tabTitle = actionResult.action;
           tabs.push(
-            <Tab eventKey={actionResult.action} title={tabTitle} disabled={false}>
-              {emptyTab && <FadeLoader css={override}></FadeLoader>}
+            <Tab eventKey={actionResult.action} title={tabTitle} disabled={emptyTab}>
+              {/* {emptyTab && <FadeLoader css={override}></FadeLoader>} */}
               <ChartGalleryComponent 
                   key={'no refresh'}
                   ref={this.chartComponents[i]}
@@ -397,7 +397,6 @@ export class LuxWidgetView extends DOMWidgetView {
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
         const height: string = (320 + 160 * (this.state.plottingScale - 1)).toString() + "px";
       
-
         if (this.state.recommendations.length == 0) {
           return (
           <div>
@@ -405,7 +404,7 @@ export class LuxWidgetView extends DOMWidgetView {
                 Toggle Pandas/Lux
             </button>
             <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
-            <div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
+            <div id="oneViewWidgetContainer" style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
                       <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
                         <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                         onChange={this.handleCurrentVisSelect}
@@ -432,7 +431,7 @@ export class LuxWidgetView extends DOMWidgetView {
             </button>
             <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
 
-            <div id="widgetContainer" style={{ flexDirection: 'column' }}>
+            <div id="widgetContainer" style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
                     <div style={{ display: 'flex', flexDirection: 'row', height: height  }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}
