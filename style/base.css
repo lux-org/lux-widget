@@ -1,3 +1,97 @@
+.toggleBtn {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: var(--jp-widgets-font-size);
+  cursor: pointer;
+  height: var(--jp-widgets-inline-height);
+  line-height: var(--jp-widgets-inline-height);
+  box-shadow: none;
+  color: var(--jp-ui-font-color1);
+  background-color: var(--jp-layout-color2);
+  border-color: var(--jp-border-color2);
+  border: none;
+  user-select: none;
+  width: var(--jp-widgets-inline-width-short);
+  margin: var(--jp-widgets-margin);
+  box-sizing: border-box;
+  position: relative;
+  font-family: inherit;
+  -webkit-appearance: button;
+  text-transform: none;
+  align-items: flex-start;
+  text-indent: 0px;
+  text-shadow: none;
+  letter-spacing: normal;
+  word-spacing: normal;
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+}
+
+.toggleBtn:active, .toggleBtn.mod-active {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, var(--md-shadow-key-penumbra-opacity)), 0 1px 10px 0 rgba(0, 0, 0, var(--md-shadow-ambient-shadow-opacity)), 0 2px 4px -1px rgba(0, 0, 0, var(--md-shadow-key-umbra-opacity));
+  color: var(--jp-ui-font-color1);
+  background-color: var(--jp-layout-color3);
+}
+
+.toggleBtn:hover:enabled, .toggleBtn:focus:enabled {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, var(--md-shadow-key-penumbra-opacity)), 0 3px 1px -2px rgba(0, 0, 0, var(--md-shadow-key-umbra-opacity)), 0 1px 5px 0 rgba(0, 0, 0, var(--md-shadow-ambient-shadow-opacity));
+}
+
+.toggleBtn:focus:enabled {
+  outline: 1px solid var(--jp-widgets-input-focus-border-color);
+}
+
+/* Pandas CSS */
+.pandasView {
+  overflow: scroll;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+.pandasStyle {
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 12px;
+  table-layout: fixed;
+}
+
+.pandasStyle td, th, tr {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+
+.pandasStyle th {
+  font-weight: bold;
+}
+
+.pandasStyle tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+
+.pandasStyle thead tr:first-of-type {
+  background: #FFFFFF;
+  border-bottom: 1px solid black;
+}
+
+.pandasStyle tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
 .jp-OutputArea-output {
     height: auto;
     overflow: auto;
@@ -137,9 +231,7 @@
   }
   #exportBtn{
     position: absolute;
-    /* bottom: 90%; */
-    /* left: 97%; */
-    top: 5px;
+    top: 36px;
     right: 5px;
     font-size: 20px;
     padding: 5px;
@@ -147,7 +239,7 @@
   
   #deleteBtn{
     position: absolute;
-    top: 5px;
+    top: 36px;
     right: 33px;
     font-size: 20px;
     padding: 5px;
@@ -155,7 +247,7 @@
   
   #intentBtn{
     position: absolute;
-    top: 5px;
+    top: 36px;
     right: 59px;
     font-size: 20px;
     padding: 5px;
@@ -532,7 +624,7 @@
   #warnBtn{
     color: #ffbc00;
     position: absolute;
-    top: 5px;
+    top: 33px;
     right: 88px;
     font-size: 20px;
     padding: 5px;
@@ -548,7 +640,7 @@
   }
   #infoBtn{
     position: absolute;
-    top: 45px;
+    top: 72px;
     right: 5px;
     font-size: 20px;
     padding: 5px;

@@ -1,6 +1,6 @@
 export interface ButtonProps {
     buttonsEnabled: boolean,
-    tabItems: object[],
+    tabItems: Number,
     deleteSelection: () => void,
     exportSelection: () => void,
     setIntent: () => void,

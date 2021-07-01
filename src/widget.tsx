@@ -21,11 +21,14 @@ import {
 } from './version';
 
 import '../style/base.css'
+// import { css } from "@emotion/core";3
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import _ from 'lodash';
 import {Tabs,Tab} from 'react-bootstrap';
+// import FadeLoader from "react-spinners/FadeLoader";
+
 
 import ChartGalleryComponent from './chartGallery';
 import CurrentVisComponent from './currentVis';
@@ -77,6 +80,8 @@ export class LuxWidgetView extends DOMWidgetView {
       currentVisSelected: number,
       openWarning: boolean,
       openInfo: boolean,
+      toggleTab: boolean,
+      pandasHtml: string
       plottingScale: number 
     }
 
@@ -96,6 +101,7 @@ export class LuxWidgetView extends DOMWidgetView {
           intent: props.model.get("intent"),
           selectedIntentIndex: {},
           message: props.model.get("message"),
+          pandasHtml: props.model.get("pandasHtml"),
           longDescription: this.generateDescription(null),
           tabItems: this.generateTabItems(),
           activeTab: props.activeTab,
@@ -106,6 +112,7 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning: false,
           openInfo: false,
+          toggleTab: true,
           plottingScale: props.model.get("plotting_scale")
         }
 
@@ -117,7 +124,9 @@ export class LuxWidgetView extends DOMWidgetView {
         this.deleteSelection = this.deleteSelection.bind(this);
         this.setIntent = this.setIntent.bind(this);
         this.closeExportInfo = this.closeExportInfo.bind(this);
+        this.updateTabs = this.updateTabs.bind(this);
         this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
+        this.switchView = this.switchView.bind(this);
       }
 
       toggleWarningPanel(e){
@@ -299,26 +308,74 @@ export class LuxWidgetView extends DOMWidgetView {
       }
 
       generateTabItems() {
-        return (
-          this.props.model.get("recommendations").map((actionResult,tabIdx) =>
-            <Tab eventKey={actionResult.action} title={actionResult.action} >
+        var tabs = [];
+        // const override = css`
+        //   display: block;
+        //   margin: 0 auto;
+        //   height: 297px;
+        // `;
+
+        for (let i = 0; i < this.props.model.get("recommendations").length; i++) {
+          var actionResult = this.props.model.get("recommendations")[i];
+          var emptyTab = actionResult.vspec.length == 0;
+          var tabTitle = actionResult.action;
+          tabs.push(
+            <Tab eventKey={actionResult.action} title={tabTitle} disabled={emptyTab}>
+              {/* {emptyTab && <FadeLoader css={override}></FadeLoader>} */}
               <ChartGalleryComponent 
-                  // this exists to prevent chart gallery from refreshing while changing tabs
-                  // This is an anti-pattern for React, but is necessary here because our chartgallery is very expensive to initialize
                   key={'no refresh'}
-                  ref={this.chartComponents[tabIdx]}
+                  ref={this.chartComponents[i]}
                   title={actionResult.action}
                   description={actionResult.description}
                   multiple={true}
                   maxSelectable={10}
-                  onChange={this.onListChanged.bind(this,tabIdx)}
+                  onChange={this.onListChanged.bind(this,i)}
                   graphSpec={actionResult.vspec}
                   currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
                   plottingScale={this.props.model.get("plotting_scale")}
                   /> 
-            </Tab>
-          )
-        )
+            </Tab>);
+          }
+        return tabs;
+      }
+
+      /*
+       * UpdateTabs is called whenever an action (e.g Correlation) is done computed and is ready to render.
+       */
+      updateTabs() {
+        //For some reason react is running this function around 15+ times more than necessary, but this will limit it to how many tabs there are.
+        var rec_len = this.state.tabItems.length - 1;
+        if (!this.state.tabItems[rec_len].props.disabled) {
+          return;
+        }
+
+        var tabs = [];
+
+        for (var i = 0; i < this.state.tabItems.length; i++) {
+            if (this.state.tabItems[i].props.title === this.props.model.get("loadNewTab")) {
+              var actionResult = this.props.model.get("recommendations")[i];
+              tabs.push(
+                <Tab eventKey={actionResult.action} title={actionResult.action} disabled={false}>
+                  <ChartGalleryComponent 
+                      key={'no refresh'}
+                      ref={this.chartComponents[i]}
+                      title={actionResult.action}
+                      description={actionResult.description}
+                      multiple={true}
+                      maxSelectable={10}
+                      onChange={this.onListChanged.bind(this,i)}
+                      graphSpec={actionResult.vspec}
+                      currentVisShow={!_.isEmpty(this.props.model.get("current_vis"))}
+                      plottingScale={this.props.model.get("plotting_scale")}
+                      /> 
+                </Tab>);
+            } else {
+              tabs.push(this.state.tabItems[i]);
+            }
+        }
+        this.setState({
+          tabItems: tabs
+        });
       }
 
       generateNoRecsWarning() {
@@ -330,33 +387,51 @@ export class LuxWidgetView extends DOMWidgetView {
         }
       }
 
+      switchView() {
+        this.setState({toggleTab: !this.state.toggleTab});
+      }
 
       render() {
+        view.listenTo(view.model, 'change:loadNewTab', this.updateTabs);
         var buttonsEnabled = Object.keys(this.state._selectedVisIdxs).length > 0;
         var intentEnabled = Object.keys(this.state._selectedVisIdxs).length == 1 && Object.values(this.state._selectedVisIdxs)[0].length == 1;
         const height: string = (320 + 160 * (this.state.plottingScale - 1)).toString() + "px";
+      
         if (this.state.recommendations.length == 0) {
-          return (<div id="oneViewWidgetContainer" style={{ flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
-                      <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
-                      onChange={this.handleCurrentVisSelect}
-                      plottingScale={this.state.plottingScale} />
-                    </div>
-                    <ButtonsBroker buttonsEnabled={buttonsEnabled}
-                                     deleteSelection={this.deleteSelection}
-                                     exportSelection={this.exportSelection}
-                                     setIntent={this.setIntent}
-                                     closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems}
-                                     showAlert={this.state.showAlert}
-                                     intentEnabled={intentEnabled}
-                                     />
-                  {this.generateNoRecsWarning()}
-                  </div>);
+          return (
+          <div>
+            <button className="toggleBtn" onClick={this.switchView}>
+                Toggle Pandas/Lux
+            </button>
+            <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+            <div id="oneViewWidgetContainer" style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
+                      <div style={{ display: 'flex', flexDirection: 'row', height: height }}>
+                        <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
+                        onChange={this.handleCurrentVisSelect}
+                        plottingScale={this.state.plottingScale} />
+                      </div>
+                      <ButtonsBroker buttonsEnabled={buttonsEnabled}
+                                      deleteSelection={this.deleteSelection}
+                                      exportSelection={this.exportSelection}
+                                      setIntent={this.setIntent}
+                                      closeExportInfo={this.closeExportInfo}
+                                      tabItems={this.state.tabItems}
+                                      showAlert={this.state.showAlert}
+                                      intentEnabled={intentEnabled}
+                                      />
+                    {this.generateNoRecsWarning()}
+            </div>
+          </div>
+          );
         } else if (this.state.recommendations.length > 0) {
-          return (<div id="widgetContainer" style={{ flexDirection: 'column' }}>
-                    {/* {attributeShelf}
-                    {filterShelf} */}
+          return (
+          <div>
+            <button className="toggleBtn" onClick={this.switchView}>
+                Toggle Pandas/Lux
+            </button>
+            <div className="pandasView" dangerouslySetInnerHTML={{__html: this.state.pandasHtml}} style={this.state.toggleTab ? {display: 'inline-flex'} : {display:'none'}} ></div>
+
+            <div id="widgetContainer" style={!this.state.toggleTab ? {flexDirection: 'column', display: 'inline-flex'} : {display:'none'}}>
                     <div style={{ display: 'flex', flexDirection: 'row', height: height  }}>
                       <CurrentVisComponent intent={this.state.intent} currentVisSpec={this.state.currentVis} numRecommendations={this.state.recommendations.length}
                       onChange={this.handleCurrentVisSelect}
@@ -373,13 +448,15 @@ export class LuxWidgetView extends DOMWidgetView {
                                      exportSelection={this.exportSelection}
                                      setIntent={this.setIntent}
                                      closeExportInfo={this.closeExportInfo}
-                                     tabItems={this.state.tabItems}
+                                     tabItems={this.state.tabItems.length}
                                      showAlert={this.state.showAlert}
                                      intentEnabled={intentEnabled}
                                      />
-                    <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} /> 
+                    <InfoBtn message={this.state.longDescription} toggleInfoPanel={this.toggleInfoPanel} openInfo={this.state.openInfo} />
                     <WarningBtn message={this.state.message} toggleWarningPanel={this.toggleWarningPanel} openWarning={this.state.openWarning} />
-                  </div>);
+            </div>
+        </div>
+        );
         }
       }
     }
@@ -387,6 +464,6 @@ export class LuxWidgetView extends DOMWidgetView {
     const App = React.createElement(ReactWidget,view);
     ReactDOM.render(App,$app); // Renders the app
     view.el.append($app); //attaches the rendered app to the DOM (both are required for the widget to show)
-    dispatchLogEvent("initWidget","")
+    dispatchLogEvent("initWidget","");
   }
 }
