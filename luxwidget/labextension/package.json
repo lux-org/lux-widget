@@ -1,6 +1,6 @@
 {
   "name": "luxwidget",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A Custom Jupyter Widget Library",
   "keywords": [
     "jupyter",
@@ -110,7 +110,7 @@
     "extension": "lib/plugin",
     "outputDir": "luxwidget/labextension",
     "_build": {
-      "load": "static/remoteEntry.3c03808e05adc3a8a760.js",
+      "load": "static/remoteEntry.10b3955242f37a2ff169.js",
       "extension": "./extension",
       "style": "./style"
     }
