@@ -73,8 +73,8 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[] ,title:st
     }else{
       scrollDescription= "Scroll for "+numMoreCharts+" more charts"
     }
-    const height: string = (120 + (this.props.plottingScale * 160)).toString() + "px"; 
-    return (<div id="staticOuterDiv" style={{ height: height}} className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
+    // const height: string = (120 + (this.props.plottingScale * 160)).toString() + "px"; 
+    return (<div id="staticOuterDiv" className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
         <div id="mult-graph-container" className= "recommendationContentInner">
             {this.props.galleryItems}
         </div>

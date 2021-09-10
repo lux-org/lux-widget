@@ -34,7 +34,8 @@
   .recommendationStaticContentOuter{
     scroll-snap-align: start;
     /* border: 0.5px solid #bcbdbd; */
-    overflow-x: auto;
+    /* overflow-x: auto; */
+    overflow-x: scroll;
     overflow-y: hidden;
     display: inline-block;
     text-align: left;
@@ -46,7 +47,7 @@
     position: relative;
   }
   .recommendationContentOuter{
-    /* overflow: scroll; */
+    overflow-x: scroll;
     /* Prevents unneccesary x-scroll for specified facet */
     /* width:  100%; */
     /*height: 225px;*/
@@ -82,7 +83,8 @@
     flex-wrap: nowrap;
     align-items: flex-end;
     /* overflow-x: auto; */
-    overflow-x: initial;
+    /* overflow-x: initial; */
+    overflow-x: scroll;
     padding-right: 50px;
     /*height: 280px;*/
     /* width: max-content;
@@ -103,9 +105,9 @@
   }
   
   .graph-container{
-    height: 250px;
+    height: 245px;
     max-height: 270px;
-    margin: 10px 0px 5px 5px;
+    margin: 10px 0px 0px 5px;
     padding: 0px 0px 0px 0px;
   }
   #mainVizTitle{
@@ -425,7 +427,7 @@
     margin-left: 15px;
     margin-bottom: -25px;
     color: rgb(80, 80, 80);
-    margin-top: 5px; 
+    margin-top: 0px; 
   }
   .text-container-style {
     display: flex;
