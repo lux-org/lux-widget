@@ -80,7 +80,7 @@
     padding-right: 50px;
     height: 100%;
   }
-  
+
   .toolDiv{
     position: relative;
     top: -20px;
@@ -92,7 +92,7 @@
   .fa:hover{
     color:black;
   }
-  
+
   .graph-container{
     height: 245px;
     max-height: 270px;
@@ -111,11 +111,11 @@
     border: 0.5px solid #bcbdbd;
     overflow-y: auto;
   }
-  
+
   #mainVizInnerContainer{
     margin-top: 50px;
   }
-  
+
   #placeHolderVizContainer{
     min-height: 100%;
     min-width: 1px;
@@ -135,7 +135,7 @@
     font-size: 20px;
     padding: 5px;
   }
-  
+
   #deleteBtn{
     position: absolute;
     top: 5px;
@@ -143,7 +143,7 @@
     font-size: 20px;
     padding: 5px;
   }
-  
+
   #intentBtn{
     position: absolute;
     top: 5px;
@@ -151,7 +151,7 @@
     font-size: 20px;
     padding: 5px;
   }
-  
+
   #alertBox{
     position: absolute;
     left: 23%;
@@ -159,19 +159,19 @@
     bottom: 6%;
     padding: 5px 30px 5px 10px;
   }
-  
-  /* 
+
+  /*
     JupyterLab does support bootstrap, so need to add bootstrap css
     https://gist.github.com/EvanHerman/315952ebf371cb83ee9db6c54499933d
   */
-  
+
   .alert {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
   }
-  
+
   .alert-dismissable .close,
   .alert-dismissible .close {
     position: relative;
@@ -179,12 +179,12 @@
     right: -21px;
     color: inherit;
   }
-  
+
   .alert-dismissable,
   .alert-dismissible {
     padding-right: 35px;
   }
-  
+
   button.close {
     padding: 0;
     cursor: pointer;
@@ -193,7 +193,7 @@
     -webkit-appearance: none;
     appearance: none;
   }
-  
+
   .close {
     float: right;
     font-size: 19.5px;
@@ -204,13 +204,13 @@
     filter: alpha(opacity=20);
     opacity: 0.2;
   }
-  
+
   .alert-info {
     background-color: #d9edf7;
     border-color: #bce8f1;
     color: #31708f;
   }
-  
+
   /* canvas{
     width: 229px;
     height: 245px;
@@ -229,50 +229,50 @@
     margin-bottom: 0;
     list-style: none;
   }
-  
+
   .nav-link {
     display: block;
     padding: 0.5rem 1rem;
   }
-  
+
   .nav-link:hover, .nav-link:focus {
     text-decoration: none;
   }
-  
+
   .nav-link.disabled {
     color: #6c757d;
     pointer-events: none;
     cursor: default;
   }
-  
+
   .nav-tabs {
     border-bottom: 1px solid #dee2e6;
   }
-  
+
   .tabBannerPadding {
     padding-left: 210px;
   }
-  
+
   .nav-tabs .nav-item {
     margin-bottom: -1px;
   }
-  
+
   .nav-tabs .nav-link {
     border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
   }
-  
+
   .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
     border-color: #e9ecef #e9ecef #dee2e6;
   }
-  
+
   .nav-tabs .nav-link.disabled {
     color: #6c757d;
     background-color: transparent;
     border-color: transparent;
   }
-  
+
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     color: #495057;
@@ -280,29 +280,29 @@
     border-color: #dee2e6 #dee2e6 #fff;
     font-weight: 500;
   }
-  
+
   .nav-tabs .dropdown-menu {
     margin-top: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  
+
   .nav-pills .nav-link {
     border-radius: 0.25rem;
   }
-  
+
   .nav-pills .nav-link.active,
   .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #007bff;
   }
-  
+
   .nav-fill .nav-item {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     text-align: center;
   }
-  
+
   .nav-justified .nav-item {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -310,11 +310,11 @@
     flex-grow: 1;
     text-align: center;
   }
-  
+
   .tab-content > .tab-pane {
     display: none;
   }
-  
+
   .tab-content > .active {
     display: block;
   }
@@ -416,7 +416,7 @@
     margin-left: 15px;
     margin-bottom: -25px;
     color: rgb(80, 80, 80);
-    margin-top: 0px; 
+    margin-top: 0px;
   }
   .text-container-style {
     display: flex;
@@ -485,21 +485,21 @@
     margin-top: -26px;
   }
   /* This forces the toggle button to overlap with widget.Output (main widget). This may leak to other .widget-button if there are non-Lux widgets in the notebook. */
-  /* .widget-button{  
+  /* .widget-button{
     position: absolute;
     z-index: 999;
     border-radius: 5px;
   } */
-  
+
   #first-arrow{
     margin-left: 25px;
     opacity: 50%;
   }
-  
+
   #second-arrow{
     margin-left: -4px;
   }
-  
+
   .highlight-intent{
     font-weight: 500;
     background: aliceblue;
@@ -519,7 +519,7 @@
     font-weight: 500;
     max-width:100px
   }
-  
+
   #warnBtn{
     color: #ffbc00;
     position: absolute;
@@ -550,11 +550,11 @@
     margin-left: 30px;
     margin-right: 30px;
   }
-  
+
   #cur-img {
     all: revert;
   }
-  
+
   #gal-img {
     all: revert;
   }
@@ -564,8 +564,7 @@
   width: 10px;
 }
 
-git rm --cached -r .idea{
+::-webkit-scrollbar-thumb {
   border-radius: 7px;
   background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-}
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5)
