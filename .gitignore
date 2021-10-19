@@ -154,3 +154,8 @@ $RECYCLE.BIN/
 
 # Packed lab extensions
 displayWidget/labextension
+
+.idea
+.gitignore
+
+
