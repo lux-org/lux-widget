@@ -32,7 +32,7 @@
     display: flex;
   }
   .recommendationStaticContentOuter{
-    scroll-snap-align: start end;
+    scroll-snap-align: start;
     overflow-x: scroll;
     overflow-y: hidden;
     display: inline-block;
@@ -45,10 +45,10 @@
     position: relative;
   }
   .recommendationContentOuter{
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
     /* Prevents unneccesary x-scroll for specified facet */
     /* width:  100%; */
-    height: 225px;
+    /*height: 225px; */
     display: flex;
     /* display: inline-block;*/
     margin-left: 10px;
@@ -558,7 +558,7 @@
   #gal-img {
     all: revert;
   }
-
+/*
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
@@ -569,3 +569,5 @@
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 1px rgba(255, 255, 255, .5)
 }
+
+*/
