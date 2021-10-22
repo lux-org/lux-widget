@@ -31,20 +31,22 @@
   #mult-graph-container{
     display: inline-flex;
   }
-  .recommendationStaticContentOuter{
+  .recommendationStaticContentOuter {
+    /* padding-top: 0px; */
     scroll-snap-align: start;
     /* border: 0.5px solid #bcbdbd; */
     /* overflow-x: auto; */
     overflow-x: scroll;
     overflow-y: hidden;
-    display: inline-block;
+    display: inline-flex;
     text-align: left;
     /* padding-left: 20px; */
-    /* padding-top: 10px; */
-    /* height: 100%; */
+    height: 100%;
     box-sizing: border-box;
+    /* height: 50%; */
     width: 100%;
-    position: relative;
+    /* position: relative; */
+    /* margin-bottom: 100px; */
   }
   .recommendationContentOuter{
     overflow-x: scroll;
@@ -73,11 +75,9 @@
     border: solid 1px;
     border-color: blue;
   }
-  .recommendationContentInner{
-    /*width: auto;
-    max-width: 150%;*/
-    /*display: inline-block;*/
-    /*margin-left: 8px;*/
+  .recommendationContentInner {
+    /* display: inline-block; */
+    margin-top: -4px;
     text-align: left;
     display: flex;
     flex-wrap: nowrap;
@@ -86,10 +86,8 @@
     /* overflow-x: initial; */
     overflow-x: scroll;
     padding-right: 50px;
-    /*height: 280px;*/
-    /* width: max-content;
-    overflow-x: auto; */
-    /* height: 100px; */
+    /* height: 280px; */
+    /* height: 100px;*/
   }
   
   .toolDiv{
@@ -478,7 +476,7 @@
   }
   #scroll-indicator {
     margin-right: 10px;
-    margin-top:  5px;
+    margin-top: 5px;
     text-align: right;
     color: rgb(80, 80, 80);
     font-weight: 700;
@@ -488,12 +486,13 @@
   }
   #scroll-indicator-background {
     z-index: 0;
-    position: relative;
-    background-color: rgba(250, 250, 250, 0.8);
-    /* width: 210px; */
+    position: absolute;
+    bottom: 27px;
+    right: 0px;
+    background-color: rgba(250, 250, 250, 0.7);
+    width: 225px;
     height: 25px;
     float: right;
-    margin-top: -26px;
   }
   /* This forces the toggle button to overlap with widget.Output (main widget). This may leak to other .widget-button if there are non-Lux widgets in the notebook. */
   /* .widget-button{  

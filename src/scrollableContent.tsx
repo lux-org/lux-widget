@@ -58,30 +58,31 @@ class ScrollableContent extends Component<{galleryItems: JSX.Element[] ,title:st
 
 };
   render(){
-    let shouldShowScrollIndicator = false;
-    let numMoreCharts = this.props.galleryItems.length ;
-    if (this.props.currentVisShow && this.props.galleryItems.length > 2) {
-      shouldShowScrollIndicator = true;
-      numMoreCharts -= 2;
-    } else if (!this.props.currentVisShow && this.props.galleryItems.length > 3) {
-      shouldShowScrollIndicator = true;
-      numMoreCharts -= 3;
-    }
-    var scrollDescription:string;
-    if(numMoreCharts==1){
-      scrollDescription= "Scroll for "+numMoreCharts+" more chart"
-    }else{
-      scrollDescription= "Scroll for "+numMoreCharts+" more charts"
-    }
+    // let shouldShowScrollIndicator = false;
+    // let numMoreCharts = this.props.galleryItems.length ;
+    // if (this.props.currentVisShow && this.props.galleryItems.length > 2) {
+    //   shouldShowScrollIndicator = true;
+    //   numMoreCharts -= 2;
+    // } else if (!this.props.currentVisShow && this.props.galleryItems.length > 3) {
+    //   shouldShowScrollIndicator = true;
+    //   numMoreCharts -= 3;
+    // }
+    // var scrollDescription:string;
+    // if(numMoreCharts==1){
+    //   scrollDescription= "Scroll for "+numMoreCharts+" more chart"
+    // }else{
+    //   scrollDescription= "Scroll for "+numMoreCharts+" more charts"
+    // }
+    
     // const height: string = (120 + (this.props.plottingScale * 160)).toString() + "px"; 
     return (<div id="staticOuterDiv" className="recommendationStaticContentOuter" onScroll={this.handleScroll}>
         <div id="mult-graph-container" className= "recommendationContentInner">
             {this.props.galleryItems}
         </div>
-        <div id="scroll-indicator-background" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>
+        {/* Scroll for X more indicator (Not quite compatible with scroll dissapear in Jupyter Notebook) */}
+        {/* <div id="scroll-indicator-background" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>
           <p id="scroll-indicator" style={{visibility: this.state.scrollIndicator && shouldShowScrollIndicator ? 'visible' : 'hidden' }}>{scrollDescription}<i id='first-arrow' className='fa fa-chevron-right'></i><i id='second-arrow' className='fa fa-chevron-right'></i> </p>
-          {/* onClick={(event)=>$('#staticOuterDiv').scrollLeft(500)} */}
-        </div>
+        </div> */}
     </div>)
   }
 }
