@@ -110,7 +110,7 @@
     "extension": "lib/plugin",
     "outputDir": "luxwidget/labextension",
     "_build": {
-      "load": "static/remoteEntry.2e65de54e09d3c290541.js",
+      "load": "static/remoteEntry.c6686b94a4e5ea35a42c.js",
       "extension": "./extension",
       "style": "./style"
     }
