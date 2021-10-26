@@ -106,7 +106,7 @@ export class LuxWidgetView extends DOMWidgetView {
           currentVisSelected: -2,
           openWarning: false,
           openInfo: false,
-          plottingScale: props.model.get("plotting_scale")
+          plottingScale: props.model.get("plotting_scale") || 1
         }
 
         // This binding is necessary to make `this` work in the callback
